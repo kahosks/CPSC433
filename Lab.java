@@ -1,10 +1,19 @@
-//Idea for project.  Feel free to modify or ignore.  Nov. 8, 2015
+
 
 //Method Lab that extends Class. 
 public class Lab extends Class {
 	String tutLab = "";
 	String tutLabNum = "";
 	
+	public Lab(String fullString) {
+		super(fullString);
+		String[] input = fullString.split("[ ]+");
+		if (input.length ==6) {
+			System.out.println("input len:" + input.length);
+			tutLab = input[4];
+			tutLabNum = input[5];
+		}
+	}
 	//Constructor where does not have additional arguments.
 	public Lab(String name, String ID, String lec, String lecNum) {
 				super(name, ID, lec, lecNum);
