@@ -1,4 +1,6 @@
-//Idea for project.  Feel free to modify or ignore. Nov. 8, 2015
+
+
+import java.util.Vector;
 
 //Abstract method Class that holds information about the Class added.
 public abstract class Class {
@@ -10,7 +12,13 @@ public abstract class Class {
 	//Have to set time and day manually, ie., when assigning them to slots.
 	String time = "0:00";
 	String day = "";
-	
+	public Class(String fullString) {
+		String[] input = fullString.split("[ ]+");
+		this.name = input[0];
+		this.ID = input[1];
+		this.lec = input[2];
+		this.lecNum = input[3];
+	}
 	public Class(String name, String ID, String lec, String lecNum) {
 		this.name = name;
 		this.ID = ID;
@@ -172,8 +180,9 @@ public abstract class Class {
 			return false;	//No overlap.
 		}	
 	}
-	
+
 	//Abstract methods to be overridden in children classes.
 	public abstract boolean isCourse();
 	public abstract String toString();
 }
+
