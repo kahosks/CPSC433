@@ -1,5 +1,3 @@
-//Idea for project.  Feel free to modify or ignore. 
-import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 public class Slot {
@@ -7,7 +5,6 @@ public class Slot {
 	String day = "none";
 	String time = "0:00";
 	Vector<Class> labsAndClasses = new Vector<Class>();
-	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	
 	
 	/*
