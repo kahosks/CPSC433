@@ -1,7 +1,11 @@
-//Idea for project.  Feel free to modify or ignore.  Nov. 8, 2015
+
+
 //Method Course that extends Class.
 public class Course extends Class {
 
+	public Course(String fullString) {
+		super(fullString);
+	}
 	public Course(String name, String ID, String lec, String lecNum) {
 		super(name, ID, lec, lecNum);
 	}
