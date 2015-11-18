@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 
-public class Parser1 {
+public class Parser {
 	File file;
 	BufferedReader br;
 	//flags for checking when not to use a method.  Probably not need.
@@ -31,7 +31,7 @@ public class Parser1 {
 	
 	
 	//constructor.  Add more things potentially.
-	public Parser1(String filename) throws SchedulerException {
+	public Parser(String filename) throws SchedulerException {
 		file = new File(filename);
 		if (!file.exists()) {
 			throw new SchedulerException("Error, file doesn't exist. ");
