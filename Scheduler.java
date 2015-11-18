@@ -21,9 +21,11 @@ public class Scheduler {
 
 	}
 	public void start(String[] args) throws SchedulerException{
-		//CommandParser cp = new CommandParser(args);
-		//Parser parser = new Parser(cp.getFilename());
-		Parser parser = new Parser(filename);
+		//Now using CommandParser, so follow format of arguments in that class
+		//and pass arguments through Scheduler.
+		CommandParser cp = new CommandParser(args);
+		Parser parser = new Parser(cp.getFilename());
+		//Parser parser = new Parser(filename);
 		parser.parse();
 		labsAndCourses = parser.getLabsAndCourses();
 		notCompatible = parser.getNC();
@@ -34,10 +36,18 @@ public class Scheduler {
 		M = parser.getMO();
 		T = parser.getTU();
 		F = parser.getFR();
+		printCommands(cp);
 		printData();
 	}
 	//prints the data.  Can delete, it's just for testing purposes and is
 		//super ugly.
+	public void printCommands(CommandParser cp) {
+		System.out.println("File: " + cp.getFilename());
+		System.out.println("minfilled: " + cp.getMinfilled());
+		System.out.println("Pair: " + cp.getPair());
+		System.out.println("Pref: " + cp.getPref());
+		System.out.println("Secdiff: " + cp.getSecdiff());
+	}
 		public void printData() {
 			System.out.println("Labs and courses");
 			for (Object c:labsAndCourses.toArray()) {
