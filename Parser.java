@@ -1,6 +1,6 @@
 
 import java.io.*;
-public class Parser {
+public class Parser2 {
 	
 	String[] courses;
 	String[] labs;
