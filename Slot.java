@@ -155,6 +155,34 @@ public class Slot {
 		return (Class[]) labsAndClasses.toArray();
 	}
 	
+	/**
+	 * Gets courses for slot.  NOTE: Will return null if nothing inside.
+	 * @return	Class array of courses.
+	 */
+	public Class[] getCourses() {
+		Vector<Class> courses = new Vector<Class>();
+		for (Object c: labsAndClasses.toArray()) {
+			Class s = (Class) c;
+			if (s.isCourse()) {
+				courses.add(s);
+			}	
+		}
+		return (Class[]) courses.toArray();
+	}
+	/**
+	 * Gets labs for slot.	NOTE: Will return null if nothing inside.
+	 * @return	Lab array of labs.
+	 */
+	public Class[] getLabs() {
+		Vector<Class> labs = new Vector<Class>();
+		for (Object c: labsAndClasses.toArray()) {
+			Class s = (Class) c;
+			if (!s.isCourse()) {
+				labs.add(s);
+			}
+		}
+		return (Class[]) labs.toArray();
+	}
 	//Returns an array of Slot based on day and time.  NOTE:  This does not account for Tuesday's 
 	// course times.  For that, can make a different array, or we can modify Tuesday to work with this
 	// array and have flags for overlaps and such.
