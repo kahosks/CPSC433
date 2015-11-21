@@ -1,32 +1,48 @@
-/*
- * Class Scheduler.
- */ 
+/**
+ * Class Scheduler where everything will occur.
+ * @author CPSC 433 Toshibe
+ */
  import java.util.Vector;
  
 
 public class Scheduler {
-	Vector<Class> labsAndCourses;
-	Vector<Parser.PairedCourseClass> notCompatible;
-	Vector<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
-	Vector<Parser.Preference> preferences;
-	Vector<Parser.ParserClass> unwanted;
-	Vector<Parser.ParserClass>partassign;
-	String filename = "bob.txt";
+	private String name;
+	private Vector<Class> labsAndCourses;
+	private Vector<Parser.PairedCourseClass> notCompatible;
+	private Vector<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
+	private Vector<Parser.Preference> preferences;
+	private Vector<Parser.ParserClass> unwanted;
+	private Vector<Parser.ParserClass>partassign;
+	//private String filename = "bob.txt";
+	public static int totalCourses =0 ;
 	
-	Slot[] M;
-	Slot[] T;	//will have to put labs in Slot, possible in two Slot
-	Slot[] F; 
+	private Slot[] M;
+	private Slot[] TCourses;	//will have to put labs in Slot, possible in two Slot
+	private Slot[] TLabs;
+	private Slot[] FLabs; 
 	
+	/**
+	 * Empty constructor.
+	 * TODO: Perhaps pass args through constructor, and make start()
+	 *  have no arguments.
+	 */
 	public Scheduler() {
 
 	}
+	/**
+	 * Method that, when called, will run through the whole code.
+	 * TODO: Lots of things to be added.
+	 * 
+	 * @param args	Arguments to be parsed.
+	 * @throws SchedulerException	Throws if error occurs in code.
+	 */
 	public void start(String[] args) throws SchedulerException{
-		//Now using CommandParser, so follow format of arguments in that class
-		//and pass arguments through Scheduler.
 		CommandParser cp = new CommandParser(args);
 		Parser parser = new Parser(cp.getFilename());
-		//Parser parser = new Parser(filename);
 		parser.parse();
+		// TODO: put from lines 44-55 into a method so start() method doesn't look
+		//longer and uglier than it has to be.
+		name = parser.getName();
 		labsAndCourses = parser.getLabsAndCourses();
 		notCompatible = parser.getNC();
 		pairs = parser.getPairs();
@@ -34,8 +50,10 @@ public class Scheduler {
 		unwanted = parser.getUnwanted();
 		partassign = parser.getPartassign();
 		M = parser.getMO();
-		T = parser.getTU();
-		F = parser.getFR();
+		TCourses = parser.getTCourses();
+		TLabs = parser.getTLabs();
+		FLabs = parser.getFLabs();
+		totalCourses = labsAndCourses.size();
 		printCommands(cp);
 		printData();
 	}
@@ -49,52 +67,59 @@ public class Scheduler {
 		System.out.println("Secdiff: " + cp.getSecdiff());
 	}
 		public void printData() {
+			
+			System.out.println("Name:");
+			System.out.println(name);
 			System.out.println("Labs and courses");
 			for (Object c:labsAndCourses.toArray()) {
 				Class d = (Class) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			//TODO: Problem with pairs: does not print out full data for labs/tutorials.
 			System.out.println("NC");
 			for (Object c:notCompatible.toArray()) {
 				Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			//TODO: Problem with pairs: does not print out full data for labs/tutorials
 			System.out.println("pairs");
 			for (Object c:pairs.toArray()) {
 				Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			System.out.println("pref");
 			for (Object c:preferences.toArray()) {
 				Parser.Preference d = (Parser.Preference) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			System.out.println("unwanted");
 			for (Object c:unwanted.toArray()) {
 				Parser.ParserClass d = (Parser.ParserClass) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			System.out.println("partassign");
 			for (Object c:partassign.toArray()) {
 				Parser.ParserClass d = (Parser.ParserClass) c;
-				System.out.println(d.toString());
+				System.out.println(d);
 			}
 			System.out.println("Monday coursemin - coursemax - labmin - labmax:");
 			for (int i=0; i<M.length;i++) {
 				System.out.println(M[i].getTime() +" - " + M[i].getCoursemin()
 						+" - " + M[i].getCoursemax()  +  " - " + M[i].getLabmin()+ " - " + M[i].getLabmax());
 			}
-			System.out.println("Tuesday coursemin:");
-			for (int i=0; i<T.length;i++) {
-				System.out.println(T[i].getTime() +" - " + T[i].getCoursemin() 
-						+ " - "+ T[i].getCoursemax()  +" - " + T[i].getLabmin() + " - " + T[i].getLabmax());
+			System.out.println("Tuesday Courses coursemin - coursemax:");
+			for (int i=0; i<TCourses.length;i++) {
+				System.out.println(TCourses[i].getTime() +" - " + TCourses[i].getCoursemin() 
+						+ " - "+ TCourses[i].getCoursemax());
+			}
+			System.out.println("Tuesday Labs labmin - labmax:");
+			for (int i=0; i<TLabs.length;i++) {
+				System.out.println(TLabs[i].getTime()  +" - " + TLabs[i].getLabmin() + " - " + TLabs[i].getLabmax());
 			}
 			System.out.println("Friday coursemin:");
-			for (int i=0; i<F.length;i++) {
-				System.out.println(F[i].getTime() +" - " + F[i].getCoursemin()
-						+ " - " +F[i].getCoursemax()  + " - " + F[i].getLabmin()  + " - " + F[i].getLabmax());
+			for (int i=0; i<FLabs.length;i++) {
+				System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
+						+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
 			}
 		}
 	public static void main(String[] args) throws SchedulerException{
