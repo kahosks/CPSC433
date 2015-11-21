@@ -1,72 +1,124 @@
-
-
-import java.util.Vector;
-
-//Abstract method Class that holds information about the Class added.
+/**
+ * 
+ * @author CPSC433 Toshibe
+ * Public abstract class Class that holds the name, ID, lecture identifier, and lecture number of 
+ * an object.
+ */
 public abstract class Class {
 	String name; //ex. CPSC
 	String ID;	//ex. 433
 	String lec;	//ie. LEC
 	String lecNum;	//ex. 01
+	String identifier;
 	
 	//Have to set time and day manually, ie., when assigning them to slots.
 	String time = "0:00";
 	String day = "";
+	/**
+	 * Constructor with fullString argument.
+	 * @param fullString	String of information that class will hold.
+	 */
 	public Class(String fullString) {
+		this.identifier = fullString;
 		String[] input = fullString.split("[ ]+");
 		this.name = input[0];
 		this.ID = input[1];
 		this.lec = input[2];
 		this.lecNum = input[3];
 	}
+	
+	/**
+	 * 
+	 * @param name	Name of class
+	 * @param ID	Class number
+	 * @param lec	Whether it is a lecture or lab
+	 * @param lecNum	Number of lecture out of all lectures for course.
+	 */
 	public Class(String name, String ID, String lec, String lecNum) {
 		this.name = name;
 		this.ID = ID;
 		this.lec = lec;
 		this.lecNum = lecNum;
 	}
-	//Get name: ex. CPSC
+	/**
+	 * Gets the name of the class.
+	 * @return	String name.
+	 */
 	public String getName() {
 		return name;
 	}
-	//Get ID: ex. 433
+	/**
+	 * Gets the ID number of the course.
+	 * @return	String of course number.
+	 */
 	public String getID() {
 		return ID;		
 	}
-	//Get lecture: ex. LEC/TUT/LAB
+	/**
+	 * Gets whether the class is a LEC/TUT/LAB
+	 * @return	String of lecture identifier
+	 */
 	public String getLecture() {
 		return lec;
 	}
-	//Get lecture/tut/lab number: ex. 01
+	/**
+	 * Gets the lecture number for the class.
+	 * @return	String of the lecture number.
+	 */
 	public String getLectureNum() {
 		return lecNum;
 	}
-	//Sets the time as a string.
+	/**
+	 * Sets the time of the class.
+	 * @param time	String time you want to set the class to.
+	 */
 	public void setTime(String time) {
 		this.time = time;
 	}
 	
-	//Gets the time in string form.
+	/**
+	 * Gets a string representation of the class's time.
+	 * @return	String time.
+	 */
 	public String getTime() {
 		return time;
 	}
-	//Gets hour.
+	/**
+	 * Gets a string representation of the hour of time.
+	 * @return	String hour.
+	 */
 	public String getHour() {
 		String[] sp = time.split(":");
 		return sp[0];
 	}
-	//Gets minutes.
+	/**
+	 * Gets a string representation of class's minutes.
+	 * @return	String minutes.
+	 */
 	public String getMinutes() {
 		String[] sp = time.split(":");
 		return sp[1];
 	}
-	//Set the day class is on.
+	/**
+	 * Sets the day that the class is on.
+	 * @param day	String representation of the day.
+	 */
 	public void setDay(String day) {
 		this.day = day;
 	}
-	//Gets day that class is on.
+	/**
+	 * Gets the day that the class is on.
+	 * @return	String day.
+	 */
 	public String getDay() {
 		return day;
+	}
+	/**
+	 * Gets the full string representation of the class's information.
+	 * @return	String representation of the full class information.
+	 */
+	public String getIdentifier() {
+		return identifier;
 	}
 	
 	/**
@@ -128,8 +180,12 @@ public abstract class Class {
 		return false;
 	}
 	
-	/* Creates a previous or upcoming time, depending on addition argument.  This method 
-	 * method is used in the overlap method.
+	/**
+	 * Creates a previous or upcoming time, depending on the addition argument.  This 
+	 * method is applied in the overlap method.
+	 * 
+	 * @param addition	Integer that you want to add/subtract time.
+	 * @return	String representation of time.
 	 */
 	private String createTime(int addition) {
 		//Parses the hour of time as a string, adds the addition to the hour integer,
@@ -137,8 +193,11 @@ public abstract class Class {
 			return (Integer.parseInt(getHour()) + addition) +":00";
 	}
 	
-	/*
-	 * Method that checks for overlaps on Tuesday.
+	/**
+	 * Method that checks for overlaps on Tuesday.  This is used in the overlap
+	 * method.
+	 * @param s	Class that you are checking.
+	 * @return	Boolean true/false.
 	 */
 	private boolean isTuesOverlap(Class s) {
 		if (s.getMinutes().equals("00")) {
@@ -165,9 +224,10 @@ public abstract class Class {
 		}
 	}
 	
-	/*
-	 * Method that checks for overlap on Friday.
-	 * @param s		where s is type Course
+	/**
+	 * Method that checks for overlap on Friday.  This is used in the overlap method.
+	 * @param s		Class s.
+	 * @return		Boolean true/false depending on if there is overlap or not.
 	 */
 	private boolean isFriOverlap(Class s) {
 
@@ -181,8 +241,19 @@ public abstract class Class {
 		}	
 	}
 
-	//Abstract methods to be overridden in children classes.
+	/**
+	 * Method that returns true if the Class is an instance of course.
+	 * @return	Boolean true/false.
+	 */
 	public abstract boolean isCourse();
+	/**
+	 * Method that creates a toString representation of the data.
+	 * @return	String of data to represent.
+	 */
 	public abstract String toString();
+	public static void main(String[] args) {
+		Class a = new Course("CPSC 433 LEC 01");
+		System.out.println(a.getIdentifier());
+	}
 }
 
