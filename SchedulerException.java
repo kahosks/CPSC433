@@ -1,4 +1,8 @@
-
+/**
+ * Class SchedulerException that handles the errors in the code.
+ * @author CPSC 433 Toshibe.
+ *
+ */
 
 public class SchedulerException extends Exception {
 
