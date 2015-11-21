@@ -25,16 +25,12 @@ public class SchedulerHeap {
 		}
 	}
 	/**
-	 * Gets the best Prob element from the queue, i.e., the top element.  TODO: Finish implementing.
+	 * Gets the next Prob element from the queue, i.e., the top element.
 	 * @return	Prob element.
 	 */
-	public Prob getBestProb() {
+	public Prob getNextProb() {
 		//Gets the top element.
 		Prob pr = pq.element();
-		/*
-		 * TODO: Need to check that pr is a valid solution (this is where HardConstraints comes in.
-		 * 
-		 */
 		
 		return pr;
 		
@@ -46,6 +42,10 @@ public class SchedulerHeap {
 	 * @param pr	Prob to be added to heap.
 	 */
 	public void addToHeap(Prob pr) {
+		/*
+		 * TODO: Need to check that pr is a valid solution (this is where HardConstraints comes in.
+		 * 		if pr is valid then add to queue, otherwise throw it away
+		 */
 		pq.add(pr);
 	}
 	/**
@@ -135,7 +135,7 @@ public class SchedulerHeap {
 		//Print the queue to see contents.
 		sc.printQueue();
 		//Check which prob is at top of queue.
-		Prob ans = sc.getBestProb();
+		Prob ans = sc.getNextProb();
 		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
 		
 		Prob pr5 = new Prob(null, null,null, null);
@@ -153,7 +153,7 @@ public class SchedulerHeap {
 		sc.addToHeap(pr5);
 		sc.addVectorToHeap(p);
 		sc.printQueue();
-		ans = sc.getBestProb();
+		ans = sc.getNextProb();
 		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
 		
 	}
