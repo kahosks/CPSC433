@@ -11,7 +11,7 @@ import java.util.Vector;
 public class SchedulerHeap {
 	PriorityQueue<Prob> pq;
 	ScheduleComparator sc;
-	
+	Prob bestSolution;
 	/**
 	 * Constructor that takes a Vector of Probs as an argument
 	 * @param probs	Vector of Probs
@@ -23,6 +23,100 @@ public class SchedulerHeap {
 			Prob pr = (Prob) o;
 			pq.add(pr);
 		}
+	}
+	/*
+	
+	Makes the schedule, contains the scheduler heap main loop
+	
+	We might want to return an instance of Prob with this method OR have some way of getting the best
+	solution
+	*/
+	public void makeSchedule(Prob potentialSolutions[]){
+	
+	if (pq.size() == 0) {
+		return; //Can't make the scheduler with nothing in the queue
+	}
+	boolean status = true;
+	
+	//We might want a checker here that basically goes through potentialSolutions and
+	//removes any solutions that don't have all the classes in the schedule
+	
+	for (int i = 0; i < potentialSolutions.length; i++) {
+	
+		Prob pr = potentialSolutions[i];
+		
+		//May cause issues compiling if it does then just assume that 
+		//Every one passes hard constraints till we can actually check hard constraints
+		
+		if (checkConstraints(pr)){
+			pr.add(pr);
+		} 
+					
+		
+	}
+	//The loop below is probably not the right loop..
+	//However it may have some uses somewhere
+	/*
+	while(status) {
+	
+	
+		
+		
+		//I may have messed up the ordering of this
+		Prob p = pq.peek();
+		
+		// if p is done and passes hard constraints
+		//DIV(p) might make sense here
+		
+		
+		/*
+		START OF ITERATION THROUGH the DIV(p)
+		
+		
+		
+		
+		
+		//Pass p into the hard constraints here and if it fails a hard constraint delete p
+		//otherwise keep p in the queue
+		int softConstraintEval;
+		
+		if (HardConstraints.checkConstraints(p)) {
+			
+			//TODO add a check for the soft constraints
+			
+			//set the softConstraintEval to the prob soft constraint eval value
+			
+		} else {
+			pq.poll(); //Basically removes the top element of the queue
+		}
+		
+		if (pq.size() == 0) {
+			status == false;	//Basically if pq is empty we can break out the loop
+		}
+		
+		
+		
+		//Have some kind of check here that if the prob instance is better than our current best 
+		//change the best to the current instance
+		//Otherwise it is safe to assume that we have either a valid solution here that is not 
+		//better than the best or we have the new best solution
+		
+		/*
+		
+			if (softConstraintEval > evalSoftConstaints(bestSolution) && solution passes hard constaints) {
+				bestSolution = p;
+			} else {
+				pq.poll(); //Solution is not better than the optimal and is valid therefore we can remove it
+			}
+		
+		
+		
+		//here we shall generate new solutions on prob if it is not a complete solution
+		
+			
+	}
+	*/
+	
 	}
 	/**
 	 * Gets the next Prob element from the queue, i.e., the top element.
@@ -105,6 +199,7 @@ public class SchedulerHeap {
 	 * @param args	Command line arguments.
 	 */
 	public static void main (String[] args) {
+		System.out.println("Schedular Heap");
 		//Create elements to add to queue.
 		Prob pr1 = new Prob(new Slot[5], new Slot[5], new Slot[5],new Slot[5]);
 		pr1.addEvalValue(10);
