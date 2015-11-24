@@ -1,5 +1,5 @@
 /* Class Parser that takes input from a file, parses it, and 
- * puts into vectors.  Super duper long and not necessarily the most
+ * puts into ArrayLists.  Super duper long and not necessarily the most
  * efficient thing, by all means please change it/modify it!
  */
 /**
@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 
 
 public class Parser {
@@ -24,12 +24,12 @@ public class Parser {
 	private Slot[] TLabs = initializeDay("TU", 13);	//Tuesday labs array
 	private Slot[] F = initializeDay("FR", 13);	//Friday Labs array
 	
-	private Vector<Class> labsAndCourses = new Vector<Class>();		//hold labs and classes
-	private Vector<PairedCourseClass> notCompatible = new Vector<PairedCourseClass>(); 	//hold not compatible classes; see around line 333
-	private Vector<PairedCourseClass> pairs = new Vector<PairedCourseClass>();	//hold pairs; see around line 340
-	private Vector<Preference> preferences = new Vector<Preference>();	//hold preferences
-	private Vector<ParserClass> unwanted = new Vector<ParserClass>();	//hold unwanted
-	private Vector<ParserClass> partassign = new Vector<ParserClass>();	//hold partassign	
+	private ArrayList<Class> labsAndCourses = new ArrayList<Class>();		//hold labs and classes
+	private ArrayList<PairedCourseClass> notCompatible = new ArrayList<PairedCourseClass>(); 	//hold not compatible classes; see around line 333
+	private ArrayList<PairedCourseClass> pairs = new ArrayList<PairedCourseClass>();	//hold pairs; see around line 340
+	private ArrayList<Preference> preferences = new ArrayList<Preference>();	//hold preferences
+	private ArrayList<ParserClass> unwanted = new ArrayList<ParserClass>();	//hold unwanted
+	private ArrayList<ParserClass> partassign = new ArrayList<ParserClass>();	//hold partassign	
 	
 	/**
 	 * Constructor with String argument.
@@ -46,7 +46,7 @@ public class Parser {
 		}
 	}		
 	//ignore.  This method runs through parts of file and obtains information.
-	//The return type of Vector[] is just for use with Schedule.java demo.
+	//The return type of ArrayList[] is just for use with Schedule.java demo.
 	/**
 	 * Method that parses the file.
 	 * @throws SchedulerException	Thrown by called methods.
@@ -146,7 +146,7 @@ public class Parser {
 	}
 	
 	/**
-	 * Gets the courses from the file and adds them to the labsAndCourses vector.
+	 * Gets the courses from the file and adds them to the labsAndCourses ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
@@ -164,7 +164,7 @@ public class Parser {
 		}
 	}	
 	/**
-	 * Gets the labs from the file and adds them to the labsAndCourses vector.
+	 * Gets the labs from the file and adds them to the labsAndCourses ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
@@ -182,7 +182,7 @@ public class Parser {
 			}
 	}
 	/**
-	 * Gets the unwanted slot times from the file and adds them to the unwanted vector.	
+	 * Gets the unwanted slot times from the file and adds them to the unwanted ArrayList.	
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
@@ -200,7 +200,7 @@ public class Parser {
 		}			
 	}
 	/**
-	 * Gets the preferences from the file and adds them to the preferences vector.
+	 * Gets the preferences from the file and adds them to the preferences ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
@@ -218,31 +218,31 @@ public class Parser {
 		}
 	}	
 	/**
-	 * Gets the not compatible pairs and adds them as a tuple to the notCompatible vector.
+	 * Gets the not compatible pairs and adds them as a tuple to the notCompatible ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
 
 	private void initiateNC(String s) throws SchedulerException {
 		if (s.contains("Not compatible:")) {
-			//parse and add the pairs to notCompatible vector		
-			addTupleToVector(s,notCompatible);
+			//parse and add the pairs to notCompatible ArrayList		
+			addTupleToArrayList(s,notCompatible);
 		}			
 	}
 	
 	/**
-	 * Gets the pairs from the file and adds them to the pairs vector.
+	 * Gets the pairs from the file and adds them to the pairs ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
 	private void initiatePair(String s) throws SchedulerException {
 		if (s.contains("Pair:")) {
-			addTupleToVector(s, pairs);
+			addTupleToArrayList(s, pairs);
 		}
 	}
 	
 	/**
-	 * Gets partassign values from file and stores in partassign vector.
+	 * Gets partassign values from file and stores in partassign ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
@@ -262,13 +262,13 @@ public class Parser {
 	}
 	
 	/**
-	 * Adds a tuple to vector.  This is used for classes PairCourseClass (dealing with pairs and 
+	 * Adds a tuple to ArrayList.  This is used for classes PairCourseClass (dealing with pairs and 
 	 * not compatible).
 	 * @param s	Line read from file.
-	 * @param vector	Vector you want to add the tuple to
+	 * @param vector	ArrayList you want to add the tuple to
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void addTupleToVector(String s, Vector<PairedCourseClass> vector) throws SchedulerException{
+	private void addTupleToArrayList(String s, ArrayList<PairedCourseClass> ArrayList) throws SchedulerException{
 		try {
 			String line;
 			//booleans to check which classes are courses/labs
@@ -285,21 +285,21 @@ public class Parser {
 				if (!input[1].contains("LAB") && !input[1].contains("TUT")) {
 					isCourseB = true;
 				}
-				//add to vector when both are courses
+				//add to ArrayList when both are courses
 				if (isCourseA && isCourseB) {
-					vector.add(new PairedCourseClass(new Course(input[0].trim()), new Course(input[1].trim())));
+					ArrayList.add(new PairedCourseClass(new Course(input[0].trim()), new Course(input[1].trim())));
 				}
 				//second is a lab
 				else if (isCourseA && !isCourseB) {
-					vector.add(new PairedCourseClass(new Course(input[0].trim()), new Lab(input[1].trim())));
+					ArrayList.add(new PairedCourseClass(new Course(input[0].trim()), new Lab(input[1].trim())));
 				}
 				//first is a lab
 				else if (!isCourseA && isCourseB) {
-					vector.add(new PairedCourseClass(new Lab(input[0].trim()), new Course(input[1].trim())));
+					ArrayList.add(new PairedCourseClass(new Lab(input[0].trim()), new Course(input[1].trim())));
 				}
 				//both are labs
 				else {
-					vector.add(new PairedCourseClass(new Lab(input[0].trim()), new Lab(input[1].trim())));
+					ArrayList.add(new PairedCourseClass(new Lab(input[0].trim()), new Lab(input[1].trim())));
 				}
 				//set booleans back to false
 				isCourseA = false;
@@ -432,26 +432,26 @@ public class Parser {
 		}
 	}
 
-	//Return methods for respective vectors
+	//Return methods for respective ArrayLists
 	public String getName() {
 		return name;
 	}
-	public Vector<Class> getLabsAndCourses() {
+	public ArrayList<Class> getLabsAndCourses() {
 		return labsAndCourses;
 	}
-	public Vector<PairedCourseClass> getNC() {
+	public ArrayList<PairedCourseClass> getNC() {
 		return notCompatible;
 	}
-	public Vector<PairedCourseClass> getPairs() {
+	public ArrayList<PairedCourseClass> getPairs() {
 		return pairs;
 	}
-	public Vector<Preference> getPreferences() {
+	public ArrayList<Preference> getPreferences() {
 		return preferences;
 	}
-	public Vector<ParserClass> getUnwanted() {
+	public ArrayList<ParserClass> getUnwanted() {
 		return unwanted;
 	}
-	public Vector<ParserClass> getPartassign() {
+	public ArrayList<ParserClass> getPartassign() {
 		return partassign;
 	}
 	//methods that return arrays for M, T, or F.

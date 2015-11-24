@@ -1,6 +1,6 @@
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Class SchedulerHeap that contains all the potential prob solutions.
@@ -13,10 +13,10 @@ public class SchedulerHeap {
 	ScheduleComparator sc;
 	Prob bestSolution;
 	/**
-	 * Constructor that takes a Vector of Probs as an argument
-	 * @param probs	Vector of Probs
+	 * Constructor that takes a ArrayList of Probs as an argument
+	 * @param probs	ArrayList of Probs
 	 */
-	public SchedulerHeap(Vector<Prob> probs) {
+	public SchedulerHeap(ArrayList<Prob> probs) {
 		//add all the prs to the heap
 		pq = new PriorityQueue<Prob>(probs.size(), new ScheduleComparator()); 
 		for (Object o:probs.toArray()) {
@@ -143,10 +143,10 @@ public class SchedulerHeap {
 		pq.add(pr);
 	}
 	/**
-	 * Adds a vector of Probs to the heap.
-	 * @param pr	Vector of probs to be added.
+	 * Adds a ArrayList of Probs to the heap.
+	 * @param pr	ArrayList of probs to be added.
 	 */
-	public void addVectorToHeap(Vector<Prob> pr) {
+	public void addArrayListToHeap(ArrayList<Prob> pr) {
 		pq.addAll(pr);
 	}
 	/**
@@ -218,8 +218,8 @@ public class SchedulerHeap {
 		System.out.println("Added eval: " + pr4.getEvalValue() + " Inverse: " +pr4.getEvalInverse());
 		System.out.println();
 
-		//Create a vector to pass to heap.
-		Vector<Prob> probs = new Vector<Prob>();
+		//Create a ArrayList to pass to heap.
+		ArrayList<Prob> probs = new ArrayList<Prob>();
 		probs.add(pr1);
 		probs.add(pr2);
 		probs.add(pr3);
@@ -242,11 +242,11 @@ public class SchedulerHeap {
 		Prob pr7 = new Prob(null, null, null,null);
 		pr7.addEvalValue(2);
 		System.out.println("Added eval: " + pr7.getEvalValue() + " Inverse: " +pr7.getEvalInverse());
-		Vector<Prob> p = new Vector<Prob>();
+		ArrayList<Prob> p = new ArrayList<Prob>();
 		p.add(pr6);
 		p.add(pr7);
 		sc.addToHeap(pr5);
-		sc.addVectorToHeap(p);
+		sc.addArrayListToHeap(p);
 		sc.printQueue();
 		ans = sc.getNextProb();
 		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());

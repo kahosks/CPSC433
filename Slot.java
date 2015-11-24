@@ -1,10 +1,10 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Slot {
 	int coursemin=0, coursemax=0, labmin=0, labmax=0, currentLabs =0, currentClasses =0;
 	String day = "none";
 	String time = "0:00";
-	Vector<Class> labsAndClasses = new Vector<Class>();
+	ArrayList<Class> labsAndClasses = new ArrayList<Class>();
 	
 	
 	/*
@@ -123,7 +123,7 @@ public class Slot {
 	}
 	
 	public void add(Class aClass) {
-		//Temporary variables corresponding to amount of classes/labs in labsAndClasses vector.
+		//Temporary variables corresponding to amount of classes/labs in labsAndClasses ArrayList.
 		int courseCheck = currentClasses;
 		int labCheck = currentLabs;
 		//If aClass is a course, then increment temp variable courseCheck.
@@ -150,7 +150,7 @@ public class Slot {
 		}
 	}
 
-	//Returns array of labsAndClasses vector.
+	//Returns array of labsAndClasses ArrayList.
 	public Class[] getLabsAndClasses() {
 		return (Class[]) labsAndClasses.toArray();
 	}
@@ -160,7 +160,7 @@ public class Slot {
 	 * @return	Class array of courses.
 	 */
 	public Class[] getCourses() {
-		Vector<Class> courses = new Vector<Class>();
+		ArrayList<Class> courses = new ArrayList<Class>();
 		for (Object c: labsAndClasses.toArray()) {
 			Class s = (Class) c;
 			if (s.isCourse()) {
@@ -174,7 +174,7 @@ public class Slot {
 	 * @return	Lab array of labs.
 	 */
 	public Class[] getLabs() {
-		Vector<Class> labs = new Vector<Class>();
+		ArrayList<Class> labs = new ArrayList<Class>();
 		for (Object c: labsAndClasses.toArray()) {
 			Class s = (Class) c;
 			if (!s.isCourse()) {

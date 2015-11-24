@@ -2,17 +2,17 @@
  * Class Scheduler where everything will occur.
  * @author CPSC 433 Toshibe
  */
- import java.util.Vector;
+ import java.util.ArrayList;
  
 
 public class Scheduler {
 	private String name;
-	private Vector<Class> labsAndCourses;
-	private Vector<Parser.PairedCourseClass> notCompatible;
-	private Vector<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
-	private Vector<Parser.Preference> preferences;
-	private Vector<Parser.ParserClass> unwanted;
-	private Vector<Parser.ParserClass>partassign;
+	private ArrayList<Class> labsAndCourses;
+	private ArrayList<Parser.PairedCourseClass> notCompatible;
+	private ArrayList<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
+	private ArrayList<Parser.Preference> preferences;
+	private ArrayList<Parser.ParserClass> unwanted;
+	private ArrayList<Parser.ParserClass>partassign;
 	//private String filename = "bob.txt";
 	public static int totalCourses =0 ;
 	
