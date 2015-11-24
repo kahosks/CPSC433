@@ -14,8 +14,9 @@ public class SchedulerHeap {
 	Prob bestSolution
 	int size = 100;
 	
+	/* Constructor with no arguments. */
 	public SchedulerHeap() {
-		//Default initial value of 11.  Very likely want greater size.
+		//Default initial value.  Very likely want greater size.
 		pq = new PriorityQueue<Prob>(size, new ScheduleComparator);
 	}
 	/**
