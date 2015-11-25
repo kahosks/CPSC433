@@ -144,7 +144,7 @@ public class Parser {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.split(",");
 				//gets index of slot based on hour class begins
-				int index = getSlotIndex(true, lineArr[1]);
+				int index = getSlotIndex(true, lineArr[0], lineArr[1]);
 				//add days to proper array.  Ignore this.
 				addCourseToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
@@ -166,7 +166,7 @@ public class Parser {
 			while (!((line = br.readLine()).equals(""))) {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.split(",");
-				int index = getSlotIndex(false, lineArr[1].trim());
+				int index = getSlotIndex(false, lineArr[0], lineArr[1].trim());
 				addLabToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
 		}
@@ -415,8 +415,8 @@ public class Parser {
 		return Slot;
 	}
 	//Get index of slot in array.
-	private int getSlotIndex(boolean isTuesCourse, String time) throws SchedulerException {
-		if (isTuesCourse) {
+	private int getSlotIndex(boolean isTuesCourse, String day, String time) throws SchedulerException {
+		if (isTuesCourse && day.equals("TU") {
 			return getTuesSlotIndex(time);
 		}
 		String[] hourMin = time.split(":");
