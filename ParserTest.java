@@ -8,20 +8,40 @@ public class ParserTest {
 	// Test to see if the parser loads a proper file, pass if no error thrown
 	@Test
 	public void TestParserConstruct() throws SchedulerException {
-		Parser parser = new Parser("ShortExample");
+		Parser parser = new Parser("Tests/ShortExample");
 	}
 	
 	// Test loading a file that doesn't exist, should throw an error
 	@Test(expected = SchedulerException.class)
 	public void TestParserConstructFileDoesntExist() throws SchedulerException {
-		Parser parser = new Parser("abc.def");
+		Parser parser = new Parser("Tests/abc.def");
 	}
 	
 	// Test the parser with the example given, pass if no errors are thrown
 	@Test
 	public void TestParse() throws SchedulerException {
-		Parser parser = new Parser("ShortExample");
+		Parser parser = new Parser("Tests/ShortExample");
 		parser.parse();
-		Vector<Class> labsAndCourses =  parser.getLabsAndCourses();
+	}
+	
+	// Test the parser giving it 2 identical Courses (CPSC 433 LEC 01)
+	@Test(expected = SchedulerException.class)
+	public void TestDuplicateCourse() throws SchedulerException {
+		Parser parser = new Parser("Tests/DuplicateCourse");
+		parser.parse();
+	}
+	
+	// Test the parser giving it 2 identical Labs (CPSC 433 LEC  02 LAB   02)
+	@Test(expected = SchedulerException.class)
+	public void TestDuplicateLab() throws SchedulerException {
+		Parser parser = new Parser("Tests/DuplicateLab");
+		parser.parse();
+	}
+	
+	// Test the parser giving it 2 identical Labs (CPSC 433 LEC  02 LAB   02)
+	@Test(expected = SchedulerException.class)
+	public void Test() throws SchedulerException {
+		Parser parser = new Parser("Tests/");
+		parser.parse();
 	}
 }
