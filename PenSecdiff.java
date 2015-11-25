@@ -23,7 +23,21 @@ public class PenSecdiff extends Eval{
 	//TODO: Implement.
 	public int evaluate() {
 		int penalty =0;
-		
+		for (Slot s: slots) {
+			Class[] courses = s.getCourses();
+			//Check courses
+			for (int i=0; i < courses.length-1;i++) {
+				//Check the next course
+				for (int j = i+1; j<courses.length;j++) {
+					//Check if course an index ahead of other course is the same class.
+					if (String.format("%s %s %s", courses[i].getName(), courses[i].getID(), courses[i].getLecture()).equals(
+							String.format("%s %s %s", courses[j].getName(), courses[j].getID(), courses[j].getLecture()))) {
+						//Add penalty if so.
+						penalty += pen_secdiff;
+					}
+				}
+			}
+		}
 		return penalty;
 	}
 }
