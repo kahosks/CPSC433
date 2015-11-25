@@ -416,7 +416,7 @@ public class Parser {
 	}
 	//Get index of slot in array.
 	private int getSlotIndex(boolean isTuesCourse, String day, String time) throws SchedulerException {
-		if (isTuesCourse && day.equals("TU") {
+		if (isTuesCourse && day.equals("TU")) {
 			return getTuesSlotIndex(time);
 		}
 		String[] hourMin = time.split(":");
