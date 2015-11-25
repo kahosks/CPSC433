@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Parser {
 	private File file;
-	private BufferedReader br;
+	private BufferedReader top;
 	private String name;	//Name for name field.
 
 	private Slot[] M = initializeDay("MO", 13);	//Monday courses and labs array
@@ -40,7 +40,7 @@ public class Parser {
 		file = new File(filename);
 
 		try {
-			br = new BufferedReader(new FileReader(file));
+			top = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
 			throw new SchedulerException("Error: " + e.getMessage());
 		}
@@ -53,23 +53,42 @@ public class Parser {
 	 */
 	public void parse() throws SchedulerException {
 		try {
-			String s;
-				if ((s = br.readLine()) != null) {
-					checkName(s);
+			boolean name = false, courseSlot = false, labSlot = false, courses = false, labs = false, notCompat = false, unwanted = false, preferences = false, pair = false, partAssign = false;
+			BufferedReader br = top;
+			String line = br.readLine();
+			while(!(name && courseSlot && labSlot && courses && labs && notCompat && unwanted && preferences && pair && partAssign)) {
+				if (line.equals("Name:")) {
+					name = true;
+				} else if (line.equals("Course slots:")){
+					courseSlot = true;
+					initiateCourseSlot(br);
+				} else if (line.equals("Lab slots:")) {
+					labSlot = true;
+					initiateLabSlot(br);
+				} else if (line.equals("Courses:")) {
+					courses = true;
+					initiateCourses(br);
+				} else if (line.equals("Labs:")) {
+					labs = true;
+					initiateLabs(br);
+				} else if (line.equals("Not compatible:")) {
+					notCompat = true;
+					addTupleToArrayList(notCompatible, br);
+				} else if (line.equals("Unwanted:")) {
+					unwanted = true;
+					initiateUnwanted(br);
+				} else if (line.equals("Preferences:")) {
+					preferences = true;
+					initiatePreferences(br);
+				} else if (line.equals("Pair:")) {
+					pair = true;
+					addTupleToArrayList(pairs, br);
+				} else if (line.equals("Partial assignments:")) {
+					partAssign = true;
+					initiatePartassign(br);
 				}
-				//go through methods until reach end of file.
-			//while ((s = br.readLine()) != null) {
-				br.readLine();
-				initiateCourseSlot(br.readLine());
-				initiateLabSlot(br.readLine());
-				initiateCourses(br.readLine());
-				initiateLabs(br.readLine());
-				initiateNC(br.readLine());
-				initiateUnwanted(br.readLine());
-				initiatePreferences(br.readLine());
-				initiatePair(br.readLine());
-				initiatePartassign(br.readLine());
-			//}
+				line = br.readLine();
+			}
 
 			br.close();
 		} catch (Exception e) {
@@ -77,12 +96,25 @@ public class Parser {
 			throw new SchedulerException("Error with parsing file." + e.getMessage()); 
 		}
 	}
+	
+	/*private BufferedReader prepBufferedReader(BufferedReader br, String s) throws SchedulerException {
+		try {
+			while (!br.readLine().equals(s)) {}
+		}catch (NullPointerException e) {
+			throw new SchedulerException("End of file reached.  Unable to find \"" + s + "\"");
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}
+		return br;
+	}*/
+	
+	
 	/**
 	 * Gets the name under the "Name:" header.
 	 * @param s	String read from file.
 	 * @throws SchedulerException	Thrown if there is an IOException
 	 */
-	private void checkName(String s) throws SchedulerException {
+	/*private void checkName(BufferedReader br) throws SchedulerException {
 		try {
 			while (!(s.contains("Name:"))) {
 				//keep looping through file until "Name:"
@@ -96,31 +128,31 @@ public class Parser {
 		catch (IOException e) {
 			throw new SchedulerException("Error: " + e.getMessage());
 		}
-	}
+	}*/
 	
 	/**
 	 * Gets the course min/max values for a slot.
 	 * @param s	Line of file read by buffered reader.
 	 * @throws SchedulerException	Thrown if IOException
 	 */
-	private void initiateCourseSlot(String s) throws SchedulerException {
-		if (s.contains("Course slots:")) {
-			String line;
-			try {
-				//Go until reach new line.  Not sure if this is correct implementation.
-				while (!((line = br.readLine()).equals(""))) {
-					//split into day, time, coursemin, coursemax
-					String[] lineArr = line.split(",");
-					//gets index of slot based on hour class begins
-					int index = getSlotIndex(true, lineArr[1]);
-					//add days to proper array.  Ignore this.
-					addCourseToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
-				}	
-			} 
-			catch (IOException e) {
-				throw new SchedulerException("Error: " + e.getMessage());
-			}
+	private void initiateCourseSlot(BufferedReader br) throws SchedulerException {
+		String line;
+		try {
+			//Go until reach new line.  Not sure if this is correct implementation.
+			while (!((line = br.readLine()).equals(""))) {
+				
+				//split into day, time, coursemin, coursemax
+				String[] lineArr = line.split(",");
+				//gets index of slot based on hour class begins
+				int index = getSlotIndex(true, lineArr[1]);
+				//add days to proper array.  Ignore this.
+				addCourseToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+			}	
+		} 
+		catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
 		}
+	
 	}
 	
 	/**
@@ -128,137 +160,143 @@ public class Parser {
 	 * @param s	Line of file read by buffered reader.
 	 * @throws SchedulerException	Thrown if IOException
 	 */
-	private void initiateLabSlot(String s) throws SchedulerException {
-			if (s.contains("Lab slots:")) {
-				String line;
-				try {
-					while (!((line = br.readLine()).equals(""))) {
-					//split into day, time, coursemin, coursemax
-					String[] lineArr = line.split(",");
-					int index = getSlotIndex(false, lineArr[1].trim());
-					addLabToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
-				}	
-			}
-				catch (IOException e) {	
-					throw new SchedulerException("Error: " + e.getMessage());
-				}
+	private void initiateLabSlot(BufferedReader br) throws SchedulerException {
+		String line;
+		try {
+			while (!((line = br.readLine()).equals(""))) {
+				//split into day, time, coursemin, coursemax
+				String[] lineArr = line.split(",");
+				int index = getSlotIndex(false, lineArr[1].trim());
+				addLabToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+			}	
 		}
-	}
+			catch (IOException e) {	
+				throw new SchedulerException("Error: " + e.getMessage());
+			}
+			
+		}
+	
+
 	
 	/**
 	 * Gets the courses from the file and adds them to the labsAndCourses ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void initiateCourses(String s) throws SchedulerException {
-		if(s.contains("Courses:")) {
-			try {
-				String line;
-				while (!((line = br.readLine()).equals(""))) {
-					labsAndCourses.add(new Course(line));
-				}
-			}
-			catch (IOException e) {
-				throw new SchedulerException("Error: " + e.getMessage());
+	private void initiateCourses(BufferedReader br) throws SchedulerException {
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				labsAndCourses.add(new Course(line));
 			}
 		}
+		catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}
+	
 	}	
 	/**
 	 * Gets the labs from the file and adds them to the labsAndCourses ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void initiateLabs(String s) throws SchedulerException {
-			if(s.contains("Labs:")) {
-				try {
-					String line;
-					while (!((line = br.readLine()).equals(""))) {
-						labsAndCourses.add(new Lab(line));
-					}
-				}
-				catch (IOException e) {
-					throw new SchedulerException("Error: " + e.getMessage());
-				}
+	private void initiateLabs(BufferedReader br) throws SchedulerException {
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				labsAndCourses.add(new Lab(line));
 			}
+		}
+		catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}
+	
 	}
 	/**
 	 * Gets the unwanted slot times from the file and adds them to the unwanted ArrayList.	
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void initiateUnwanted(String s) throws SchedulerException {
-		if (s.contains("Unwanted:")) {
-			try {
-				String line;
-				while (!((line = br.readLine()).equals(""))) {
-					String[] input = line.split(",");
-					unwanted.add(new ParserClass(input[0], input[1], input[2]));
-				}
-			} catch (IOException e) {
-				throw new SchedulerException("Error: " + e.getMessage());
+	private void initiateUnwanted(BufferedReader br) throws SchedulerException {
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				String[] input = line.split(",");
+				unwanted.add(new ParserClass(input[0], input[1], input[2]));
 			}
-		}			
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}
+		
 	}
 	/**
 	 * Gets the preferences from the file and adds them to the preferences ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void initiatePreferences(String s) throws SchedulerException {
-		if (s.contains("Preferences:")) {
-			try {
-				String line;
-				while (!((line = br.readLine()).equals(""))) {
-					String[] input = line.split(",");
-					preferences.add(new Preference(input[0], input[1], input[2], input[3]));		
-				}
-			} catch (IOException e) {
-				throw new SchedulerException("Error: " + e.getMessage());
+	private void initiatePreferences(BufferedReader br) throws SchedulerException {
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				String[] input = line.split(",");
+				preferences.add(new Preference(input[0], input[1], input[2], input[3]));		
 			}
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
 		}
+	
 	}	
 	/**
 	 * Gets the not compatible pairs and adds them as a tuple to the notCompatible ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
-	 */
+	 *//*
 
-	private void initiateNC(String s) throws SchedulerException {
-		if (s.contains("Not compatible:")) {
-			//parse and add the pairs to notCompatible ArrayList		
-			addTupleToArrayList(s,notCompatible);
-		}			
+	private void initiateNC(BufferedReader br) throws SchedulerException {
+		//parse and add the pairs to notCompatible ArrayList	
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				
+			}
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}
 	}
 	
-	/**
+	*//**
 	 * Gets the pairs from the file and adds them to the pairs ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
-	 */
-	private void initiatePair(String s) throws SchedulerException {
-		if (s.contains("Pair:")) {
-			addTupleToArrayList(s, pairs);
+	 *//*
+	private void initiatePair(BufferedReader br) throws SchedulerException {
+		try {
+			String line;
+			while (!((line = br.readLine()).equals(""))) {
+				
+			}
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
 		}
-	}
+	}*/
 	
 	/**
 	 * Gets partassign values from file and stores in partassign ArrayList.
 	 * @param s	Line read from file.
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void initiatePartassign(String s) throws SchedulerException {
-
-		if (s.contains("Partial assignments:")) {	
+	private void initiatePartassign(BufferedReader br) throws SchedulerException {
+	
 		String line;
-			try {
-				while ((line = br.readLine()) != null && !(line.equals(""))) {
-						String[] input = line.split(",");
-						partassign.add(new ParserClass(input[0], input[1], input[2]));		
-					}
-			} catch (IOException e) {
-				throw new SchedulerException("Error: " + e.getMessage());
-			}		
-		}
+		try {
+			while ((line = br.readLine()) != null && !(line.equals(""))) {
+					String[] input = line.split(",");
+					partassign.add(new ParserClass(input[0], input[1], input[2]));		
+				}
+		} catch (IOException e) {
+			throw new SchedulerException("Error: " + e.getMessage());
+		}		
+		
 	}
 	
 	/**
@@ -268,7 +306,7 @@ public class Parser {
 	 * @param vector	ArrayList you want to add the tuple to
 	 * @throws SchedulerException	Thrown if IOException occurs.
 	 */
-	private void addTupleToArrayList(String s, ArrayList<PairedCourseClass> ArrayList) throws SchedulerException{
+	private void addTupleToArrayList(ArrayList<PairedCourseClass> ArrayList, BufferedReader br) throws SchedulerException{
 		try {
 			String line;
 			//booleans to check which classes are courses/labs
@@ -428,7 +466,7 @@ public class Parser {
 			case 17:
 			case 18:
 				return hour-11;
-			default: throw new SchedulerException("Unable to get Tuesday slot index.");
+			default: throw new SchedulerException("Unable to get Tuesday slot index." + time);
 		}
 	}
 
