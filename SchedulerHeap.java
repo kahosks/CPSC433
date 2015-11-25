@@ -11,7 +11,14 @@ import java.util.ArrayList;
 public class SchedulerHeap {
 	PriorityQueue<Prob> pq;
 	ScheduleComparator sc;
-	Prob bestSolution;
+	Prob bestSolution
+	int size = 100;
+	
+	/* Constructor with no arguments. */
+	public SchedulerHeap() {
+		//Default initial value.  Very likely want greater size.
+		pq = new PriorityQueue<Prob>(size, new ScheduleComparator);
+	}
 	/**
 	 * Constructor that takes a ArrayList of Probs as an argument
 	 * @param probs	ArrayList of Probs

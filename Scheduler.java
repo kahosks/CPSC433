@@ -42,6 +42,16 @@ public class Scheduler {
 		parser.parse();
 		// TODO: put from lines 44-55 into a method so start() method doesn't look
 		//longer and uglier than it has to be.
+		initiateParsedValues(parser);
+		printCommands(cp);
+		printData();
+	}
+	/**
+	 * Method that gets the parsed values from the parser and 
+	 * stores them in their respected ArrayList.
+	 * @param parser	Parser that parses the input file.
+	 */
+	public void initiateParsedValues(Parser parser) {
 		name = parser.getName();
 		labsAndCourses = parser.getLabsAndCourses();
 		notCompatible = parser.getNC();
@@ -54,8 +64,6 @@ public class Scheduler {
 		TLabs = parser.getTLabs();
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
-		printCommands(cp);
-		printData();
 	}
 	//prints the data.  Can delete, it's just for testing purposes and is
 		//super ugly.
