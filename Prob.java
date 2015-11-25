@@ -4,11 +4,14 @@
  * @author Kiersten
  *
  */
+import java.util.*;
 public class Prob {
 	public static final int MONDAY = 0;
 	public static final int TUESDAY = 1;
 	public static final int TUESLAB = 2;
 	public static final int FRIDAY = 3;
+	ArrayList<Class> classesScheduled;
+	//ArrayList<String> identifiers;
 	private int evalValue =0;
 	private int slotsFilled = 0;
 	private int coursesAdded = 0;
@@ -34,6 +37,15 @@ public class Prob {
 		//totalCourses = Scheduler.totalCourses;	//Use in implementation?
 		totalCourses = 5;
 	}
+	
+	public Prob(Prob aProb) {
+		/*
+		Slot[][] otherDays = aProb.getDays();
+		for (int i=0;i<days.length;i++) {
+			days[i] = otherDays[i];
+	}*/
+	days = aProb.getDays();
+}
 	
 	public int calculateTotalCourses(Slot[] slots) {
 		int count = 0;
@@ -106,15 +118,59 @@ public class Prob {
 	public void setCoursesNotAdded(int coursenum) {
 		totalCourses = coursenum;
 	}
-	public void addClass(Class c, int day, int time) {
+	
+	/*
+	 * 
+	 * @param c this is the class we are adding
+	 * @param day the day we are going to add the clasws
+	 * @param time the time slot we are using for the class c
+	 * 
+	 * 
+	 */
+	public void addClass(Class c, int day, int time) throws SchedulerException {
+		
 		switch(day) {
-		case MONDAY:
-			//days[MONDAY][time];
+			case MONDAY: 
+				days[MONDAY][time].add(c);
+				classesScheduled.add(c);
+				//identifiers.c.getIdentifier();
+				break;
+			case TUESDAY:
+				days[TUESDAY][time].add(c);
+				classesScheduled.add(c);
+				//identifiers.c.getIdentifier();
+				break;
+			case TUESLAB:
+				days[TUESLAB][time].add(c);
+				classesScheduled.add(c);
+				//identifiers.c.getIdentifier();
+				break;
+			case FRIDAY:
+				days[FRIDAY][time].add(c);
+				classesScheduled.add(c);
+				//identifiers.c.getIdentifier();
+				break;
+			default:
+				throw new SchedulerException();
+			
 		}
+	}
+	public ArrayList<Class> getclassesScheduled() {
+		return classesScheduled;
 	}
 	public Slot[][] getDays() {
 		return days;
 	}
+	
+	//Use this if there is a partassign
+	public void addAllClasses(Slot[] slots) {
+		for (Slot s: slots) {
+			for (Class c: s.getLabsAndClasses()) {
+				classesScheduled.add(c);
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		Prob pr = new Prob(new Slot[2], new Slot[3], new Slot[4], new Slot[5]);
 		int i=0;
