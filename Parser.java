@@ -145,16 +145,37 @@ public class Parser {
 		indexArray = new String[size];
 		
 		initialProblem[0] = partassign.size() + 2;		// first slot that needs to be set is after the partial assign and eval + depth
-		initialProblem[1] = -1;							// setting eval to -1
+		initialProblem[1] = 0;							// setting eval to 0
 		indexArray[0] = "";
 		indexArray[1] = "";
 		int i = 2;
 		
+		// this loop puts the partial assign just after the depth/eval
 		for(ParserClass pClass: partassign) {
 			initialProblem[i] = pClass.getTimeInt();
 			indexArray[i] = pClass.getIdentifier();
 			i++;
 		}
+
+		// creating a list of classes that are not already assigned
+		ArrayList<Class> notAssigned = new ArrayList<Class>();
+		notAssigned.addAll(labsAndCourses);
+		for(Class labCourse: notAssigned) {
+			for(String assigned: indexArray) {
+				if(labCourse.getIdentifier().equals(assigned)) {
+					notAssigned.remove(labCourse);
+					break;
+				}
+			}
+		}
+		
+		// add those not assigned classes after the assigned ones, init time to 0
+		for(Class labCourse: notAssigned) {
+			initialProblem[i] = 0;						// no time is assigned to these labs/courses yet
+			indexArray[i] = labCourse.getIdentifier();
+			i++;
+		}
+		System.out.println("breakpoint");
 	}
 	
 	/**
@@ -171,7 +192,7 @@ public class Parser {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.split(",");
 				//gets index of slot based on hour class begins
-				int index = getSlotIndex(true, lineArr[0], lineArr[1]);
+				int index = getSlotIndex(true, lineArr[0], lineArr[1].trim());
 				//add days to proper array.  Ignore this.
 				addCourseToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
