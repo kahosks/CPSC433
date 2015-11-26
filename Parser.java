@@ -31,6 +31,9 @@ public class Parser {
 	private ArrayList<ParserClass> unwanted = new ArrayList<ParserClass>();	//hold unwanted
 	private ArrayList<ParserClass> partassign = new ArrayList<ParserClass>();	//hold partassign	
 	
+	private int[] initialProblem;
+	private String[] indexArray;
+	
 	/**
 	 * Constructor with String argument.
 	 * @param filename	String of name of file to read from.
@@ -91,6 +94,7 @@ public class Parser {
 			}
 
 			br.close();
+			createInitialProbAndIndex();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SchedulerException("Error with parsing file." + e.getMessage()); 
@@ -131,6 +135,29 @@ public class Parser {
 	}*/
 	
 	/**
+	 * Creates the initialProblem and indexArray, use get(need to create getters for these two)
+	 */
+	
+	private void createInitialProbAndIndex() {
+		// TODO Auto-generated method stub
+		int size = labsAndCourses.size() + 2;			// the +2 is for the Depth and Eval values
+		initialProblem = new int[size];
+		indexArray = new String[size];
+		
+		initialProblem[0] = partassign.size() + 2;		// first slot that needs to be set is after the partial assign and eval + depth
+		initialProblem[1] = -1;							// setting eval to -1
+		indexArray[0] = "";
+		indexArray[1] = "";
+		int i = 2;
+		
+		for(ParserClass pClass: partassign) {
+			initialProblem[i] = pClass.getTimeInt();
+			indexArray[i] = pClass.getIdentifier();
+			i++;
+		}
+	}
+	
+	/**
 	 * Gets the course min/max values for a slot.
 	 * @param s	Line of file read by buffered reader.
 	 * @throws SchedulerException	Thrown if IOException
@@ -140,7 +167,7 @@ public class Parser {
 		try {
 			//Go until reach new line.  Not sure if this is correct implementation.
 			while (!((line = br.readLine()).equals(""))) {
-				
+				//System.out.println(line.charAt(line.length()-1));  // could use this to find : at end of line and stop on that instead of an empty line
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.split(",");
 				//gets index of slot based on hour class begins
@@ -295,8 +322,7 @@ public class Parser {
 				}
 		} catch (IOException e) {
 			throw new SchedulerException("Error: " + e.getMessage());
-		}		
-		
+		}
 	}
 	
 	/**
@@ -433,11 +459,11 @@ public class Parser {
 		for (int i = 0; i < size; i++) {
 			String timeString;
 			if (i % 2 == 0) {
-				System.out.println("true");
+				//System.out.println("true");
 				timeString = startHour + ":00";
 			}
 			else {
-				System.out.println("false");
+				//System.out.println("false");
 				timeString = startHour + ":30";
 				startHour++;
 			}
@@ -550,6 +576,14 @@ public class Parser {
 		//returns time
 		public String getTime() {
 			return time;
+		}
+		//returns time as an integer
+		public int getTimeInt() {
+			int iTime;
+			String[] hourMin = time.split(":");
+			String tempTime = hourMin[0] + hourMin[1];
+			iTime = Integer.parseInt(tempTime);
+			return iTime;
 		}
 		//returns course/lab identifier
 		public String getIdentifier() {
