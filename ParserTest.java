@@ -38,10 +38,17 @@ public class ParserTest {
 		parser.parse();
 	}
 	
-	// Test the parser giving it 2 identical Labs (CPSC 433 LEC  02 LAB   02)
-	@Test(expected = SchedulerException.class)
-	public void Test() throws SchedulerException {
-		Parser parser = new Parser("Tests/");
+	// Test the parser giving it the first input file
+	@Test
+	public void TestFile1() throws SchedulerException {
+		Parser parser = new Parser("Tests/deptinst1.txt");
 		parser.parse();
 	}
+	
+	// Test the parser giving it the second input file
+		@Test
+		public void TestFile2() throws SchedulerException {
+			Parser parser = new Parser("Tests/deptinst2.txt");
+			parser.parse();
+		}
 }
