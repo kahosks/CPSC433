@@ -139,7 +139,6 @@ public class Parser {
 	 */
 	
 	private void createInitialProbAndIndex() {
-		// TODO Auto-generated method stub
 		int size = labsAndCourses.size() + 2;			// the +2 is for the Depth and Eval values
 		initialProblem = new int[size];
 		indexArray = new String[size];
@@ -160,7 +159,7 @@ public class Parser {
 		// creating a list of classes that are not already assigned
 		ArrayList<Class> notAssigned = new ArrayList<Class>();
 		notAssigned.addAll(labsAndCourses);
-		for(Class labCourse: notAssigned) {
+		for(Class labCourse: labsAndCourses) {
 			for(String assigned: indexArray) {
 				if(labCourse.getIdentifier().equals(assigned)) {
 					notAssigned.remove(labCourse);
@@ -175,7 +174,6 @@ public class Parser {
 			indexArray[i] = labCourse.getIdentifier();
 			i++;
 		}
-		System.out.println("breakpoint");
 	}
 	
 	/**
@@ -190,7 +188,7 @@ public class Parser {
 			while (!((line = br.readLine()).equals(""))) {
 				//System.out.println(line.charAt(line.length()-1));  // could use this to find : at end of line and stop on that instead of an empty line
 				//split into day, time, coursemin, coursemax
-				String[] lineArr = line.split(",");
+				String[] lineArr = line.replaceAll("\\s+"," ").split(",");
 				//gets index of slot based on hour class begins
 				int index = getSlotIndex(true, lineArr[0], lineArr[1].trim());
 				//add days to proper array.  Ignore this.
@@ -213,7 +211,7 @@ public class Parser {
 		try {
 			while (!((line = br.readLine()).equals(""))) {
 				//split into day, time, coursemin, coursemax
-				String[] lineArr = line.split(",");
+				String[] lineArr = line.replaceAll("\\s+"," ").split(",");
 				int index = getSlotIndex(false, lineArr[0], lineArr[1].trim());
 				addLabToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
@@ -235,7 +233,7 @@ public class Parser {
 		try {
 			String line;
 			while (!((line = br.readLine()).equals(""))) {
-				labsAndCourses.add(new Course(line));
+				labsAndCourses.add(new Course(line.replaceAll("\\s+"," ")));
 			}
 		}
 		catch (IOException e) {
@@ -252,7 +250,7 @@ public class Parser {
 		try {
 			String line;
 			while (!((line = br.readLine()).equals(""))) {
-				labsAndCourses.add(new Lab(line));
+				labsAndCourses.add(new Lab(line.replaceAll("\\s+"," ")));
 			}
 		}
 		catch (IOException e) {
@@ -269,7 +267,7 @@ public class Parser {
 		try {
 			String line;
 			while (!((line = br.readLine()).equals(""))) {
-				String[] input = line.split(",");
+				String[] input = line.replaceAll("\\s+"," ").split(",");
 				unwanted.add(new ParserClass(input[0], input[1], input[2]));
 			}
 		} catch (IOException e) {
@@ -286,7 +284,7 @@ public class Parser {
 		try {
 			String line;
 			while (!((line = br.readLine()).equals(""))) {
-				String[] input = line.split(",");
+				String[] input = line.replaceAll("\\s+"," ").split(",");
 				preferences.add(new Preference(input[0], input[1], input[2], input[3]));		
 			}
 		} catch (IOException e) {
@@ -338,7 +336,7 @@ public class Parser {
 		String line;
 		try {
 			while ((line = br.readLine()) != null && !(line.equals(""))) {
-					String[] input = line.split(",");
+					String[] input = line.replaceAll("\\s+"," ").split(",");
 					partassign.add(new ParserClass(input[0], input[1], input[2]));		
 				}
 		} catch (IOException e) {
@@ -361,7 +359,7 @@ public class Parser {
 			boolean isCourseB = false;
 			while (!((line = br.readLine()).equals(""))) {
 				//Split and get rid of extra whitespace.
-				String[] input = line.split("[ ]*,[ ]*");
+				String[] input = line.replaceAll("\\s+"," ").split("[ ]*,[ ]*");
 				//check if first class is not a lab
 				if (!input[0].contains("LAB") && !input[0].contains("TUT")) {
 					isCourseA = true;
@@ -551,6 +549,12 @@ public class Parser {
 	}
 	public Slot[] getFLabs () {
 		return F;
+	}
+	public int[] getInitialProblem() {
+		return initialProblem;
+	}
+	public String[] getIndexArray() {
+		return indexArray;
 	}
 	
 	//Generic class for Pair and Unwanted
