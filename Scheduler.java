@@ -43,6 +43,11 @@ public class Scheduler {
 		// TODO: put from lines 44-55 into a method so start() method doesn't look
 		//longer and uglier than it has to be.
 		initiateParsedValues(parser);
+		/*	TODO: while not have best solution:
+		-use hard constraints - make sure that the potential solutions going into the heap are valid
+		-calculate the eval values
+		-pass these values to scheduler heap to evaluate
+		*/
 		printCommands(cp);
 		printData();
 	}
