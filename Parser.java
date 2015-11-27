@@ -550,9 +550,44 @@ public class Parser {
 	public Slot[] getFLabs () {
 		return F;
 	}
+	
+	/**
+	 * Returns the initial problem as an integer array
+	 * 
+	 * in the following format
+	 * index 0: Depth		the index for the next class that needs to be scheduled it is
+	 * 						initially set to 2 + any classes that have been assigned already
+	 * 						from part assign
+	 * 
+	 * index 1: Eval		the value returned from eval
+	 * 
+	 * index i-j:			times for any classes that already been assigned a time from the part assign,
+	 * 						if there are no classes in part assign then this section does not exist
+	 * 
+	 * index k-l:			all contain 0 as the time for these classes has yet to be assigned
+	 * 
+	 * Note: classes are in the same order that they appear in the original document except that part assign come before
+	 * @return
+	 */
 	public int[] getInitialProblem() {
 		return initialProblem;
 	}
+	/**
+	 * Returns a string array that can be used as a class name index
+	 *
+	 * in the following format
+	 * index 0: 			left as null
+	 * 
+	 * index 1: 			left as null
+	 * 
+	 * index i-j:			names for any classes that already been assigned from the part assign,
+	 * 						if there are no classes in part assign then this section does not exist
+	 * 
+	 * index k-l:			then names of the remaining classes
+	 * 
+	 * Note: classes are in the same order that they appear in the original document except that part assign come before
+	 * @return
+	 */
 	public String[] getIndexArray() {
 		return indexArray;
 	}
