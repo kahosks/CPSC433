@@ -149,9 +149,17 @@ public class Parser {
 		indexArray[1] = "";
 		int i = 2;
 		
+		String day = "";
+		
 		// this loop puts the partial assign just after the depth/eval
 		for(ParserClass pClass: partassign) {
 			initialProblem[i] = pClass.getTimeInt();
+			day = pClass.getDay();
+			if(day.equals("TU")) {
+				initialProblem[i] += 2400;
+			} else if(day.equals("FR")) {
+				initialProblem[i] += 4800;
+			}
 			indexArray[i] = pClass.getIdentifier();
 			i++;
 		}
