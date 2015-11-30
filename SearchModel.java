@@ -1,11 +1,16 @@
 import java.util.*;
 public class SearchModel {
+	//Need to add notAssigned and index array to accommodate the new prob structure
+	ArrayList<Class> notAssigned;
+	String[] indexArray;
+	
 	ArrayList<Class> classesToSchedule;
 	private int pen_coursemin =0;
 	private int pen_secdiff=0;
 	private int pen_notpaired=0;
 	private int pen_pref=0;
 	private ArrayList<Parser.PairedCourseClass> pairs;
+	CommandParser commandParser;
 	
 	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<Parser.PairedCourseClass> pairs) {
 		this.pairs = pairs;
@@ -13,7 +18,7 @@ public class SearchModel {
 
 	}
 	SearchModel(ArrayList<Class> labsAndCourses) {
-		this.labsAndClasses = labsAndClasses;
+		//this.labsAndClasses = labsAndCourses;
 	}
 	/*Prob[] div(Prob p, int fBound) {
 		//loop structure
@@ -76,6 +81,7 @@ public class SearchModel {
 			return null;
 		}
 	}
+	/*Old version of div
 	//Check for syntax errors
 	public Prob[] div(Prob p) {
 		//loop structure
@@ -98,6 +104,91 @@ public class SearchModel {
 		}	
 		return (Prob[]) divList.toArray();
 	}
+	*/
+	
+	//New version of Div that uses the new structure of an array instead of a class
+	
+	/*
+	
+		@param prob[] an array that encapsulates the information inside a single problem instance
+	
+	*/
+	
+	public int[][] div(int[] prob) {
+		int numSlots;					//Used to determine how many prob.length arrays to return
+		int indexToScheduleClassLab;	//used to find the index in which we want to add a class or a lab
+		
+		Class classOrLabToSchedule;
+		
+		int[][] probArray = new int[numSlots][prob.length];
+		indexToScheduleClassLab = prob[0];
+		boolean isClass;		
+			
+		if (classOrLabToSchedule.isCourse()) {
+				//I don't have the actual numbers here these are just estimates if anyone has
+				//the actual numbers please update the code
+			int numMondaySlots = 11;
+			int numTuesdaySlots = 5; 
+			numSlots = numMondaySlots + numTuesdaySlots;
+			isClass = true;
+						
+		} else {
+			
+			//This case means we are scheduling a Lab
+			int numMondaySlots = 11;
+			int numTuesdaySlots = 11;
+			int numFridaySlots = 4;
+			numSlots = numMondaySlots + numTuesdaySlots + numFridaySlots;
+			isClass = false;			
+			
+		}
+		indexArray[indexToScheduleClassLab] = classOrLabToSchedule.getIdentifier();
+		
+		for (int i = 0; i < numSlots; i++) {
+			
+			probArray[i] = prob;	//Set the current index to be the old version of prob that has been sent in
+			probArray[i][indexToScheduleClassLab] = computeSlot(i, isClass);
+			
+			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
+			//handle that somehow
+			probArray[i][1] = eval(probArray[i][indexToScheduleClassLab]);
+			
+		}
+		
+		return probArray;
+			
+			
+		}
+		
+	//Not exactly sure how to handle what integer we use for a slot
+	private int computeSlot(int i, boolean isClass) {
+	
+	//actually should return a valid value here
+	return 0;
+	
+	}
+	
+	
+	private int eval(int[] p) {
+		int mod_Minfilled = commandParser.getMinfilled();
+		int mod_Pref = commandParser.getPref();
+		int mod_Pair = commandParser.getPair();
+		int mod_SecDiff = commandParser.getSecDiff();
+		
+		//below will only be commented so that it be uncommented once the soft constraints 
+		//have been integerated
+		
+		// int minFilled = mod_Minfilled * aClass.getMinFilledConstr(p);
+		// int pref = mod_Pref * aClass.getPrefConstr(p);
+		// int pair = mod_Par * aClass.getPairConstr(p);
+		// int secDiff = mod_SecDiff * aClass.getSecDiffConstr(p);
+		
+		//int eval = minFilled + pref + pair + secDiff;
+	}
+	}
+	
+	//OLD version of eval
+	/*
 	//Should work, but might be syntax errore
 	private int eval(Prob p) {
 		int eval = 0;
@@ -114,4 +205,4 @@ public class SearchModel {
 		//Check labsmin(s)
 		
 	}
-}
+}*/
