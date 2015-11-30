@@ -135,7 +135,7 @@ public class Parser {
 	}*/
 	
 	/**
-	 * Creates the initialProblem and indexArray, use get(need to create getters for these two)
+	 * Creates the initialProblem and indexArray
 	 */
 	
 	private void createInitialProbAndIndex() {
@@ -575,6 +575,9 @@ public class Parser {
 	 * index k-l:			all contain 0 as the time for these classes has yet to be assigned
 	 * 
 	 * Note: classes are in the same order that they appear in the original document except that part assign come before
+	 * Note: Times for classes are for Monday if they are < 2400
+	 * 								   Tuesday if they are > 2400 and < 4800
+	 * 								   Friday if they are > 4800
 	 * @return
 	 */
 	public int[] getInitialProblem() {
