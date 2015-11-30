@@ -1,7 +1,8 @@
 import java.util.*;
 public class SearchModel {
 	//Need to add notAssigned and index array to accommodate the new prob structure
-	ArrayList<Class> notAssigned;
+	
+	//ArrayList<Class> notAssigned; May not be needed depth could be used
 	String[] indexArray;
 	
 	ArrayList<Class> classesToSchedule;
