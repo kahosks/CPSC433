@@ -14,6 +14,8 @@ public class SchedulerHeap {
 	private ArrayList<Class> labsAndCourses;
 	private int[] bestSolution;
 	private int size = 100;
+	private int PROBLEM_LENGTH;
+	private int BAD_PROBLEM_SCORE = Integer.MAX_VALUE;
 	
 	/* Constructor with no arguments. */
 	public SchedulerHeap() {
@@ -25,10 +27,13 @@ public class SchedulerHeap {
 	 * @param prob	int array of the initial problem
 	 */
 	public SchedulerHeap(int[] prob, ArrayList<Class> labsAndCourses) {
-		//add all the prs to the heap
+
 		pq = new PriorityQueue<int[]>(prob.length, new ScheduleComparator());
 		pq.add(prob);
 		this.labsAndCourses = labsAndCourses;
+		PROBLEM_LENGTH = prob.length;
+		bestSolution = new int[PROBLEM_LENGTH];
+		bestSolution[1] = BAD_PROBLEM_SCORE;
 	}
 	/*
 	
@@ -49,6 +54,12 @@ public class SchedulerHeap {
 	while (!pq.isEmpty()) {
 		newProblems = sm.div(pq.poll());
 		for(int[] pr: newProblems) {
+			/* if the current problem has a depth greater than the length
+			 * of the array it is done, if it also has an eval greater than
+			 * the best it is the new best
+			 */
+			if ((PROBLEM_LENGTH < pr[0]) && (bestSolution[1] < pr[1]))
+				bestSolution = pr;			
 			pq.add(pr);
 		}
 	}
@@ -243,12 +254,12 @@ public class SchedulerHeap {
 		}		
 	}
 	
-	/**
-	 * Main function used to test what elements are in prob, how the queue sorts the elements,
-	 * and which Prob is returned off the top of the queue.
-	 * 
-	 * @param args	Command line arguments.
-	 */
+//	/**
+//	 * Main function used to test what elements are in prob, how the queue sorts the elements,
+//	 * and which Prob is returned off the top of the queue.
+//	 * 
+//	 * @param args	Command line arguments.
+//	 */
 //	public static void main (String[] args) {
 //		System.out.println("Schedular Heap");
 //		//Create elements to add to queue.
