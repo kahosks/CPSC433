@@ -9,27 +9,24 @@ import java.util.ArrayList;
  *
  */
 public class SchedulerHeap {
-	PriorityQueue<Prob> pq;
+	PriorityQueue<int[]> pq;
 	ScheduleComparator sc;
-	Prob bestSolution
+	int[] bestSolution;
 	int size = 100;
 	
 	/* Constructor with no arguments. */
 	public SchedulerHeap() {
 		//Default initial value.  Very likely want greater size.
-		pq = new PriorityQueue<Prob>(size, new ScheduleComparator);
+		pq = new PriorityQueue<int[]>(size, new ScheduleComparator());
 	}
 	/**
-	 * Constructor that takes a ArrayList of Probs as an argument
-	 * @param probs	ArrayList of Probs
+	 * Constructor that takes an int array of the initial problem as an argument
+	 * @param prob	int array of the initial problem
 	 */
-	public SchedulerHeap(ArrayList<Prob> probs) {
+	public SchedulerHeap(int[] prob) {
 		//add all the prs to the heap
-		pq = new PriorityQueue<Prob>(probs.size(), new ScheduleComparator()); 
-		for (Object o:probs.toArray()) {
-			Prob pr = (Prob) o;
-			pq.add(pr);
-		}
+		pq = new PriorityQueue<int[]>(prob.length, new ScheduleComparator()); 
+		pq.add(prob);
 	}
 	/*
 	
@@ -38,7 +35,7 @@ public class SchedulerHeap {
 	We might want to return an instance of Prob with this method OR have some way of getting the best
 	solution
 	*/
-	public void makeSchedule(Prob potentialSolutions[]){
+	public void makeSchedule(int[] potentialSolutions[]){
 	
 	if (pq.size() == 0) {
 		return; //Can't make the scheduler with nothing in the queue
@@ -50,13 +47,13 @@ public class SchedulerHeap {
 	
 	for (int i = 0; i < potentialSolutions.length; i++) {
 	
-		Prob pr = potentialSolutions[i];
+		int[] pr = potentialSolutions[i];
 		
 		//May cause issues compiling if it does then just assume that 
 		//Every one passes hard constraints till we can actually check hard constraints
 		
 		if (checkConstraints(pr)){
-			pr.add(pr);
+			pq.add(pr);
 		} 
 					
 		
@@ -129,9 +126,9 @@ public class SchedulerHeap {
 	 * Gets the next Prob element from the queue, i.e., the top element.
 	 * @return	Prob element.
 	 */
-	public Prob getNextProb() {
+	public int[] getNextProb() {
 		//Gets the top element.
-		Prob pr = pq.element();
+		int[] pr = pq.element();
 		
 		return pr;
 		
@@ -142,7 +139,7 @@ public class SchedulerHeap {
 	 * this function.
 	 * @param pr	Prob to be added to heap.
 	 */
-	public void addToHeap(Prob pr) {
+	public void addToHeap(int[] pr) {
 		/*
 		 * TODO: Need to check that pr is a valid solution (this is where HardConstraints comes in.
 		 * 		if pr is valid then add to queue, otherwise throw it away
@@ -153,7 +150,7 @@ public class SchedulerHeap {
 	 * Adds a ArrayList of Probs to the heap.
 	 * @param pr	ArrayList of probs to be added.
 	 */
-	public void addArrayListToHeap(ArrayList<Prob> pr) {
+	public void addArrayListToHeap(ArrayList<int[]> pr) {
 		pq.addAll(pr);
 	}
 	/**
@@ -205,58 +202,58 @@ public class SchedulerHeap {
 	 * 
 	 * @param args	Command line arguments.
 	 */
-	public static void main (String[] args) {
-		System.out.println("Schedular Heap");
-		//Create elements to add to queue.
-		Prob pr1 = new Prob(new Slot[5], new Slot[5], new Slot[5],new Slot[5]);
-		pr1.addEvalValue(10);
-		System.out.println("Added eval: " + pr1.getEvalValue() + " Inverse: " +pr1.getEvalInverse());
-		
-		Prob pr2 = new Prob(null, null, null,null);
-		pr2.addEvalValue(5);
-		System.out.println("Added eval: " + pr2.getEvalValue() + " Inverse: " +pr2.getEvalInverse());
-
-		Prob pr3 = new Prob(null, null, null,null);
-		pr3.addEvalValue(7);
-		System.out.println("Added eval: " + pr3.getEvalValue() + " Inverse: " +pr3.getEvalInverse());
-
-		Prob pr4 = new Prob(null, null, null,null);
-		pr4.addEvalValue(-4);
-		System.out.println("Added eval: " + pr4.getEvalValue() + " Inverse: " +pr4.getEvalInverse());
-		System.out.println();
-
-		//Create a ArrayList to pass to heap.
-		ArrayList<Prob> probs = new ArrayList<Prob>();
-		probs.add(pr1);
-		probs.add(pr2);
-		probs.add(pr3);
-		probs.add(pr4);
-		
-		SchedulerHeap sc = new SchedulerHeap(probs);
-		
-		//Print the queue to see contents.
-		sc.printQueue();
-		//Check which prob is at top of queue.
-		Prob ans = sc.getNextProb();
-		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
-		
-		Prob pr5 = new Prob(null, null,null, null);
-		pr5.addEvalValue(10);
-		System.out.println("Added eval: " + pr5.getEvalValue() + " Inverse: " +pr5.getEvalInverse());
-		Prob pr6 = new Prob(null, null,null, null);
-		pr6.addEvalValue(8);
-		System.out.println("Added eval: " + pr6.getEvalValue() + " Inverse: " +pr6.getEvalInverse());
-		Prob pr7 = new Prob(null, null, null,null);
-		pr7.addEvalValue(2);
-		System.out.println("Added eval: " + pr7.getEvalValue() + " Inverse: " +pr7.getEvalInverse());
-		ArrayList<Prob> p = new ArrayList<Prob>();
-		p.add(pr6);
-		p.add(pr7);
-		sc.addToHeap(pr5);
-		sc.addArrayListToHeap(p);
-		sc.printQueue();
-		ans = sc.getNextProb();
-		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
-		
-	}
+//	public static void main (String[] args) {
+//		System.out.println("Schedular Heap");
+//		//Create elements to add to queue.
+//		Prob pr1 = new Prob(new Slot[5], new Slot[5], new Slot[5],new Slot[5]);
+//		pr1.addEvalValue(10);
+//		System.out.println("Added eval: " + pr1.getEvalValue() + " Inverse: " +pr1.getEvalInverse());
+//		
+//		Prob pr2 = new Prob(null, null, null,null);
+//		pr2.addEvalValue(5);
+//		System.out.println("Added eval: " + pr2.getEvalValue() + " Inverse: " +pr2.getEvalInverse());
+//
+//		Prob pr3 = new Prob(null, null, null,null);
+//		pr3.addEvalValue(7);
+//		System.out.println("Added eval: " + pr3.getEvalValue() + " Inverse: " +pr3.getEvalInverse());
+//
+//		Prob pr4 = new Prob(null, null, null,null);
+//		pr4.addEvalValue(-4);
+//		System.out.println("Added eval: " + pr4.getEvalValue() + " Inverse: " +pr4.getEvalInverse());
+//		System.out.println();
+//
+//		//Create a ArrayList to pass to heap.
+//		ArrayList<Prob> probs = new ArrayList<Prob>();
+//		probs.add(pr1);
+//		probs.add(pr2);
+//		probs.add(pr3);
+//		probs.add(pr4);
+//		
+//		SchedulerHeap sc = new SchedulerHeap(probs);
+//		
+//		//Print the queue to see contents.
+//		sc.printQueue();
+//		//Check which prob is at top of queue.
+//		Prob ans = sc.getNextProb();
+//		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
+//		
+//		Prob pr5 = new Prob(null, null,null, null);
+//		pr5.addEvalValue(10);
+//		System.out.println("Added eval: " + pr5.getEvalValue() + " Inverse: " +pr5.getEvalInverse());
+//		Prob pr6 = new Prob(null, null,null, null);
+//		pr6.addEvalValue(8);
+//		System.out.println("Added eval: " + pr6.getEvalValue() + " Inverse: " +pr6.getEvalInverse());
+//		Prob pr7 = new Prob(null, null, null,null);
+//		pr7.addEvalValue(2);
+//		System.out.println("Added eval: " + pr7.getEvalValue() + " Inverse: " +pr7.getEvalInverse());
+//		ArrayList<Prob> p = new ArrayList<Prob>();
+//		p.add(pr6);
+//		p.add(pr7);
+//		sc.addToHeap(pr5);
+//		sc.addArrayListToHeap(p);
+//		sc.printQueue();
+//		ans = sc.getNextProb();
+//		System.out.println("\nEval: " + ans.getEvalValue() + " Inverse: " + ans.getEvalInverse());
+//		
+//	}
 }
