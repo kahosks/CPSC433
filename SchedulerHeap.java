@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class SchedulerHeap {
 	private PriorityQueue<int[]> pq;
-	private ScheduleComparator sc;
 	private ArrayList<Class> labsAndCourses;
 	private int[] bestSolution;
 	private int size = 100;
@@ -28,31 +27,32 @@ public class SchedulerHeap {
 	 */
 	public SchedulerHeap(int[] prob, ArrayList<Class> labsAndCourses) {
 
-		pq = new PriorityQueue<int[]>(prob.length, new ScheduleComparator());
+		pq = new PriorityQueue<int[]>(new ScheduleComparator());
 		pq.add(prob);
 		this.labsAndCourses = labsAndCourses;
 		PROBLEM_LENGTH = prob.length;
 		bestSolution = new int[PROBLEM_LENGTH];
 		bestSolution[1] = BAD_PROBLEM_SCORE;
 	}
-	/*
 	
-	Makes the schedule, contains the scheduler heap main loop
 	
-	We might want to return an instance of Prob with this method OR have some way of getting the best
-	solution
-	*/
+	/* Makes the schedule, contains the scheduler heap main loop
+	 *
+	 * We might want to return an instance of Prob with this method OR have some way of getting the best
+	 * solution
+	 */
+	
 	public void makeSchedule() throws SchedulerException{
 	
 	if (pq.size() == 0) {
 		throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 	}
 	
-	SearchModel sm = new SearchModel(labsAndCourses);
+	SearchModel searchModel = new SearchModel(labsAndCourses);
 	int[][] newProblems;
 	
 	while (!pq.isEmpty()) {
-		newProblems = sm.div(pq.poll());
+		newProblems = searchModel.div(pq.poll());
 		for(int[] pr: newProblems) {
 			/* if the current problem has a depth greater than the length
 			 * of the array it is done, if it also has an eval greater than
@@ -112,7 +112,7 @@ public class SchedulerHeap {
 		
 		if (HardConstraints.checkConstraints(p)) {
 			
-			//TODO add a check for the soft constraints
+			// add a check for the soft constraints
 			
 			//set the softConstraintEval to the prob soft constraint eval value
 			
@@ -148,56 +148,56 @@ public class SchedulerHeap {
 	*/
 	
 	}
-	/**
-	 * Gets the next Prob element from the queue, i.e., the top element.
-	 * @return	Prob element.
-	 */
-	public int[] getNextProb() {
-		//Gets the top element.
-		int[] pr = pq.element();
-		
-		return pr;
-		
-	}
-	/**
-	 * Adds a Prob to the heap.
-	 * Note: This is just the add() method in heap, so probably don't need 
-	 * this function.
-	 * @param pr	Prob to be added to heap.
-	 */
-	public void addToHeap(int[] pr) {
-		/*
-		 * TODO: Need to check that pr is a valid solution (this is where HardConstraints comes in.
-		 * 		if pr is valid then add to queue, otherwise throw it away
-		 */
-		pq.add(pr);
-	}
-	/**
-	 * Adds a ArrayList of Probs to the heap.
-	 * @param pr	ArrayList of probs to be added.
-	 */
-	public void addArrayListToHeap(ArrayList<int[]> pr) {
-		pq.addAll(pr);
-	}
-	/**
-	 * Deleted a Prob from heap. 
-	 * Note: We probably don't need this, because essentially it is just
-	 * the remove() method for heap.
-	 * @param pr	Prob to be deleted.
-	 */
-	public void deleteFromHeap(Prob pr) {
-		pq.remove(pr);
-	}
-	/**
-	 * Prints out all elements in the queue, plus their eval values and eval inverse values.  
-	 * Used for testing, can delete.
-	 */
-	public void printQueue() {
-		for (Object o:pq.toArray()) {
-			Prob p = (Prob) o;
-			System.out.println("P eval: " + p.getEvalValue() + " P inverse: " + p.getEvalInverse());
-		}
-	}
+//	/**
+//	 * Gets the next Prob element from the queue, i.e., the top element.
+//	 * @return	Prob element.
+//	 */
+//	public int[] getNextProb() {
+//		//Gets the top element.
+//		int[] pr = pq.element();
+//		
+//		return pr;
+//		
+//	}
+//	/**
+//	 * Adds a Prob to the heap.
+//	 * Note: This is just the add() method in heap, so probably don't need 
+//	 * this function.
+//	 * @param pr	Prob to be added to heap.
+//	 */
+//	public void addToHeap(int[] pr) {
+//		/*
+//		 *  Need to check that pr is a valid solution (this is where HardConstraints comes in.
+//		 * 		if pr is valid then add to queue, otherwise throw it away
+//		 */
+//		pq.add(pr);
+//	}
+//	/**
+//	 * Adds a ArrayList of Probs to the heap.
+//	 * @param pr	ArrayList of probs to be added.
+//	 */
+//	public void addArrayListToHeap(ArrayList<int[]> pr) {
+//		pq.addAll(pr);
+//	}
+//	/**
+//	 * Deleted a Prob from heap. 
+//	 * Note: We probably don't need this, because essentially it is just
+//	 * the remove() method for heap.
+//	 * @param pr	Prob to be deleted.
+//	 */
+//	public void deleteFromHeap(Prob pr) {
+//		pq.remove(pr);
+//	}
+//	/**
+//	 * Prints out all elements in the queue, plus their eval values and eval inverse values.  
+//	 * Used for testing, can delete.
+//	 */
+//	public void printQueue() {
+//		for (Object o:pq.toArray()) {
+//			Prob p = (Prob) o;
+//			System.out.println("P eval: " + p.getEvalValue() + " P inverse: " + p.getEvalInverse());
+//		}
+//	}
 //	/**
 //	 * Class ScheduleComparator which is used with the priority queue to sort objects.
 //	 * @author CPSC 433 Toshibe
