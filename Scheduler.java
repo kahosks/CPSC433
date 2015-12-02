@@ -8,6 +8,9 @@ import java.util.PriorityQueue;
  
 
 public class Scheduler {
+	// Scheduler Variables
+	private CommandParser cp;
+	
 	// Parser Variables
 	private String name;
 	private ArrayList<Class> labsAndCourses;
@@ -17,6 +20,7 @@ public class Scheduler {
 	private ArrayList<Parser.ParserClass> unwanted;
 	private ArrayList<Parser.ParserClass> partassign;
 	public static int totalCourses = 0;
+	private String[] indexArray;
 	
 	private Slot[] M;
 	private Slot[] TCourses;	//will have to put labs in Slot, possible in two Slot
@@ -46,12 +50,12 @@ public class Scheduler {
 	 * @throws SchedulerException	Throws if error occurs in code.
 	 */
 	public void start(String[] args) throws SchedulerException{
-		CommandParser cp = new CommandParser(args);
+		cp = new CommandParser(args);
 		Parser parser = new Parser(cp.getFilename());
 		parser.parse();
 		initiateParsedValues(parser);
-		
-		
+		heapIntializer(parser.getInitialProblem());
+		makeSchedule();
 		
 //		printCommands(cp);
 //		printData();
@@ -74,6 +78,7 @@ public class Scheduler {
 		TLabs = parser.getTLabs();
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
+		indexArray = parser.getIndexArray();
 	}
 	/*
 	 * Setup the heap (Priority Queue)
@@ -93,7 +98,7 @@ public class Scheduler {
 			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 		}
 		
-		SearchModel searchModel = new SearchModel(labsAndCourses);
+		SearchModel searchModel = new SearchModel(indexArray, cp);
 		int[][] newProblems;
 		
 		while (!pq.isEmpty()) {
