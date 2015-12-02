@@ -9,10 +9,11 @@ import java.util.ArrayList;
  *
  */
 public class SchedulerHeap {
-	PriorityQueue<int[]> pq;
-	ScheduleComparator sc;
-	int[] bestSolution;
-	int size = 100;
+	private PriorityQueue<int[]> pq;
+	private ScheduleComparator sc;
+	private ArrayList<Class> labsAndCourses;
+	private int[] bestSolution;
+	private int size = 100;
 	
 	/* Constructor with no arguments. */
 	public SchedulerHeap() {
@@ -23,10 +24,11 @@ public class SchedulerHeap {
 	 * Constructor that takes an int array of the initial problem as an argument
 	 * @param prob	int array of the initial problem
 	 */
-	public SchedulerHeap(int[] prob) {
+	public SchedulerHeap(int[] prob, ArrayList<Class> labsAndCourses) {
 		//add all the prs to the heap
-		pq = new PriorityQueue<int[]>(prob.length, new ScheduleComparator()); 
+		pq = new PriorityQueue<int[]>(prob.length, new ScheduleComparator());
 		pq.add(prob);
+		this.labsAndCourses = labsAndCourses;
 	}
 	/*
 	
@@ -35,29 +37,42 @@ public class SchedulerHeap {
 	We might want to return an instance of Prob with this method OR have some way of getting the best
 	solution
 	*/
-	public void makeSchedule(int[] potentialSolutions[]){
+	public void makeSchedule() throws SchedulerException{
 	
 	if (pq.size() == 0) {
-		return; //Can't make the scheduler with nothing in the queue
+		throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 	}
-	boolean status = true;
+	
+	SearchModel sm = new SearchModel(labsAndCourses);
+	int[][] newProblems;
+	
+	while (!pq.isEmpty()) {
+		newProblems = sm.div(pq.poll());
+		for(int[] pr: newProblems) {
+			pq.add(pr);
+		}
+	}
+	
+	
 	
 	//We might want a checker here that basically goes through potentialSolutions and
 	//removes any solutions that don't have all the classes in the schedule
 	
-	for (int i = 0; i < potentialSolutions.length; i++) {
 	
-		int[] pr = potentialSolutions[i];
-		
-		//May cause issues compiling if it does then just assume that 
-		//Every one passes hard constraints till we can actually check hard constraints
-		
-		if (checkConstraints(pr)){
-			pq.add(pr);
-		} 
-					
-		
-	}
+//	boolean status = true;
+//	for (int i = 0; i < potentialSolutions.length; i++) {
+//	
+//		int[] pr = potentialSolutions[i];
+//		
+//		//May cause issues compiling if it does then just assume that 
+//		//Every one passes hard constraints till we can actually check hard constraints
+//		
+//		if (checkConstraints(pr)){
+//			pq.add(pr);
+//		} 
+//					
+//		
+//	}
 	//The loop below is probably not the right loop..
 	//However it may have some uses somewhere
 	/*
@@ -172,26 +187,58 @@ public class SchedulerHeap {
 			System.out.println("P eval: " + p.getEvalValue() + " P inverse: " + p.getEvalInverse());
 		}
 	}
+//	/**
+//	 * Class ScheduleComparator which is used with the priority queue to sort objects.
+//	 * @author CPSC 433 Toshibe
+//	 *
+//	 */
+//	public class ScheduleComparator implements Comparator<Object> {
+//		//Returns 1 if p1's eval value is bigger than p2's.  Returns 0 if equal.  Returns -1 otherwise.
+//		
+//		/**
+//		 * Compares inverse eval-values of Probs.  Returns 1 is p1 > p2, 0 if equal, and -1 if p1 <p2.
+//		 */
+//		public int compare(Object p1, Object p2) {
+//			if (((Prob) p1).getEvalInverse() > ((Prob)p2).getEvalInverse()) {
+//				return 1;
+//			}
+//			else if (((Prob) p1).getEvalInverse() == ((Prob) p2).getEvalInverse()) {
+//				return 0;
+//			}
+//			else {
+//				return -1;
+//			}
+//		}		
+//	}
+	
 	/**
 	 * Class ScheduleComparator which is used with the priority queue to sort objects.
-	 * @author CPSC 433 Toshibe
 	 *
 	 */
-	public class ScheduleComparator implements Comparator<Object> {
-		//Returns 1 if p1's eval value is bigger than p2's.  Returns 0 if equal.  Returns -1 otherwise.
-		
-		/**
-		 * Compares inverse eval-values of Probs.  Returns 1 is p1 > p2, 0 if equal, and -1 if p1 <p2.
-		 */
-		public int compare(Object p1, Object p2) {
-			if (((Prob) p1).getEvalInverse() > ((Prob)p2).getEvalInverse()) {
+	public class ScheduleComparator implements Comparator<int[]> {
+		/*	Returns 1 if p1's depth value is greater than p2's.  
+		 * 	Returns -1 if p1's depth value is less than p2's.
+		 * 	
+		 * 	If p1 and p2 have equal Depth values then it will compare their eval values
+		 * 	Returns 1 if p1's eval is greater than p2's
+		 * 	Returns -1 if p1's eval is less than p2's
+		 * 	Returns 0 if p1 and p2 have the same eval
+		*/
+		public int compare(int[] p1, int[] p2) {
+			if (p1[0] > p2[0]) {
 				return 1;
 			}
-			else if (((Prob) p1).getEvalInverse() == ((Prob) p2).getEvalInverse()) {
-				return 0;
+			else if (p1[0] < p2[0]) {
+				return -1;
+			}
+			else if ((p1[0] == p2[0]) && ((p1[1] > p2[1]))) {
+				return 1;
+			}
+			else if ((p1[0] == p2[0]) && ((p1[1] < p2[1]))) {
+				return -1;
 			}
 			else {
-				return -1;
+				return 0;
 			}
 		}		
 	}
