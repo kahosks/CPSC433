@@ -2,24 +2,33 @@
  * Class Scheduler where everything will occur.
  * @author CPSC 433 Toshibe
  */
- import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
  
 
 public class Scheduler {
+	// Parser Variables
 	private String name;
 	private ArrayList<Class> labsAndCourses;
 	private ArrayList<Parser.PairedCourseClass> notCompatible;
 	private ArrayList<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
 	private ArrayList<Parser.Preference> preferences;
 	private ArrayList<Parser.ParserClass> unwanted;
-	private ArrayList<Parser.ParserClass>partassign;
-	//private String filename = "bob.txt";
-	public static int totalCourses =0 ;
+	private ArrayList<Parser.ParserClass> partassign;
+	public static int totalCourses = 0;
 	
 	private Slot[] M;
 	private Slot[] TCourses;	//will have to put labs in Slot, possible in two Slot
 	private Slot[] TLabs;
-	private Slot[] FLabs; 
+	private Slot[] FLabs;
+	
+	// Heap Variables
+	private PriorityQueue<int[]> pq;
+	private int[] bestSolution;
+	private int PROBLEM_LENGTH;
+	private int BAD_PROBLEM_SCORE = Integer.MAX_VALUE;
+
 	
 	/**
 	 * Empty constructor.
@@ -40,16 +49,12 @@ public class Scheduler {
 		CommandParser cp = new CommandParser(args);
 		Parser parser = new Parser(cp.getFilename());
 		parser.parse();
-		// TODO: put from lines 44-55 into a method so start() method doesn't look
-		//longer and uglier than it has to be.
 		initiateParsedValues(parser);
-		/*	TODO: while not have best solution:
-		-use hard constraints - make sure that the potential solutions going into the heap are valid
-		-calculate the eval values
-		-pass these values to scheduler heap to evaluate
-		*/
-		printCommands(cp);
-		printData();
+		
+		
+		
+//		printCommands(cp);
+//		printData();
 	}
 	/**
 	 * Method that gets the parsed values from the parser and 
@@ -70,7 +75,43 @@ public class Scheduler {
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
 	}
-	//prints the data.  Can delete, it's just for testing purposes and is
+	/*
+	 * Setup the heap (Priority Queue)
+	 */
+	public void heapIntializer(int[] prob) {
+
+		pq = new PriorityQueue<int[]>(new ScheduleComparator());
+		pq.add(prob);
+		PROBLEM_LENGTH = prob.length;
+		bestSolution = new int[PROBLEM_LENGTH];
+		bestSolution[1] = BAD_PROBLEM_SCORE;
+	}
+	
+	public void makeSchedule() throws SchedulerException{
+		
+		if (pq.size() == 0) {
+			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
+		}
+		
+		SearchModel searchModel = new SearchModel(labsAndCourses);
+		int[][] newProblems;
+		
+		while (!pq.isEmpty()) {
+			newProblems = searchModel.div(pq.poll());
+			for(int[] pr: newProblems) {
+				/* if the current problem has a depth greater than the length
+				 * of the array it is done, if it also has an eval greater than
+				 * the best it is the new best
+				 */
+				if ((PROBLEM_LENGTH < pr[0]) && (bestSolution[1] < pr[1]))
+					bestSolution = pr;			
+				pq.add(pr);
+			}
+		}
+	}
+	
+	
+		//prints the data.  Can delete, it's just for testing purposes and is
 		//super ugly.
 	public void printCommands(CommandParser cp) {
 		System.out.println("File: " + cp.getFilename());
@@ -79,64 +120,93 @@ public class Scheduler {
 		System.out.println("Pref: " + cp.getPref());
 		System.out.println("Secdiff: " + cp.getSecdiff());
 	}
-		public void printData() {
-			
-			System.out.println("Name:");
-			System.out.println(name);
-			System.out.println("Labs and courses");
-			for (Object c:labsAndCourses.toArray()) {
-				Class d = (Class) c;
-				System.out.println(d);
-			}
-			//TODO: Problem with pairs: does not print out full data for labs/tutorials.
-			System.out.println("NC");
-			for (Object c:notCompatible.toArray()) {
-				Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-				System.out.println(d);
-			}
-			//TODO: Problem with pairs: does not print out full data for labs/tutorials
-			System.out.println("pairs");
-			for (Object c:pairs.toArray()) {
-				Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-				System.out.println(d);
-			}
-			System.out.println("pref");
-			for (Object c:preferences.toArray()) {
-				Parser.Preference d = (Parser.Preference) c;
-				System.out.println(d);
-			}
-			System.out.println("unwanted");
-			for (Object c:unwanted.toArray()) {
-				Parser.ParserClass d = (Parser.ParserClass) c;
-				System.out.println(d);
-			}
-			System.out.println("partassign");
-			for (Object c:partassign.toArray()) {
-				Parser.ParserClass d = (Parser.ParserClass) c;
-				System.out.println(d);
-			}
-			System.out.println("Monday coursemin - coursemax - labmin - labmax:");
-			for (int i=0; i<M.length;i++) {
-				System.out.println(M[i].getTime() +" - " + M[i].getCoursemin()
-						+" - " + M[i].getCoursemax()  +  " - " + M[i].getLabmin()+ " - " + M[i].getLabmax());
-			}
-			System.out.println("Tuesday Courses coursemin - coursemax:");
-			for (int i=0; i<TCourses.length;i++) {
-				System.out.println(TCourses[i].getTime() +" - " + TCourses[i].getCoursemin() 
-						+ " - "+ TCourses[i].getCoursemax());
-			}
-			System.out.println("Tuesday Labs labmin - labmax:");
-			for (int i=0; i<TLabs.length;i++) {
-				System.out.println(TLabs[i].getTime()  +" - " + TLabs[i].getLabmin() + " - " + TLabs[i].getLabmax());
-			}
-			System.out.println("Friday coursemin:");
-			for (int i=0; i<FLabs.length;i++) {
-				System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
-						+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
-			}
+	public void printData() {
+		
+		System.out.println("Name:");
+		System.out.println(name);
+		System.out.println("Labs and courses");
+		for (Object c:labsAndCourses.toArray()) {
+			Class d = (Class) c;
+			System.out.println(d);
 		}
+		//TODO: Problem with pairs: does not print out full data for labs/tutorials.
+		System.out.println("NC");
+		for (Object c:notCompatible.toArray()) {
+			Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
+			System.out.println(d);
+		}
+		//TODO: Problem with pairs: does not print out full data for labs/tutorials
+		System.out.println("pairs");
+		for (Object c:pairs.toArray()) {
+			Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
+			System.out.println(d);
+		}
+		System.out.println("pref");
+		for (Object c:preferences.toArray()) {
+			Parser.Preference d = (Parser.Preference) c;
+			System.out.println(d);
+		}
+		System.out.println("unwanted");
+		for (Object c:unwanted.toArray()) {
+			Parser.ParserClass d = (Parser.ParserClass) c;
+			System.out.println(d);
+		}
+		System.out.println("partassign");
+		for (Object c:partassign.toArray()) {
+			Parser.ParserClass d = (Parser.ParserClass) c;
+			System.out.println(d);
+		}
+		System.out.println("Monday coursemin - coursemax - labmin - labmax:");
+		for (int i=0; i<M.length;i++) {
+			System.out.println(M[i].getTime() +" - " + M[i].getCoursemin()
+					+" - " + M[i].getCoursemax()  +  " - " + M[i].getLabmin()+ " - " + M[i].getLabmax());
+		}
+		System.out.println("Tuesday Courses coursemin - coursemax:");
+		for (int i=0; i<TCourses.length;i++) {
+			System.out.println(TCourses[i].getTime() +" - " + TCourses[i].getCoursemin() 
+					+ " - "+ TCourses[i].getCoursemax());
+		}
+		System.out.println("Tuesday Labs labmin - labmax:");
+		for (int i=0; i<TLabs.length;i++) {
+			System.out.println(TLabs[i].getTime()  +" - " + TLabs[i].getLabmin() + " - " + TLabs[i].getLabmax());
+		}
+		System.out.println("Friday coursemin:");
+		for (int i=0; i<FLabs.length;i++) {
+			System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
+					+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
+		}
+	}
 	public static void main(String[] args) throws SchedulerException{
 		Scheduler sch = new Scheduler();
 		sch.start(args);
 	}
+	
+	public class ScheduleComparator implements Comparator<int[]> {
+		/*	Returns 1 if p1's depth value is greater than p2's.  
+		 * 	Returns -1 if p1's depth value is less than p2's.
+		 * 	
+		 * 	If p1 and p2 have equal Depth values then it will compare their eval values
+		 * 	Returns 1 if p1's eval is greater than p2's
+		 * 	Returns -1 if p1's eval is less than p2's
+		 * 	Returns 0 if p1 and p2 have the same eval
+		*/
+		public int compare(int[] p1, int[] p2) {
+			if (p1[0] > p2[0]) {
+				return 1;
+			}
+			else if (p1[0] < p2[0]) {
+				return -1;
+			}
+			else if ((p1[0] == p2[0]) && ((p1[1] > p2[1]))) {
+				return 1;
+			}
+			else if ((p1[0] == p2[0]) && ((p1[1] < p2[1]))) {
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}		
+	}
+	
 }
