@@ -12,10 +12,13 @@ public class SearchModel {
 	private int pen_pref=0;
 	
 	private int numMondaySlots;
+	private int numMondayLabSlots;
 	private int numTuesdaySlots;
 	private int numTuesdayLabSlots;
 	private int numFridaySlots;
-	
+	private Slot[] courses;
+	private Slot[] labs;
+
 	
 	private ArrayList<Parser.PairedCourseClass> pairs;
 	CommandParser commandParser;
@@ -28,11 +31,13 @@ public class SearchModel {
 	SearchModel(ArrayList<Class> labsAndCourses) {
 		//this.labsAndClasses = labsAndCourses;
 	}
-	SearchModel(String[] aIndexArray, CommandParser commPar, int[] slotSizes,
-	 int[] classSlots, int[] labSlots ) {
+	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot ) {
 	
 		indexArray = aIndexArray;
 		commandParser = commPar;
+		courses = (Slot[]) aSlot[0];
+		labs = (Slot[]) aSlot[1];
+		
 	}
 	SearchModel(String[] aIndexArray, int[] slotSizes) {
 		
@@ -143,7 +148,6 @@ public class SearchModel {
 		
 		indexToScheduleClassLab = prob[0];
 		if (prob[0] >= prob.length) {
-			System.out.println("Prob[0] is " + prob[0]);
 			return null;
 		}
 		String identifier = indexArray[indexToScheduleClassLab];
@@ -153,12 +157,12 @@ public class SearchModel {
 		indexToScheduleClassLab = prob[0];
 		boolean isClass;		
 			
-		if (identifier.contains("TUT")) {
+		if (identifier.contains("TUT") || identifier.contains("LAB")) {
 				//I don't have the actual numbers here these are just estimates if anyone has
 				//the actual numbers please update the code
 			//int numMondaySlots = 11;
-			//int numTuesdaySlots = 5; 
-			numSlots = numMondaySlots + numTuesdayLabSlots + numFridaySlots;
+			//int numTuesdaySlots = 5;
+			numSlots = labs.length;
 			isClass = false;
 						
 		} else {
@@ -167,8 +171,9 @@ public class SearchModel {
 			//int numMondaySlots = 11;
 			//int numTuesdayLabsSlots = 11;
 			//int numFridaySlots = 4;
-			numSlots = numMondaySlots + numTuesdaySlots;
-			isClass = false;			
+
+			numSlots = courses.length;
+			isClass = true;			
 			
 		}
 		int[][] probArray = new int[numSlots][prob.length];
@@ -177,15 +182,18 @@ public class SearchModel {
 		for (int i = 0; i < numSlots; i++) {
 			
 			probArray[i] = prob.clone();	//Set the current index to be the old version of prob that has been sent in
-			probArray[i][indexToScheduleClassLab] = computeSlot(i, isClass);
-			
+			if (isClass) {
+				probArray[i][indexToScheduleClassLab] = courses[i].getDayTimeInt();
+			} else {
+				probArray[i][indexToScheduleClassLab] = labs[i].getDayTimeInt();
+			} 
+		
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
 			probArray[i][1] = eval(probArray[i]);
 			probArray[i][0] +=1;
 			
 		}
-		
 		return probArray;
 			
 			
@@ -194,13 +202,11 @@ public class SearchModel {
 	//Not exactly sure how to handle what integer we use for a slot
 	private int computeSlot(int i, boolean isClass) {
 	
-	if (isClass) {
-		return i+ 1;
-	} else {
-		return i + 1;
-			
-		
-	}
+		if (isClass) {
+			return i+ 1;
+		} else {
+			return i + 1;
+		}
 	
 	//actually should return a valid value here
 	//return 0;
