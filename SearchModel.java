@@ -187,7 +187,7 @@ public class SearchModel {
 		}
 		int[][] probArray = new int[numSlots][prob.length];
 		//indexArray[indexToScheduleClassLab] = classOrLabToSchedule.getIdentifier();
-		
+		int j = 0;
 		for (int i = 0; i < numSlots; i++) {
 			
 			probArray[i] = prob.clone();	//Set the current index to be the old version of prob that has been sent in
@@ -196,15 +196,25 @@ public class SearchModel {
 			} else {
 				probArray[i][indexToScheduleClassLab] = labs[i].getDayTimeInt();
 			} 
-		
+		 
+			
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
-			if(passConstr(prob, constr)) {
-				probArray[i][1] = eval(probArray[i]);
-				probArray[i][0] +=1;
+			if(passConstr(probArray[i], constr)) {
+				probArray[j] = probArray[i].clone();
+				probArray[j][1] = eval(probArray[i]);
+				probArray[j][0] +=1;
+				j++;
+			} else {
+				probArray[i][indexToScheduleClassLab] = 0;
 			}
 		}
-		return probArray;
+		int[][] newprobArray = new int[j][prob.length];
+		for (int i = 0; i < j; i++) {
+			newprobArray[i] = probArray[i];
+			
+		}
+		return newprobArray;
 	}
 	
 	
@@ -213,6 +223,7 @@ public class SearchModel {
 		boolean noFails = true;
 		for(int i = 0; noFails && (i<(hc.length-1)); i++){
 			noFails= hc[i].testHard(prob);
+			
 		}
 		return noFails;
 	}

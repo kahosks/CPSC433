@@ -10,7 +10,7 @@ public class CourseCourseConstraint extends Constraint{
 	
 	@Override
 	public boolean testHard(int[] prob){
-		if(prob[Slot1]==prob[Slot2]){
+		if(prob[Slot1]==prob[Slot2] && (prob[Slot1] != 0)){
 			return false;
 		}
 		return true;

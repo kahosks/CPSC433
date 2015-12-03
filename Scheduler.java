@@ -101,11 +101,14 @@ public class Scheduler {
 		if (pq.size() == 0) {
 			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 		}
-		
+		int k = 0;
+		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
+		out1.output();
 		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(), constr);
 		int[][] newProblems;
-		
-		while (!pq.isEmpty()) {
+		//System.out.println("Div");
+		boolean foundBest = false;
+		while (!pq.isEmpty() && !foundBest) {
 			newProblems = searchModel.div(pq.poll());
 			if(newProblems != null) {
 				for(int[] pr: newProblems) {
@@ -113,12 +116,28 @@ public class Scheduler {
 					 * of the array it is done, if it also has an eval greater than
 					 * the best it is the new best
 					 */
-					if ((PROBLEM_LENGTH < pr[0]) && (bestSolution[1] < pr[1]))
-						bestSolution = pr;			
-					pq.add(pr);
+					if ((PROBLEM_LENGTH <= pr[0]) && (bestSolution[1] > pr[1])){
+						bestSolution = pr;
+						OutputSchedule out2 = new OutputSchedule(indexArray, bestSolution);
+						foundBest = true;
+						break;
+					}
+					else if ((PROBLEM_LENGTH > pr[0])){			
+						pq.add(pr);
+						k++;
+						System.out.println(k);
+					}
+						
 				}
+				
 			}
+			if (foundBest)
+				break;
+			
 		}
+		OutputSchedule out = new OutputSchedule(indexArray, bestSolution);
+		out.output();
+		
 	}
 	
 	private Object[] prepSlotArrayForSearchModel() {

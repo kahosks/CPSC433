@@ -96,6 +96,7 @@ public class Parser {
 
 			br.close();
 			createInitialProbAndIndex();
+			makeConstraints();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SchedulerException("Error with parsing file." + e.getMessage()); 
@@ -120,7 +121,7 @@ public class Parser {
 					indexB=j;
 				}
 			}
-			System.out.println("About to make course "+ indexA + " "+ indexB );
+			
 			if(indexA>0 && indexB>0){
 				hcArrayList.add(new CourseCourseConstraint(indexA, indexB));
 			}

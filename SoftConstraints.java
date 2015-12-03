@@ -83,12 +83,12 @@ public abstract class SoftConstraints
 			{
 				if (cNum < courseMin)
 				{
-					penalty += (courseMin - cNum);
+					penalty += (courseMin - cNum); ///maybe penalty +=1
 					cNum = 0;
 				}
 				if (lNum < labMin)
 				{
-					penalty += (labMin - lNum);
+					penalty += (labMin - lNum);  // maybe penalty += 1
 					lNum = 0;
 				}
 				commit = false;
@@ -114,7 +114,7 @@ public abstract class SoftConstraints
 				{
 					if(time[x] != prefArray[z][1])
 					{
-						penalty++;
+						penalty++;// TODO make +=prefArray[z][2]
 					}
 				}
 			}
@@ -195,12 +195,12 @@ public abstract class SoftConstraints
 						checked[count] = index[x].substring(0,7);
 						count++;
 						course = index[x].substring(0,7);
-						secNum = Integer.parseint(index[x].substring(13,14));
+						secNum = Integer.parseInt(index[x].substring(13,14));
 						for(int y = x+1; y < time[0]; y++)
 						{
 							if (course.equals(index[y].substring(0,7)))
 							{
-								if(secNum != Integer.parseint(index[x].substring(13,14)))
+								if(secNum != Integer.parseInt(index[x].substring(13,14)))
 								{
 									if(time[x] == time[y])
 									{
