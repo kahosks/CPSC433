@@ -133,7 +133,7 @@ public abstract class SoftConstraints
 		int penalty = 0;
 		boolean afound, bfound = false;
 		
-		for (int z = 0; z < pairArray(size); z++)
+		for (int z = 0; z < pairArray.length; z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
