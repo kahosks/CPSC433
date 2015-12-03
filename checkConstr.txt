@@ -1,0 +1,11 @@
+To check all the constraints:
+	//Wont be just an example of how to run through the constraint set (should probably be in DIV)
+	public boolean passConstr(int[] prob, Constraint[] hc){
+		boolean noFails = true;
+		for(int i = 0; noFails && (i<(hc.length-1)); i++){
+			noFails= hc[i].testHard(prob);
+		}
+		return noFails;
+		}
+		
+		
