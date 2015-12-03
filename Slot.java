@@ -101,6 +101,24 @@ public class Slot {
 		return time;
 	}
 	
+	//Get time of slot as an int
+	public int getTimeInt() {
+		String temp = getHour() + getMinutes();
+		return Integer.parseInt(temp);
+	}
+	
+	//Get day/time offset of a slot as an int
+	public int getDayTimeInt() {
+		String temp = getHour() + getMinutes();
+		int tempInt = Integer.parseInt(temp);
+		if(day.equals("TU")) {
+			tempInt += 2400;
+		} else if(day.equals("FR")) {
+			tempInt += 4800;
+		}
+		return tempInt;
+	}
+	
 	//Get slot's hour.
 	public String getHour() {
 		String[] sp = time.split(":");
