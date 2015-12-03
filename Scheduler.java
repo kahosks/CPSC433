@@ -82,7 +82,7 @@ public class Scheduler {
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
 		indexArray = parser.getIndexArray();
-		constr = parser.getConstructor();
+		constr = parser.getHardConstraints();
 	}
 	/*
 	 * Setup the heap (Priority Queue)
