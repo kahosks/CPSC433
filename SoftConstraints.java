@@ -15,14 +15,14 @@ public abstract class SoftConstraints
 	*/
 	public SoftConstraints(String[] index)
 	{
-		this.index = Arrays.copyOf(index, index.size());
+		this.index = Arrays.copyOf(index, index.length);
 	}
 	
 	//Recieves the slot array
 	//I have no idea how I'm to recieve this, someone check this out
 	public SoftConstraints(Slot[] array)
 	{
-		slotArray = Arrays.copyOf(array, array.size());
+		slotArray = Arrays.copyOf(array, array.length);
 	}
 	
 	//Recieves the prefences array
@@ -51,7 +51,7 @@ public abstract class SoftConstraints
 		int labMin = 0;
 		int tim = 0;
 		boolean commit = false;
-		for (int y = 0; y < slotArray.size(); y++)
+		for (int y = 0; y < slotArray.length; y++)
 		{
 			courseMin = slotArray(y).getCourseMin();
 			labMin = slotArray(y).getLabMin();
@@ -70,7 +70,7 @@ public abstract class SoftConstraints
 						lNum++;
 						commit = true;
 					}
-					if (index[x].length > 14)
+					if (index[x].length() > 14)
 					{
 						if(index[x].substring(16,18).equals("TUT") || index[x].substring(16,18).equals("LAB"))
 						{
@@ -189,7 +189,7 @@ public abstract class SoftConstraints
 		{
 			if(x != 0 && x!= 1)
 			{
-				if(index[x].length > 14)
+				if(index[x].length() > 14)
 				{
 					if(!Arrays.asList(checked).contains(index[x].substring(0,7)))
 					{
