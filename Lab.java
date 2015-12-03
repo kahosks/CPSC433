@@ -9,7 +9,6 @@ public class Lab extends Class {
 		super(fullString);
 		String[] input = fullString.split("[ ]+");
 		if (input.length ==6) {
-			System.out.println("input len:" + input.length);
 			tutLab = input[4];
 			tutLabNum = input[5];
 		}
