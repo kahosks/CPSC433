@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.Arrays;
+
 public abstract class SoftConstraints
 {
 	//The below are all needed inputs, though how do we get them?
