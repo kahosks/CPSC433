@@ -546,27 +546,27 @@ public class Parser {
 	}
 	//methods that return arrays for M, T, or F.
 	public Slot[] getMO () {
-		Slot[] temp = null;
+		Slot[] temp = new Slot[0];
 		M.toArray(temp);
 		return temp;
 	}
 	public Slot[] getMLabs () {
-		Slot[] temp = null;
+		Slot[] temp = new Slot[0];
 		MLabs.toArray(temp);
 		return temp;
 	}
 	public Slot[] getTCourses () {
-		Slot[] temp = null;
+		Slot[] temp = new Slot[0];
 		TCourses.toArray(temp);
 		return temp;
 	}
 	public Slot[] getTLabs() {
-		Slot[] temp = null;
+		Slot[] temp = new Slot[0];
 		TLabs.toArray(temp);
 		return temp;
 	}
 	public Slot[] getFLabs () {
-		Slot[] temp = null;
+		Slot[] temp = new Slot[0];
 		F.toArray(temp);
 		return temp;
 	}
