@@ -18,7 +18,7 @@ public class SearchModel {
 	private int numFridaySlots;
 	private Slot[] courses;
 	private Slot[] labs;
-
+	private Constraint[] constr;
 	
 	private ArrayList<Parser.PairedCourseClass> pairs;
 	CommandParser commandParser;
@@ -37,6 +37,15 @@ public class SearchModel {
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
+		
+	}
+	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, Constraint[] aConstr ) {
+		
+		indexArray = aIndexArray;
+		commandParser = commPar;
+		courses = (Slot[]) aSlot[0];
+		labs = (Slot[]) aSlot[1];
+		constr = aConstr;
 		
 	}
 	SearchModel(String[] aIndexArray, int[] slotSizes) {
@@ -190,14 +199,23 @@ public class SearchModel {
 		
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
-			probArray[i][1] = eval(probArray[i]);
-			probArray[i][0] +=1;
-			
+			if(passConstr(prob, constr)) {
+				probArray[i][1] = eval(probArray[i]);
+				probArray[i][0] +=1;
+			}
 		}
 		return probArray;
-			
-			
+	}
+	
+	
+	//Wont be just an example of how to run through the constraint set (should probably be in DIV)
+	public boolean passConstr(int[] prob, Constraint[] hc){
+		boolean noFails = true;
+		for(int i = 0; noFails && (i<(hc.length-1)); i++){
+			noFails= hc[i].testHard(prob);
 		}
+		return noFails;
+	}
 		
 	//Not exactly sure how to handle what integer we use for a slot
 	private int computeSlot(int i, boolean isClass) {
