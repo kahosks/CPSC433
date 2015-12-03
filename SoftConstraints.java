@@ -106,7 +106,7 @@ public abstract class SoftConstraints
 	{
 		
 		int penalty = 0;
-		for (int z = 0; z < prefArray.size(); z++
+		for (int z = 0; z < prefArray.size(); z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
@@ -198,7 +198,7 @@ public abstract class SoftConstraints
 						secNum = Integer.parseint(index[x].substring(13,14));
 						for(int y = x+1; y < time[0]; y++)
 						{
-							if (course.equals(index[y].substring(0,7))
+							if (course.equals(index[y].substring(0,7)))
 							{
 								if(secNum != Integer.parseint(index[x].substring(13,14)))
 								{
