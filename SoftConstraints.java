@@ -3,23 +3,27 @@ import java.util.Arrays;
 public abstract class SoftConstraints
 {
 	//The below are all needed inputs, though how do we get them?
-	Slot[] slotArray;
-	Preferences[] prefArray;
-	Pairs[] pairArray;
+	Slot[] slotArray; //Array type?
+	Preferences[] prefArray; //Array type?
+	Pairs[] pairArray;//Array type
 	String[] course;
 	String[] index;
-	int[] slots;
 	
-	/*Constructors
+	/*Constructor
+	*-Condensed-
 	* May need to be changed depending how this will be instantiated
 	*/
-	public SoftConstraints(String[] index)
+	public SoftConstraints(String[] index, Slot[] slotArray, Preferences[] prefArray, Pairs[] pairArray)
 	{
 		this.index = Arrays.copyOf(index, index.length);
+		this.slotArray = Arrays.copyOf(slotArray, slotArray.length);
+		this.prefArray = Arrays.copyOf(prefArray, prefArray.length);
+		this.pairArray = Arrays.copyOf(pairArray, pairArray.length);
 	}
 	
-	//Recieves the slot array
-	//I have no idea how I'm to recieve this, someone check this out
+	/*Seperate constructors, may not need anymore
+	Recieves the slot array
+	I have no idea how I'm to recieve this, someone check this out
 	public SoftConstraints(Slot[] array)
 	{
 		slotArray = Arrays.copyOf(array, array.length);
@@ -38,6 +42,7 @@ public abstract class SoftConstraints
 	{
 		pairArray = Arrays.copyOf(array, array.size());
 	}
+	*/
 	
 	/*Get minimum course/lab penalty
 	* For now, input is the prob array
@@ -115,7 +120,7 @@ public abstract class SoftConstraints
 				{
 					if(time[x] != prefArray[z][1])
 					{
-						penalty++;// TODO make +=prefArray[z][2]
+						penalty += prefArray[z][2];// TODO make +=prefArray[z][2], the preference value should be placed there
 					}
 				}
 			}
