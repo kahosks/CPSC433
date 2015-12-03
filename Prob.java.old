@@ -1,3 +1,4 @@
+/*
 /**
  * Class Prob which is essentially a pr in Prob in an and-tree.  We might not need, could replace with
  * Slot[][], but Prob might just be nice for simplicity's sake.
@@ -184,3 +185,4 @@ public class Prob {
 	}
 	
 }
+*/
