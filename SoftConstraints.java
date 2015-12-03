@@ -3,7 +3,11 @@ public abstract class SoftConstraints
 {
 	int courseMin;
 	int labMin;
+	String[] course;
 	String[] index;
+	String[] a, b; //This one is ambiguous, how will the pair(a,b) be passed?
+	int[] slots;
+	
 	
 	/*
 	* Constructor
@@ -94,6 +98,8 @@ public abstract class SoftConstraints
 	public int getPair(int[] time , String a, String b)
 	{
 		int penalty = 0;
+		boolean afound, bfound = false;
+		
 		for (int x = 0; x < time[0]; x++)
 		{
 			if(x != 0 && x!= 1)
@@ -101,30 +107,33 @@ public abstract class SoftConstraints
 				if(index[x].substring(0,7).equals(a.substring(0,7)))
 				{
 					int aIndex = x;
+					afound = true;
 				}
 				if(index[x].substring(0,7).equals(b.substring(0,7)))
 				{
 					int bIndex = x;
+					bfound = true;
 				}
-			}
-		}
-		for (int x = 0; x < time[0]; x++)
-		{
-			if(x != 0 && x!= 1)
-			{
-				if(index[x].substring(0,7).equals(a.substring(0,7)))
+				if(afound && bfound)
 				{
-					if(time[x] != time[bIndex])
+					for (int y = x; y < time[0]; y++)
 					{
-						penalty++;
-					}	
-				}
-				if(index[x].substring(0,7).equals(b.substring(0,7)))
-				{
-					if(time[x] != time[aIndex])
-					{
-						penalty++;
-					}	
+						if(index[y].substring(0,7).equals(a.substring(0,7)))
+						{
+							if(time[y] != time[bIndex])
+							{
+								penalty++;
+							}	
+						}
+						if(index[x].substring(0,7).equals(b.substring(0,7)))
+						{
+							if(time[y] != time[aIndex])
+							{
+								penalty++;
+							}	
+						}
+					}
+					x = time[0];
 				}
 			}
 		}
