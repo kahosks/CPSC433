@@ -34,7 +34,7 @@ public class Parser {
 	
 	private int[] initialProblem;
 	private String[] indexArray;
-	
+	private Constraint[] hardConstraints;
 	/**
 	 * Constructor with String argument.
 	 * @param filename	String of name of file to read from.
@@ -100,6 +100,46 @@ public class Parser {
 			e.printStackTrace();
 			throw new SchedulerException("Error with parsing file." + e.getMessage()); 
 		}
+	}
+		
+	private void makeConstraints(){
+		ArrayList<Constraint> hcArrayList = new ArrayList<Constraint>();
+		//For each of the non-compatible course pairs
+		for(int i = 0; i<notCompatible.size();i++){
+			String firstName=notCompatible.get(i).a.toString().trim();
+			String secondName=notCompatible.get(i).b.toString().trim();
+			int indexA = 0;
+			int indexB = 0;
+
+			for (int j = 2;j< indexArray.length;j++){
+				String indexString = indexArray[j];
+				if(indexString.equalsIgnoreCase(firstName)){
+					indexA=j;
+				}
+				else if(indexString.equalsIgnoreCase(secondName)){
+					indexB=j;
+				}
+			}
+			System.out.println("About to make course "+ indexA + " "+ indexB );
+			if(indexA>0 && indexB>0){
+				hcArrayList.add(new CourseCourseConstraint(indexA, indexB));
+			}
+			else{
+				System.out.println("Error making notCompatibleConstraint");
+			}
+		}
+		/*System.out.println(Arrays.toString(indexArray));
+		System.out.println(Arrays.toString(initialProblem));
+		for (int i = 0; i<hcArrayList.size();i++){
+			System.out.println(hcArrayList.get(i));
+			System.out.println(i);
+		}*/
+		
+		
+		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
+	}
+	public Constraint[] getHardConstraints(){
+		return hardConstraints;
 	}
 	
 	/*private BufferedReader prepBufferedReader(BufferedReader br, String s) throws SchedulerException {
