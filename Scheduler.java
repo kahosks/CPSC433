@@ -21,6 +21,7 @@ public class Scheduler {
 	private ArrayList<Parser.ParserClass> partassign;
 	public static int totalCourses = 0;
 	private String[] indexArray;
+	private Constraint[] constr;
 	
 	private Slot[] M;
 	private Slot[] MLabs;
@@ -81,6 +82,7 @@ public class Scheduler {
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
 		indexArray = parser.getIndexArray();
+		constr = parser.getConstructor();
 	}
 	/*
 	 * Setup the heap (Priority Queue)
@@ -100,7 +102,7 @@ public class Scheduler {
 			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 		}
 		
-		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel());
+		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(), constr);
 		int[][] newProblems;
 		
 		while (!pq.isEmpty()) {
