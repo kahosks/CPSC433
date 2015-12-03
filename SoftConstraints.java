@@ -22,26 +22,26 @@ public abstract class SoftConstraints
 	}
 	
 	/*Seperate constructors, may not need anymore
-	Recieves the slot array
-	I have no idea how I'm to recieve this, someone check this out
-	public SoftConstraints(Slot[] array)
-	{
-		slotArray = Arrays.copyOf(array, array.length);
-	}
-	
-	//Recieves the prefences array
-	//I have no idea how I'm to recieve this, someone check this out
-	public SoftConstraints(Preferences[] array)
-	{
-		prefArray = Arrays.copyOf(array, array.size());
-	}
-	
-	//Recieves the pairs array
-	//I have no idea how I'm to recieve this, someone check this out
-	public SoftConstraints(Pairs[] array)
-	{
-		pairArray = Arrays.copyOf(array, array.size());
-	}
+	*Recieves the slot array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Slot[] array)
+	*{
+	*	slotArray = Arrays.copyOf(array, array.length);
+	*}
+	*
+	*Recieves the prefences array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Preferences[] array)
+	*{
+	*	prefArray = Arrays.copyOf(array, array.size());
+	*}
+	*
+	*Recieves the pairs array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Pairs[] array)
+	*{
+	*	pairArray = Arrays.copyOf(array, array.size());
+	*}
 	*/
 	
 	/*Get minimum course/lab penalty
