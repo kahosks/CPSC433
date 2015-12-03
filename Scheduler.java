@@ -23,6 +23,7 @@ public class Scheduler {
 	private String[] indexArray;
 	
 	private Slot[] M;
+	private Slot[] MLabs;
 	private Slot[] TCourses;	//will have to put labs in Slot, possible in two Slot
 	private Slot[] TLabs;
 	private Slot[] FLabs;
@@ -65,7 +66,7 @@ public class Scheduler {
 	 * stores them in their respected ArrayList.
 	 * @param parser	Parser that parses the input file.
 	 */
-	public void initiateParsedValues(Parser parser) {
+	private void initiateParsedValues(Parser parser) {
 		name = parser.getName();
 		labsAndCourses = parser.getLabsAndCourses();
 		notCompatible = parser.getNC();
@@ -73,7 +74,8 @@ public class Scheduler {
 		preferences = parser.getPreferences();
 		unwanted = parser.getUnwanted();
 		partassign = parser.getPartassign();
-		M = parser.getMO();
+		M = (Slot[])parser.getMO();
+		MLabs = parser.getMLabs();
 		TCourses = parser.getTCourses();
 		TLabs = parser.getTLabs();
 		FLabs = parser.getFLabs();
@@ -83,7 +85,7 @@ public class Scheduler {
 	/*
 	 * Setup the heap (Priority Queue)
 	 */
-	public void heapIntializer(int[] prob) {
+	private void heapIntializer(int[] prob) {
 
 		pq = new PriorityQueue<int[]>(new ScheduleComparator());
 		pq.add(prob);
@@ -92,13 +94,13 @@ public class Scheduler {
 		bestSolution[1] = BAD_PROBLEM_SCORE;
 	}
 	
-	public void makeSchedule() throws SchedulerException{
+	private void makeSchedule() throws SchedulerException{
 		
 		if (pq.size() == 0) {
 			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 		}
 		
-		SearchModel searchModel = new SearchModel(indexArray, cp);
+		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel());
 		int[][] newProblems;
 		
 		while (!pq.isEmpty()) {
@@ -115,10 +117,40 @@ public class Scheduler {
 		}
 	}
 	
+	private Object[] prepSlotArrayForSearchModel() {
+		Slot[] temp = new Slot[M.length + TCourses.length];
+		Object[] oArray = new Object[2];
+		int i;
+		
+		for (i = 0; i < M.length; i++) {
+			temp[i] = M[i];
+		}
+		for (int j = 0; j < TCourses.length; j++, i++) {
+			temp[i] = TCourses[j];
+		}
+		
+		oArray[0] = temp.clone();
+		
+		temp = new Slot[MLabs.length + TLabs.length + FLabs.length];
+		
+		for (i = 0; i < MLabs.length; i++) {
+			temp[i] = MLabs[i];
+		}
+		for (int j = 0; j < TLabs.length; j++, i++) {
+			temp[i] = TLabs[j];
+		}
+		for (int j = 0; j < FLabs.length; j++, i++) {
+			temp[i] = FLabs[j];
+		}
+		
+		oArray[1] = temp.clone();
+		
+		return oArray;
+	}
 	
 		//prints the data.  Can delete, it's just for testing purposes and is
 		//super ugly.
-	public void printCommands(CommandParser cp) {
+/*	public void printCommands(CommandParser cp) {
 		System.out.println("File: " + cp.getFilename());
 		System.out.println("minfilled: " + cp.getMinfilled());
 		System.out.println("Pair: " + cp.getPair());
@@ -179,7 +211,7 @@ public class Scheduler {
 		for (int i=0; i<FLabs.length;i++) {
 			System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
 					+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
-		}
+		}*/
 	}
 	public static void main(String[] args) throws SchedulerException{
 		Scheduler sch = new Scheduler();
