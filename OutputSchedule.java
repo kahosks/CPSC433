@@ -17,6 +17,7 @@ public class OutputSchedule {
 	private int[] courseTimes; 
 	private int eval;
 	private final int NAME = 0;
+	private final int EVAL_VAL = 1;
 	private final int DAY = 1;
 	private final int TIME = 2;
 	
@@ -28,7 +29,7 @@ public class OutputSchedule {
 	public OutputSchedule(String[] courseNames, int[] courseTimes) {
 		this.courseNames = courseNames;
 		this.courseTimes = courseTimes;
-		eval = courseTimes[1];
+		eval = courseTimes[EVAL_VAL];		//Get eval value from array
 	}
 
 	/**
