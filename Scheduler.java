@@ -41,7 +41,7 @@ public class Scheduler {
 	 *  have no arguments.
 	 */
 	public Scheduler() {
-
+		
 	}
 	/**
 	 * Method that, when called, will run through the whole code.
@@ -86,7 +86,7 @@ public class Scheduler {
 	 * Setup the heap (Priority Queue)
 	 */
 	private void heapIntializer(int[] prob) {
-
+		
 		pq = new PriorityQueue<int[]>(new ScheduleComparator());
 		pq.add(prob);
 		PROBLEM_LENGTH = prob.length;
@@ -105,14 +105,16 @@ public class Scheduler {
 		
 		while (!pq.isEmpty()) {
 			newProblems = searchModel.div(pq.poll());
-			for(int[] pr: newProblems) {
-				/* if the current problem has a depth greater than the length
-				 * of the array it is done, if it also has an eval greater than
-				 * the best it is the new best
-				 */
-				if ((PROBLEM_LENGTH < pr[0]) && (bestSolution[1] < pr[1]))
-					bestSolution = pr;			
-				pq.add(pr);
+			if(newProblems != null) {
+				for(int[] pr: newProblems) {
+					/* if the current problem has a depth greater than the length
+					 * of the array it is done, if it also has an eval greater than
+					 * the best it is the new best
+					 */
+					if ((PROBLEM_LENGTH < pr[0]) && (bestSolution[1] < pr[1]))
+						bestSolution = pr;			
+					pq.add(pr);
+				}
 			}
 		}
 	}
@@ -211,8 +213,8 @@ public class Scheduler {
 		for (int i=0; i<FLabs.length;i++) {
 			System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
 					+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
-		}*/
-	}
+		}
+	}*/
 	public static void main(String[] args) throws SchedulerException{
 		Scheduler sch = new Scheduler();
 		sch.start(args);
