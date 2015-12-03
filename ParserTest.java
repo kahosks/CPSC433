@@ -1,6 +1,3 @@
-import java.util.Vector;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ParserTest {
