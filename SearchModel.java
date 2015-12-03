@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+
 public class SearchModel {
 	//Need to add notAssigned and index array to accommodate the new prob structure
 	
