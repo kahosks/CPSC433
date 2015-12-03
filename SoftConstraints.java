@@ -48,16 +48,16 @@ public abstract class SoftConstraints
 		int lNum = 0;
 		int courseMin = 0;
 		int labMin = 0;
-		int time = 0;
+		int tim = 0;
 		boolean commit = false;
 		for (int y = 0; y < slotArray.size(); y++)
 		{
 			courseMin = slotArray(y).getCourseMin();
 			labMin = slotArray(y).getLabMin();
-			time = slotArray(y).getTimeInt();
+			tim = slotArray(y).getTimeInt();
 			for (int x = 2; x < time[0]; x++)
 			{
-				if (time == time[x])
+				if (tim == time[x])
 				{
 					if(index[x].substring(9,11).equals("LEC"))
 					{
@@ -155,6 +155,7 @@ public abstract class SoftConstraints
 							if(time[y] != time[bIndex])
 							{
 								penalty++;
+								afound = false;
 							}	
 						}
 						if(index[x].substring(0,7).equals(pairArray[z][1].substring(0,7)))
@@ -162,6 +163,7 @@ public abstract class SoftConstraints
 							if(time[y] != time[aIndex])
 							{
 								penalty++;
+								bfound = false;
 							}	
 						}
 					}
