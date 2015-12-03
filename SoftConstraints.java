@@ -1,115 +1,147 @@
 import java.util.*;
 public abstract class SoftConstraints
 {
-	int courseMin;
-	int labMin;
+	//The below are all needed inputs, though how do we get them?
+	Slot[] slotArray;
+	Preferences[] prefArray;
+	Pairs[] pairArray;
 	String[] course;
 	String[] index;
-	String[] a, b; //This one is ambiguous, how will the pair(a,b) be passed?
 	int[] slots;
 	
-	
-	/*
-	* Constructor
+	/*Constructors
+	* May need to be changed depending how this will be instantiated
 	*/
 	public SoftConstraints(String[] index)
 	{
 		this.index = Arrays.copyOf(index, index.size());
 	}
 	
+	//Recieves the slot array
+	//I have no idea how I'm to recieve this, someone check this out
+	public SoftConstraints(Slot[] array)
+	{
+		slotArray = Arrays.copyOf(array, array.size());
+	}
+	
+	//Recieves the prefences array
+	//I have no idea how I'm to recieve this, someone check this out
+	public SoftConstraints(Preferences[] array)
+	{
+		prefArray = Arrays.copyOf(array, array.size());
+	}
+	
+	//Recieves the pairs array
+	//I have no idea how I'm to recieve this, someone check this out
+	public SoftConstraints(Pairs[] array)
+	{
+		pairArray = Arrays.copyOf(array, array.size());
+	}
+	
 	/*Get minimum course/lab penalty
-	* For now, input is the prob array,
-	* the time slot to be checked, courseMin and labMin requirements of that time slot
+	* For now, input is the prob array
 	*/
-	public int getMinFilled(int[] time, int slot, int courseMin, int labMin)
+	public int getMinFilled(int[] time)
 	{
 		int penalty = 0;
 		int cNum = 0;
 		int lNum = 0;
-		for (int x = 0; x < time[0]; x++)
+		int courseMin = 0;
+		int labMin = 0;
+		int time = 0;
+		boolean commit = false;
+		for (int y = 0; y < slotArray.size(); y++)
 		{
-			if(x != 0 && x!= 1)
+			courseMin = slotArray(y).getCourseMin();
+			labMin = slotArray(y).getLabMin();
+			time = slotArray(y).getTimeInt();
+			for (int x = 2; x < time[0]; x++)
 			{
-				if(time[x] == slot)
+				if (time == time[x])
 				{
 					if(index[x].substring(9,11).equals("LEC"))
 					{
 						cNum++;
+						commit = true;
 					}
 					if(index[x].substring(9,11).equals("TUT") || index[x].substring(9,11).equals("LAB"))
 					{
 						lNum++;
+						commit = true;
 					}
 					if (index[x].length > 14)
 					{
 						if(index[x].substring(16,18).equals("TUT") || index[x].substring(16,18).equals("LAB"))
 						{
 							lNum++;
+							commit = true;
 						}
 					}
 				}
 			}
+			if (commit == true)
+			{
+				if (cNum < courseMin)
+				{
+					penalty += (courseMin - cNum);
+					cNum = 0;
+				}
+				if (lNum < labMin)
+				{
+					penalty += (labMin - lNum);
+					lNum = 0;
+				}
+				commit = false;
+			}
 		}
-		if (cNum < courseMin)
-		{
-			penalty += (courseMin - cNum);
-		}
-		if (lNum < labMin)
-		{
-			penalty += (labMin - lNum);
-		}
-		
 		return penalty;
 	}
 	
 	/*Get professor preference penalty
 	* For now, input is the prob array,
-	* as well as the array of the course half of the pair, and array of the time half of the pair.
-	* Indexes are assumed to be synchronous.
+	* list of pref(course/lab, time), assumes (string, time)?
 	* Will most likely need to be changed depending on the format proffessor preferences is given
 	*/
-	public int getPref(int[] time, String[] course, int[] slots)
+	public int getPref(int[] time)
 	{
+		
 		int penalty = 0;
-		for (int x = 0; x < time[0]; x++)
+		for (int z = 0; z < prefArray.size(); z++
 		{
-			if(x != 0 && x!= 1)
+			for (int x = 2; x < time[0]; x++)
 			{
-				for(int y = 0; y < slot.size(); y++);
+				if(index[x].equals(prefArray[z][0]))
 				{
-					if(index[x].equals(course[y]))
+					if(time[x] != prefArray[z][1])
 					{
-						if(time[x] != slots[y])
-						{
-							penalty++;
-						}
+						penalty++;
 					}
 				}
 			}
-		}	
+		}
 		return penalty;
 	}
 	
 	/*Get not paired penalty
 	* For now, input is the prob array,
-	* as well as the names of the two courses/labs as they may appear in the index array
+	* list of pair(a,b), assumes (string, string)
 	* Depending on format input, this would need to change
 	*/
-	public int getPair(int[] time , String a, String b)
+	public int getPair(int[] time)
 	{
 		int penalty = 0;
 		boolean afound, bfound = false;
 		
-		for (int x = 0; x < time[0]; x++)
+		for (int z = 0; z < pairArray(size); z++)
 		{
-			if(x != 0 && x!= 1)
+			for (int x = 2; x < time[0]; x++)
 			{
-				if(index[x].substring(0,7).equals(a.substring(0,7)))
+				if(index[x].substring(0,7).equals(pairArray[z][0].substring(0,7)))
 				{
 					int aIndex = x;
 					afound = true;
 				}
-				if(index[x].substring(0,7).equals(b.substring(0,7)))
+				if(index[x].substring(0,7).equals(pairArray[z][1].substring(0,7)))
 				{
 					int bIndex = x;
 					bfound = true;
@@ -118,14 +150,14 @@ public abstract class SoftConstraints
 				{
 					for (int y = x; y < time[0]; y++)
 					{
-						if(index[y].substring(0,7).equals(a.substring(0,7)))
+						if(index[y].substring(0,7).equals(pairArray[z][0].substring(0,7)))
 						{
 							if(time[y] != time[bIndex])
 							{
 								penalty++;
 							}	
 						}
-						if(index[x].substring(0,7).equals(b.substring(0,7)))
+						if(index[x].substring(0,7).equals(pairArray[z][1].substring(0,7)))
 						{
 							if(time[y] != time[aIndex])
 							{
