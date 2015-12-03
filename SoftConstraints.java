@@ -84,12 +84,12 @@ public abstract class SoftConstraints
 			{
 				if (cNum < courseMin)
 				{
-					penalty += (courseMin - cNum); ///maybe penalty +=1
+					penalty += (courseMin - cNum); ///maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
 					cNum = 0;
 				}
 				if (lNum < labMin)
 				{
-					penalty += (labMin - lNum);  // maybe penalty += 1
+					penalty += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
 					lNum = 0;
 				}
 				commit = false;
