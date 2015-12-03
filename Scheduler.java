@@ -56,6 +56,7 @@ public class Scheduler {
 		Parser parser = new Parser(cp.getFilename());
 		parser.parse();
 		initiateParsedValues(parser);
+		intializeConstraints();
 		heapIntializer(parser.getInitialProblem());
 		makeSchedule();
 		
@@ -94,6 +95,12 @@ public class Scheduler {
 		PROBLEM_LENGTH = prob.length;
 		bestSolution = new int[PROBLEM_LENGTH];
 		bestSolution[1] = BAD_PROBLEM_SCORE;
+	}
+	/*
+	 * Setup the Soft and Hard constraints so that they can be passed to the search model
+	 */
+	private void intializeConstraints() {
+		// TODO
 	}
 	
 	private void makeSchedule() throws SchedulerException{
