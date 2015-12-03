@@ -201,7 +201,7 @@ public class Parser {
 				//gets index of slot based on hour class begins
 				//int index = getSlotIndex(true, lineArr[0], lineArr[1].trim());
 				//add days to proper array.  Ignore this.
-				addCourseToDay(lineArr[0], lineArr[1], Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+				addCourseToDay(lineArr[0].trim(), lineArr[1].trim(), Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
 		} 
 		catch (IOException e) {
@@ -222,7 +222,7 @@ public class Parser {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.replaceAll("\\s+"," ").split(",");
 				//int index = getSlotIndex(false, lineArr[0], lineArr[1].trim());
-				addLabToDay(lineArr[0], lineArr[1], Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+				addLabToDay(lineArr[0].trim(), lineArr[1].trim(), Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}
 		}
 			catch (IOException e) {	
@@ -546,27 +546,27 @@ public class Parser {
 	}
 	//methods that return arrays for M, T, or F.
 	public Slot[] getMO () {
-		Slot[] temp = new Slot[0];
+		Slot[] temp = new Slot[M.size()];
 		M.toArray(temp);
 		return temp;
 	}
 	public Slot[] getMLabs () {
-		Slot[] temp = new Slot[0];
+		Slot[] temp = new Slot[MLabs.size()];
 		MLabs.toArray(temp);
 		return temp;
 	}
 	public Slot[] getTCourses () {
-		Slot[] temp = new Slot[0];
+		Slot[] temp = new Slot[TCourses.size()];
 		TCourses.toArray(temp);
 		return temp;
 	}
 	public Slot[] getTLabs() {
-		Slot[] temp = new Slot[0];
+		Slot[] temp = new Slot[TLabs.size()];
 		TLabs.toArray(temp);
 		return temp;
 	}
 	public Slot[] getFLabs () {
-		Slot[] temp = new Slot[0];
+		Slot[] temp = new Slot[F.size()];
 		F.toArray(temp);
 		return temp;
 	}
