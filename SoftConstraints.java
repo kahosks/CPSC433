@@ -1,10 +1,12 @@
 import java.util.*;
 public abstract class SoftConstraints
 {
+	int courseMin;
+	int labMin;
 	String[] index;
 	
-	/*Call this first, passing the index array
-	* This should probably also be called whenever the index array changes
+	/*
+	* Constructor
 	*/
 	public SoftConstraints(String[] index)
 	{
@@ -87,6 +89,7 @@ public abstract class SoftConstraints
 	/*Get not paired penalty
 	* For now, input is the prob array,
 	* as well as the names of the two courses/labs as they may appear in the index array
+	* Depending on format input, this would need to change
 	*/
 	public int getPair(int[] time , String a, String b)
 	{
@@ -129,7 +132,7 @@ public abstract class SoftConstraints
 	}
 	
 	/*Gets section same penalty
-	* For now, input is simple the problem array
+	* For now, input is simply the problem array
 	*/
 	public int getSecDiff(int[] time)
 	{
