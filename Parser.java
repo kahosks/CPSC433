@@ -19,10 +19,11 @@ public class Parser {
 	private BufferedReader top;
 	private String name;	//Name for name field.
 
-	private Slot[] M = initializeDay("MO", 13);	//Monday courses and labs array
-	private Slot[] TCourses = initializeTuesday();	//Tuesday courses array
-	private Slot[] TLabs = initializeDay("TU", 13);	//Tuesday labs array
-	private Slot[] F = initializeDay("FR", 13);	//Friday Labs array
+	private ArrayList<Slot> M = new ArrayList<Slot>();	//Monday courses array
+	private ArrayList<Slot> MLabs = new ArrayList<Slot>();	//Monday courses array
+	private ArrayList<Slot> TCourses = new ArrayList<Slot>();	//Tuesday courses array
+	private ArrayList<Slot> TLabs = new ArrayList<Slot>();	//Tuesday labs array
+	private ArrayList<Slot> F = new ArrayList<Slot>();	//Friday Labs array
 	
 	private ArrayList<Class> labsAndCourses = new ArrayList<Class>();		//hold labs and classes
 	private ArrayList<PairedCourseClass> notCompatible = new ArrayList<PairedCourseClass>(); 	//hold not compatible classes; see around line 333
@@ -198,9 +199,9 @@ public class Parser {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.replaceAll("\\s+"," ").split(",");
 				//gets index of slot based on hour class begins
-				int index = getSlotIndex(true, lineArr[0], lineArr[1].trim());
+				//int index = getSlotIndex(true, lineArr[0], lineArr[1].trim());
 				//add days to proper array.  Ignore this.
-				addCourseToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+				addCourseToDay(lineArr[0], lineArr[1], Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
 			}	
 		} 
 		catch (IOException e) {
@@ -220,14 +221,13 @@ public class Parser {
 			while (!((line = br.readLine()).equals(""))) {
 				//split into day, time, coursemin, coursemax
 				String[] lineArr = line.replaceAll("\\s+"," ").split(",");
-				int index = getSlotIndex(false, lineArr[0], lineArr[1].trim());
-				addLabToDay(lineArr[0], index, Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
-			}	
+				//int index = getSlotIndex(false, lineArr[0], lineArr[1].trim());
+				addLabToDay(lineArr[0], lineArr[1], Integer.parseInt(lineArr[2].trim()), Integer.parseInt(lineArr[3].trim()));
+			}
 		}
 			catch (IOException e) {	
 				throw new SchedulerException("Error: " + e.getMessage());
 			}
-			
 		}
 	
 
@@ -409,18 +409,16 @@ public class Parser {
 	 * @param coursemin		int of minimum courses
 	 * @throws SchedulerException	Thrown if unable to add information to day.
 	 */
-	private void addCourseToDay(String day, int index, int coursemax, int coursemin) throws SchedulerException {
+	private void addCourseToDay(String day, String time, int coursemax, int coursemin) throws SchedulerException {
+		Slot slot = new Slot(day, time);
+		slot.addCourseInfo(coursemin, coursemax);
 		switch(day) {
 		case "MO":
-			M[index].addCourseInfo(coursemin, coursemax);
+			M.add(slot);
 			break;
 		case "TU":
-			//need to fix for this
-			TCourses[index].addCourseInfo(coursemin, coursemax); 
+			TCourses.add(slot); 
 			break;	
-		case "FR":
-			F[index].addCourseInfo(coursemin, coursemax);
-			break;		
 		default:
 			throw new SchedulerException("Error: Course info not added to day. ");
 		}
@@ -434,72 +432,73 @@ public class Parser {
 	 * @param labmin	int of minimum labs.
 	 * @throws SchedulerException	Thrown if unable to add information to day.
 	 */
-	private void addLabToDay(String day, int index, int labmax, int labmin) throws SchedulerException {
+	private void addLabToDay(String day, String time, int labmax, int labmin) throws SchedulerException {
+		Slot slot = new Slot(day, time);
+		slot.addCourseInfo(labmin, labmax);
 		switch(day) {
 		case "MO":
-			M[index].addLabInfo(labmin,labmax);
+			MLabs.add(slot);
 			break;
 		case "TU":
-			TLabs[index].addLabInfo(labmin,labmax);
+			TLabs.add(slot);
 			break;
-			
 		case "FR":
-			F[index].addLabInfo(labmin, labmax);
+			F.add(slot);
 			break;
 			
 		default:
 			throw new SchedulerException("Error: lab info not added to day.");
 		}
 	}
-	//Initializes array of days in terms of slots.  We don't need to use this.
-	private Slot[] initializeDay(String day, int size) {
-		//new slot array.  This is assuming slots are one hour long.
-		//Will need separate implementation for courses on Tuesday.
-		Slot[] Slot = new Slot[size];
-		//Classes begin at 8 am 
-		int startHour = 8;
-		for (int i = 0; i < size; i++) {
-			//make time as a string
-			String timeString = startHour + ":00";
-			//add info to the slot.
-			Slot[i] = new Slot(day, timeString);
-			startHour++;
-		}
-		return Slot;
-	}
+//	//Initializes array of days in terms of slots.  We don't need to use this.
+//	private ArrayList<Slot> initializeDay(String day) {
+//		//new slot array.  This is assuming slots are one hour long.
+//		//Will need separate implementation for courses on Tuesday.
+//		ArrayList<Slot> Slot = new ArrayList<Slot>();
+//		//Classes begin at 8 am 
+//		int startHour = 8;
+//		for (int i = 0; i < size; i++) {
+//			//make time as a string
+//			String timeString = startHour + ":00";
+//			//add info to the slot.
+//			Slot.set(i, new Slot(day, timeString));
+//			startHour++;
+//		}
+//		return Slot;
+//	}
 	//Get index of slot in array.
-	private int getSlotIndex(boolean isTuesCourse, String day, String time) throws SchedulerException {
-		if (isTuesCourse && day.equals("TU")) {
-			return getTuesSlotIndex(time);
-		}
-		String[] hourMin = time.split(":");
-		int hour = Integer.parseInt(hourMin[0].trim());
-		return hour-8;
-	}
+//	private int getSlotIndex(boolean isTuesCourse, String day, String time) throws SchedulerException {
+//		if (isTuesCourse && day.equals("TU")) {
+//			return getTuesSlotIndex(time);
+//		}
+//		String[] hourMin = time.split(":");
+//		int hour = Integer.parseInt(hourMin[0].trim());
+//		return hour-8;
+//	}
 	//Returns an array of Slot based on day and time.  NOTE:  This does not account for Tuesday's 
 	// course times.  For that, can make a different array, or we can modify Tuesday to work with this
 	// array and have flags for overlaps and such.
-	public static Slot[] initializeTuesday() {
-		int size = 8;	// 13 because 21-8= 13 (end time - start time)
-		Slot[] Slot = new Slot[size];	//array of smpty Slot
-		int startHour = 8;	//8 because earliest class time is 8 am
-		for (int i = 0; i < size; i++) {
-			String timeString;
-			if (i % 2 == 0) {
-				//System.out.println("true");
-				timeString = startHour + ":00";
-			}
-			else {
-				//System.out.println("false");
-				timeString = startHour + ":30";
-				startHour++;
-			}
-			Slot[i] = new Slot("TU", timeString);	//add information to slot
-			startHour++;
-			
-		}
-		return Slot;
-	}
+//	public static ArrayList<Slot> initializeTuesday() {
+//		int size = 8;	// 13 because 21-8= 13 (end time - start time)
+//		ArrayList<Slot> Slot = new ArrayList<Slot>();	//array of smpty Slot
+//		int startHour = 8;	//8 because earliest class time is 8 am
+//		for (int i = 0; i < size; i++) {
+//			String timeString;
+//			if (i % 2 == 0) {
+//				//System.out.println("true");
+//				timeString = startHour + ":00";
+//			}
+//			else {
+//				//System.out.println("false");
+//				timeString = startHour + ":30";
+//				startHour++;
+//			}
+//			Slot.set(i, new Slot("TU", timeString));	//add information to slot
+//			startHour++;
+//			
+//		}
+//		return Slot;
+//	}
 	//Gets index of slot based on hour.  NOTE: Use this function when using an array/list of Slot
 	// based on days (ex. 3 arrays, one for MO, one for TU, one for FR, with array of Slot initialized
 	// based on time of day.
@@ -547,16 +546,19 @@ public class Parser {
 	}
 	//methods that return arrays for M, T, or F.
 	public Slot[] getMO () {
-		return M;
+		return ((Slot[])M.toArray());
+	}
+	public Slot[] getMLabs () {
+		return ((Slot[])MLabs.toArray());
 	}
 	public Slot[] getTCourses () {
-		return TCourses;
+		return ((Slot[])TCourses.toArray());
 	}
 	public Slot[] getTLabs() {
-		return TLabs;
+		return ((Slot[])TLabs.toArray());
 	}
 	public Slot[] getFLabs () {
-		return F;
+		return ((Slot[])F.toArray());
 	}
 	
 	/**
