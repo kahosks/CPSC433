@@ -50,4 +50,4 @@ CPSC 433 Checklist - Feel free to add to it!
 
     Output:
 
--TODO: Make sure there is a class/method that outputs the final solution.  The courses are to be printed to console in alphabetical order (can use String.compareTo() or equivalent)
+-TODO: Make sure there is a class/method that outputs the final solution.  The courses are to be printed to console in alphabetical order (can use String.compareTo() or equivalent) DONE!
