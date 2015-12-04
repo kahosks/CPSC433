@@ -137,45 +137,27 @@ public class SoftConstraints
 	public int getPair(int[] time)
 	{
 		int penalty = 0;
-		boolean afound = false, bfound = false;
 		
 		for (int z = 0; z < pairArray.size(); z++)
 		{
+			boolean afound = false, bfound = false;
 			for (int x = 2; x < time[0]; x++)
 			{
-				int aIndex = 0;
-				int bIndex = 0;
-				if(index[x].substring(0,7).equals(pairArray.get(z).a.getName()+" "+pairArray.get(z).a.getID()))
+				int aTime = 0;
+				int bTime = 0;
+				if(index[x].equals(pairArray.get(z).getFirstPair().getIdentifier()))
 				{
-					aIndex = x;
+					aTime = time[x];
 					afound = true;
 				}
-				if(index[x].substring(0,7).equals(pairArray.get(z).b.getName()+" "+pairArray.get(z).b.getID()))
+				if(index[x].equals(pairArray.get(z).getSecondPair().getIdentifier()))
 				{
-					bIndex = x;
+					bTime = time[x];
 					bfound = true;
 				}
-				if(afound && bfound)
+				if((afound && bfound) && (aTime != bTime))
 				{
-					for (int y = x; y < time[0]; y++)
-					{
-						if(index[y].substring(0,7).equals(pairArray.get(z).a.getName()+" "+pairArray.get(z).a.getID()))
-						{
-							if(time[y] != time[bIndex])
-							{
-								penalty++;
-								afound = false;
-							}	
-						}
-						if(index[x].substring(0,7).equals(pairArray.get(z).b.getName()+" "+pairArray.get(z).b.getID()))
-						{
-							if(time[y] != time[aIndex])
-							{
-								penalty++;
-								bfound = false;
-							}	
-						}
-					}
+					penalty++;
 					x = time[0];
 				}
 			}
