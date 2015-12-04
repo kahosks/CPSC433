@@ -21,10 +21,10 @@ public class SearchModel {
 	private Slot[] labs;
 	private Constraint[] constr;
 	
-	private ArrayList<Parser.PairedCourseClass> pairs;
+	private ArrayList<PairedCourseClass> pairs;
 	CommandParser commandParser;
 	
-	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<Parser.PairedCourseClass> pairs) {
+	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<PairedCourseClass> pairs) {
 		this.pairs = pairs;
 		this.classesToSchedule = classesToSchedule;
 
