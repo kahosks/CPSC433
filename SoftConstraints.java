@@ -1,10 +1,14 @@
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SoftConstraints
 {
 	Slot[] slotArray; //Not sure if defined correctly; assumes array of Slots class
-	ArrayList<Preference> prefArray; //Not sure if defined correctly; assumes array of Preference class
-	ArrayList<PairedCourseClass> pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
+	//Preference[] prefArray; //Not sure if defined correctly; assumes array of Preference class
+	//PairedCourseClass[] pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
+	ArrayList<Preference> prefArray;
+	ArrayList<PairedCourseClass> pairArray;
+	
 	String[] index; //the index array
 	
 	/*
@@ -15,13 +19,34 @@ public class SoftConstraints
 	 ArrayList<Preference> prefArray, ArrayList<PairedCourseClass> pairArray)
 	{
 		this.index = index;
-		
 		this.slotArray = slotArray;
 		this.prefArray = prefArray;
 		this.pairArray = pairArray;
-		
-		
 	}
+	
+	/*
+	*Seperate constructors, may not need anymore
+	*Recieves the slot array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Slot[] array)
+	*{
+	*	slotArray = Arrays.copyOf(array, array.length);
+	*}
+	*
+	*Recieves the prefences array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Preferences[] array)
+	*{
+	*	prefArray = Arrays.copyOf(array, array.size());
+	*}
+	*
+	*Recieves the pairs array
+	*I have no idea how I'm to recieve this, someone check this out
+	*public SoftConstraints(Pairs[] array)
+	*{
+	*	pairArray = Arrays.copyOf(array, array.size());
+	*}
+	*/
 	
 	/*
 	* Get minimum course/lab penalty
@@ -38,49 +63,53 @@ public class SoftConstraints
 		boolean commit = false;
 		for (int y = 0; y < slotArray.length; y++)
 		{
-			courseMin = slotArray[y].getCoursemin();
-			labMin = slotArray[y].getLabmin();
-			tim = slotArray[y].getTimeInt();
-			for (int x = 2; x < time[0]; x++)
-			{
-				if (tim == time[x])
+			if (slotArray[y] != null) {
+
+				courseMin = slotArray[y].getCoursemin();
+				labMin = slotArray[y].getLabmin();
+				tim = slotArray[y].getTimeInt();
+				for (int x = 2; x < time[0]; x++)
 				{
-					if(index[x].contains("LEC"))
+					if (tim == time[x])
 					{
-						cNum++;
-						commit = true;
-					}
-					if(index[x].contains("TUT") || index[x].contains("LAB"))
-					{
-						lNum++;
-						commit = true;
-					}
-					if (index[x].length() > 14)
-					{
-						if(index[x].contains("TUT") || index[x].contains("LAB"))
+						if(index[x].contains("LEC"))
+						{
+							cNum++;
+							commit = true;
+						}
+						if(index[x].contains("TUT")|| index[x].contains("LAB"))
 						{
 							lNum++;
 							commit = true;
 						}
+						if (index[x].length() > 14)
+						{
+							if(index[x].contains("TUT") || index[x].contains("LAB"))
+							{
+								lNum++;
+								commit = true;
+							}
+						}
 					}
 				}
-			}
-			if (commit == true)
-			{
-				if (cNum < courseMin)
+				if (commit == true)
 				{
-					penalty += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
-					cNum = 0;
+					if (cNum < courseMin)
+					{
+						penalty += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
+						cNum = 0;
+					}
+					if (lNum < labMin)
+					{
+						penalty += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
+						lNum = 0;
+					}
+					commit = false;
 				}
-				if (lNum < labMin)
-				{
-					penalty += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
-					lNum = 0;
-				}
-				commit = false;
 			}
 		}
 		return penalty;
+	
 	}
 	
 	/*
@@ -92,15 +121,15 @@ public class SoftConstraints
 	{
 		
 		int penalty = 0;
-		for (int z = 0; z < prefArray.length; z++)
+		for (int z = 0; z < prefArray.size(); z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
-				if(index[x].equals(prefArray[z].getIdentifier()))
+				if(index[x].equals(prefArray.get(z).getIdentifier()))
 				{
-					if(time[x] != prefArray[z].getTimeInt())
+					if(time[x] != prefArray.get(z).getTimeInt())
 					{
-						penalty += prefArray[z].getPrefValue();
+						penalty += prefArray.get(z).getPrefValue();
 					}
 				}
 			}
@@ -118,18 +147,18 @@ public class SoftConstraints
 		int penalty = 0;
 		boolean afound = false, bfound = false;
 		
-		for (int z = 0; z < pairArray.length; z++)
+		for (int z = 0; z < pairArray.size(); z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
 				int aIndex = 0;
 				int bIndex = 0;
-				if(index[x].substring(0,7).equals(pairArray[z].a.getName()+" "+pairArray[z].a.getID()))
+				if(index[x].substring(0,7).equals(pairArray.get(z).a.getName()+" "+pairArray.get(z).a.getID()))
 				{
 					aIndex = x;
 					afound = true;
 				}
-				if(index[x].substring(0,7).equals(pairArray[z].b.getName()+" "+pairArray[z].b.getID()))
+				if(index[x].substring(0,7).equals(pairArray.get(z).b.getName()+" "+pairArray.get(z).b.getID()))
 				{
 					bIndex = x;
 					bfound = true;
@@ -138,7 +167,7 @@ public class SoftConstraints
 				{
 					for (int y = x; y < time[0]; y++)
 					{
-						if(index[y].substring(0,7).equals(pairArray[z].a.getName()+" "+pairArray[z].a.getID()))
+						if(index[y].substring(0,7).equals(pairArray.get(z).a.getName()+" "+pairArray.get(z).a.getID()))
 						{
 							if(time[y] != time[bIndex])
 							{
@@ -146,7 +175,7 @@ public class SoftConstraints
 								afound = false;
 							}	
 						}
-						if(index[x].substring(0,7).equals(pairArray[z].b.getName()+" "+pairArray[z].b.getID()))
+						if(index[x].substring(0,7).equals(pairArray.get(z).b.getName()+" "+pairArray.get(z).b.getID()))
 						{
 							if(time[y] != time[aIndex])
 							{
