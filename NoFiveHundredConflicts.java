@@ -10,7 +10,7 @@ public class NoFiveHundredConflicts {
 		for (int i = 2; i < prob[0]; i++) {
 			String courseId = indexString[i];
 			String[] args = courseId.split(" ");
-			if (args[1].charAt(0) == '5')
+			if (args[1].charAt(0) == '5') {
 				arrayOf500.add( new Integer(prob[i]));
 			}
 		}
