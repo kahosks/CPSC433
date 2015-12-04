@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public abstract class SoftConstraints
+public class SoftConstraints
 {
 	Slot[] slotArray; //Not sure if defined correctly; assumes array of Slots class
 	Preference[] prefArray; //Not sure if defined correctly; assumes array of Preference class
@@ -11,7 +11,8 @@ public abstract class SoftConstraints
 	* Constructor -Condensed-
 	* May need to be changed depending how this will be instantiated
 	*/
-	public SoftConstraints(String[] index, Slot[] slotArray, Preference[] prefArray, PairCourseClass[] pairArray)
+	public SoftConstraints(String[] index, Slot[] slotArray,
+	 Preference[] prefArray, PairedCourseClass[] pairArray)
 	{
 		this.index = Arrays.copyOf(index, index.length);
 		this.slotArray = Arrays.copyOf(slotArray, slotArray.length);
@@ -58,9 +59,9 @@ public abstract class SoftConstraints
 		boolean commit = false;
 		for (int y = 0; y < slotArray.length; y++)
 		{
-			courseMin = slotArray(y).getCourseMin();
-			labMin = slotArray(y).getLabMin();
-			tim = slotArray(y).getTimeInt();
+			courseMin = slotArray[y].getCoursemin();
+			labMin = slotArray[y].getLabmin();
+			tim = slotArray[y].getTimeInt();
 			for (int x = 2; x < time[0]; x++)
 			{
 				if (tim == time[x])
@@ -89,7 +90,7 @@ public abstract class SoftConstraints
 			{
 				if (cNum < courseMin)
 				{
-					penalty += (courseMin - cNum); ///maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
+					penalty += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
 					cNum = 0;
 				}
 				if (lNum < labMin)
@@ -112,11 +113,11 @@ public abstract class SoftConstraints
 	{
 		
 		int penalty = 0;
-		for (int z = 0; z < prefArray.size(); z++)
+		for (int z = 0; z < prefArray.length; z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
-				if(index[x].equals(prefArray[z].getIdentifier())
+				if(index[x].equals(prefArray[z].getIdentifier()))
 				{
 					if(time[x] != prefArray[z].getTimeInt())
 					{
@@ -136,20 +137,22 @@ public abstract class SoftConstraints
 	public int getPair(int[] time)
 	{
 		int penalty = 0;
-		boolean afound, bfound = false;
+		boolean afound = false, bfound = false;
 		
 		for (int z = 0; z < pairArray.length; z++)
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
+				int aIndex = 0;
+				int bIndex = 0;
 				if(index[x].substring(0,7).equals(pairArray[z].a.getName()+" "+pairArray[z].a.getID()))
 				{
-					int aIndex = x;
+					aIndex = x;
 					afound = true;
 				}
 				if(index[x].substring(0,7).equals(pairArray[z].b.getName()+" "+pairArray[z].b.getID()))
 				{
-					int bIndex = x;
+					bIndex = x;
 					bfound = true;
 				}
 				if(afound && bfound)

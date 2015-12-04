@@ -102,7 +102,7 @@ public class Scheduler {
 	 */
 	private void initializeConstraints(Parser parser) {
 		// TODO initialize soft constraints
-		constr = parser.getHardConstraints(parser);
+		constr = parser.getHardConstraints();
 	}
 	
 	private void makeSchedule() throws SchedulerException{
@@ -113,7 +113,14 @@ public class Scheduler {
 		int k = 0;
 		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
 		out1.output();
-		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(), constr);
+		ArrayList<Slot> AllSlots = new ArrayList<Slot>();
+		
+		//Put all the slots intogether to pass to the soft constraints
+		Slot[] allSlots = prepSlotsForSoftContraints();
+		SoftConstraints softConstr = new SoftConstraints(indexArray, allSlots,
+		 (Preference[]) preferences.toArray(), (PairedCourseClass[]) pairs.toArray()); 
+		SearchModel searchModel = new SearchModel(indexArray, cp,
+		 prepSlotArrayForSearchModel(), constr, softConstr);
 		int[][] newProblems;
 		//System.out.println("Div");
 		boolean foundBest = false;
@@ -173,6 +180,35 @@ public class Scheduler {
 		
 		return oArray;
 	}
+	
+	private Slot[] prepSlotsForSoftContraints(){
+		
+		Slot[] ret = new Slot[M.length + TCourses.length +
+		 MLabs.length + TLabs.length + FLabs.length];
+		int i = 0;
+		
+		for (int j = i; j < M.length; j++) {
+			ret[j] = M[j];
+		}
+		
+		for (int j = i; j < TCourses.length; j++) {
+			ret[j] = TCourses[j];
+		}
+		
+		for (int j = i; j < MLabs.length; j++) {
+			ret[j] = MLabs[j];
+		}
+		
+		for (int j = i; j < TLabs.length; j++) {
+			ret[j] = TLabs[j];
+		}
+		
+		for (int j = i; j < FLabs.length;j++) {
+			ret[j] = FLabs[j];
+		}
+		return ret;
+	}
+	
 	
 		//prints the data.  Can delete, it's just for testing purposes and is
 		//super ugly.

@@ -23,6 +23,7 @@ public class SearchModel {
 	
 	private ArrayList<PairedCourseClass> pairs;
 	CommandParser commandParser;
+	SoftConstraints softConstraints;
 	
 	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<PairedCourseClass> pairs) {
 		this.pairs = pairs;
@@ -40,13 +41,15 @@ public class SearchModel {
 		labs = (Slot[]) aSlot[1];
 		
 	}
-	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, Constraint[] aConstr ) {
+	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, 
+	Constraint[] aConstr, SoftConstraints aSoftConstr ) {
 		
 		indexArray = aIndexArray;
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
 		constr = aConstr;
+		softConstraints = aSoftConstr;
 		
 	}
 	SearchModel(String[] aIndexArray, int[] slotSizes) {
@@ -253,10 +256,10 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		// int minFilled = mod_Minfilled * aClass.getMinFilledConstr(p);
-		// int pref = mod_Pref * aClass.getPrefConstr(p);
-		// int pair = mod_Par * aClass.getPairConstr(p);
-		// int secDiff = mod_SecDiff * aClass.getSecDiffConstr(p);
+		 int minFilled = softConstraints.getMinFilled(p);
+		 int pref = softConstraints.getPref(p);
+		 int pair = softConstraints.getPair(p);
+		 int secDiff = softConstraints.getSecDiff(p);
 		
 		//int eval = minFilled + pref + pair + secDiff;
 		return 0;
