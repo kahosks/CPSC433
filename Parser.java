@@ -107,6 +107,16 @@ public class Parser {
 			}
 
 			br.close();
+			for(int i = 0; i< labsAndCourses.size();i++){
+				if(labsAndCourses.get(i).getIdentifier().contains("CPSC 313")){
+					labsAndCourses.add(new Lab("CPSC 813 TUT 01"));
+					partassign.add(new ParserClass("CPSC 813 TUT 01", "TU", "18:00"));
+				}
+				else if(labsAndCourses.get(i).getIdentifier().contains("CPSC 413")){
+					labsAndCourses.add(new Lab("CPSC 913 TUT 01"));
+					partassign.add(new ParserClass("CPSC 913 TUT 01", "Tu", "18:00"));
+				}
+			}
 			createInitialProbAndIndex();
 			makeConstraints();
 		} catch (Exception e) {
