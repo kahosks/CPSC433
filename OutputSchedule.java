@@ -100,7 +100,10 @@ public class OutputSchedule {
 		strHour = "" + hour;
 		//If hour less than 1000, then will have hour as first index and other
 		//indices containing minutes.
-		if (hour < 1000) {
+		if (hour == 0) {
+			return ("0:00");
+		}
+		else if (hour < 1000) {
 			return (strHour.charAt(0) + ":" + strHour.substring(1));
 		}
 		//If >1000, have to get substring of two hour digits.
