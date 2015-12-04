@@ -1,10 +1,10 @@
 import java.util.Arrays;
-
+import java.util.ArrayList;
 public class SoftConstraints
 {
 	Slot[] slotArray; //Not sure if defined correctly; assumes array of Slots class
-	Preference[] prefArray; //Not sure if defined correctly; assumes array of Preference class
-	PairedCourseClass[] pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
+	ArrayList<Preference> prefArray; //Not sure if defined correctly; assumes array of Preference class
+	ArrayList<PairedCourseClass> pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
 	String[] index; //the index array
 	
 	/*
@@ -14,12 +14,12 @@ public class SoftConstraints
 	public SoftConstraints(String[] index, Slot[] slotArray,
 	 Object prefArray, Object pairArray)
 	{
-		this.index = Arrays.copyOf(index, index.length);
-		/*
-		this.slotArray = Arrays.copyOf(slotArray, slotArray.length);
-		this.prefArray = Arrays.copyOf(prefArray, prefArray.length);
-		this.pairArray = Arrays.copyOf(pairArray, pairArray.length);
-		*/
+		this.index = index;
+		
+		this.slotArray = slotArray;
+		this.prefArray = prefArray;
+		this.pairArray = pairArray;
+		
 		
 	}
 	
@@ -45,19 +45,19 @@ public class SoftConstraints
 			{
 				if (tim == time[x])
 				{
-					if(index[x].substring(9,11).equals("LEC"))
+					if(index[x].contains("LEC"))
 					{
 						cNum++;
 						commit = true;
 					}
-					if(index[x].substring(9,11).equals("TUT") || index[x].substring(9,11).equals("LAB"))
+					if(index[x].contains("TUT") || index[x].contains("LAB"))
 					{
 						lNum++;
 						commit = true;
 					}
 					if (index[x].length() > 14)
 					{
-						if(index[x].substring(16,18).equals("TUT") || index[x].substring(16,18).equals("LAB"))
+						if(index[x].contains("TUT") || index[x].contains("LAB"))
 						{
 							lNum++;
 							commit = true;
