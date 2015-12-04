@@ -20,7 +20,8 @@ public class CommandParser {
 	/**
 	 * Constructor that takes a string of arguments and gets the filename,
 	 * and eval values.
-	 * use -f _____, -m ____ ____, -pr ____, -pa ____ ____, -s ____ ____, (file, minfilled, preferences, pair, secdiff)
+	 * use -f _____, -m ____ ____, -pr ____, -pa ____ ____, -s ____ ____, (-f <filename> -m <minfilled> <minfilled_penalty> 
+	 * -pr <preferences> -pa <pair> <pair_penalty> -s <secdiff> <secdiff_penalty>)
 	 * where first blank is weight, and the second blank is penalty.
 	 * where the blanks should be an integer value.  If not, return an error.  Can be in any order.
 	 * @param args	Command line arguments that are to be parsed.
