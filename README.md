@@ -44,9 +44,9 @@ CPSC 433 Checklist - Feel free to add to it!
 
     Parser:
 
--Parses file properly
+-Parses file properly   DONE
 
--Able to put data into appropriate structures
+-Able to put data into appropriate structures   DONE
 
     Output:
 
