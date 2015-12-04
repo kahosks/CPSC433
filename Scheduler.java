@@ -160,8 +160,11 @@ public class Scheduler {
 	}
 	
 	private Object[] prepSlotArrayForSearchModel() {
-		Slot[] temp = new Slot[M.length + TCourses.length];
 		Object[] oArray = new Object[2];
+		
+		
+		// ############### use this if the slots given in the input file are the only valid slots ###############
+		/*Slot[] temp = new Slot[M.length + TCourses.length];
 		int i;
 		
 		for (i = 0; i < M.length; i++) {
@@ -185,7 +188,69 @@ public class Scheduler {
 			temp[i] = FLabs[j];
 		}
 		
-		oArray[1] = temp.clone();
+		oArray[1] = temp.clone();*/
+		// ############### ############### ############### ############### ############### ###############
+		
+		
+		
+		// ############### use this if all the slots are valid slots ###############
+		Slot[] courseSlots = new Slot[21];
+		Slot[] labSlots = new Slot[32];
+		
+		
+		for (int i = 800, j = 0; i < 2100; i+=100, j++) {
+			courseSlots[j] = labSlots[j] = new Slot("MO", Integer.toString(i));
+			labSlots[j+13] = new Slot("TU", Integer.toString(i));
+		}
+		// Monday labs and lectures
+		courseSlots[0] = labSlots[0] = new Slot("MO", "8:00");
+		courseSlots[1] = labSlots[1] = new Slot("MO", "9:00");
+		courseSlots[2] = labSlots[2] = new Slot("MO", "10:00");
+		courseSlots[3] = labSlots[3] = new Slot("MO", "11:00");
+		courseSlots[4] = labSlots[4] = new Slot("MO", "12:00");
+		courseSlots[5] = labSlots[5] = new Slot("MO", "13:00");
+		courseSlots[6] = labSlots[6] = new Slot("MO", "14:00");
+		courseSlots[7] = labSlots[7] = new Slot("MO", "15:00");
+		courseSlots[8] = labSlots[8] = new Slot("MO", "16:00");
+		courseSlots[9] = labSlots[9] = new Slot("MO", "17:00");
+		courseSlots[10] = labSlots[10] = new Slot("MO", "18:00");
+		courseSlots[11] = labSlots[11] = new Slot("MO", "19:00");
+		courseSlots[12] = labSlots[12] = new Slot("MO", "20:00");
+		// Tuesday lectures
+		courseSlots[13] = new Slot("TU", "8:00");
+		courseSlots[14] = new Slot("TU", "9:30");
+		courseSlots[15] = new Slot("TU", "11:00");
+		courseSlots[16] = new Slot("TU", "12:30");
+		courseSlots[17] = new Slot("TU", "14:00");
+		courseSlots[18] = new Slot("TU", "15:30");
+		courseSlots[19] = new Slot("TU", "17:00");
+		courseSlots[20] = new Slot("TU", "18:30");
+		// Tuesday labs
+		labSlots[13] = new Slot("TU", "8:00");
+		labSlots[14] = new Slot("TU", "9:00");
+		labSlots[15] = new Slot("TU", "10:00");
+		labSlots[16] = new Slot("TU", "11:00");
+		labSlots[17] = new Slot("TU", "12:00");
+		labSlots[18] = new Slot("TU", "13:00");
+		labSlots[19] = new Slot("TU", "14:00");
+		labSlots[20] = new Slot("TU", "15:00");
+		labSlots[21] = new Slot("TU", "16:00");
+		labSlots[22] = new Slot("TU", "17:00");
+		labSlots[23] = new Slot("TU", "18:00");
+		labSlots[24] = new Slot("TU", "19:00");
+		labSlots[25] = new Slot("TU", "20:00");
+		// Friday labs
+		labSlots[26] = new Slot("FR", "8:00");
+		labSlots[27] = new Slot("FR", "10:00");
+		labSlots[28] = new Slot("FR", "12:00");
+		labSlots[29] = new Slot("FR", "14:00");
+		labSlots[30] = new Slot("FR", "16:00");
+		labSlots[31] = new Slot("FR", "18:00");
+		
+		oArray[0] = courseSlots.clone();
+		oArray[1] = labSlots.clone();
+		
+		// ############### ############### ############### ############### ############### ###############
 		
 		return oArray;
 	}
