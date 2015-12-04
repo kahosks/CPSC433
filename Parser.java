@@ -129,53 +129,13 @@ public class Parser {
 				System.out.println("Error making notCompatibleConstraint");
 			}
 		}
-		/*System.out.println(Arrays.toString(indexArray));
-		System.out.println(Arrays.toString(initialProblem));
-		for (int i = 0; i<hcArrayList.size();i++){
-			System.out.println(hcArrayList.get(i));
-			System.out.println(i);
-		}*/
-		
-		
+
 		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
 	}
 	public Constraint[] getHardConstraints(){
 		return hardConstraints;
 	}
-	
-	/*private BufferedReader prepBufferedReader(BufferedReader br, String s) throws SchedulerException {
-		try {
-			while (!br.readLine().equals(s)) {}
-		}catch (NullPointerException e) {
-			throw new SchedulerException("End of file reached.  Unable to find \"" + s + "\"");
-		} catch (IOException e) {
-			throw new SchedulerException("Error: " + e.getMessage());
-		}
-		return br;
-	}*/
-	
-	
-	/**
-	 * Gets the name under the "Name:" header.
-	 * @param s	String read from file.
-	 * @throws SchedulerException	Thrown if there is an IOException
-	 */
-	/*private void checkName(BufferedReader br) throws SchedulerException {
-		try {
-			while (!(s.contains("Name:"))) {
-				//keep looping through file until "Name:"
-				br.readLine();
-			}
-			name = br.readLine().trim();
-		}
-		catch (NullPointerException e) {
-			throw new SchedulerException("End of file reached.  Unable to find \"Name\"");
-		}
-		catch (IOException e) {
-			throw new SchedulerException("Error: " + e.getMessage());
-		}
-	}*/
-	
+
 	/**
 	 * Creates the initialProblem and indexArray
 	 */
@@ -341,40 +301,7 @@ public class Parser {
 		}
 	
 	}	
-	/**
-	 * Gets the not compatible pairs and adds them as a tuple to the notCompatible ArrayList.
-	 * @param s	Line read from file.
-	 * @throws SchedulerException	Thrown if IOException occurs.
-	 *//*
 
-	private void initiateNC(BufferedReader br) throws SchedulerException {
-		//parse and add the pairs to notCompatible ArrayList	
-		try {
-			String line;
-			while (!((line = br.readLine()).equals(""))) {
-				
-			}
-		} catch (IOException e) {
-			throw new SchedulerException("Error: " + e.getMessage());
-		}
-	}
-	
-	*//**
-	 * Gets the pairs from the file and adds them to the pairs ArrayList.
-	 * @param s	Line read from file.
-	 * @throws SchedulerException	Thrown if IOException occurs.
-	 *//*
-	private void initiatePair(BufferedReader br) throws SchedulerException {
-		try {
-			String line;
-			while (!((line = br.readLine()).equals(""))) {
-				
-			}
-		} catch (IOException e) {
-			throw new SchedulerException("Error: " + e.getMessage());
-		}
-	}*/
-	
 	/**
 	 * Gets partassign values from file and stores in partassign ArrayList.
 	 * @param s	Line read from file.
@@ -491,55 +418,6 @@ public class Parser {
 			throw new SchedulerException("Error: lab info not added to day.");
 		}
 	}
-//	//Initializes array of days in terms of slots.  We don't need to use this.
-//	private ArrayList<Slot> initializeDay(String day) {
-//		//new slot array.  This is assuming slots are one hour long.
-//		//Will need separate implementation for courses on Tuesday.
-//		ArrayList<Slot> Slot = new ArrayList<Slot>();
-//		//Classes begin at 8 am 
-//		int startHour = 8;
-//		for (int i = 0; i < size; i++) {
-//			//make time as a string
-//			String timeString = startHour + ":00";
-//			//add info to the slot.
-//			Slot.set(i, new Slot(day, timeString));
-//			startHour++;
-//		}
-//		return Slot;
-//	}
-	//Get index of slot in array.
-//	private int getSlotIndex(boolean isTuesCourse, String day, String time) throws SchedulerException {
-//		if (isTuesCourse && day.equals("TU")) {
-//			return getTuesSlotIndex(time);
-//		}
-//		String[] hourMin = time.split(":");
-//		int hour = Integer.parseInt(hourMin[0].trim());
-//		return hour-8;
-//	}
-	//Returns an array of Slot based on day and time.  NOTE:  This does not account for Tuesday's 
-	// course times.  For that, can make a different array, or we can modify Tuesday to work with this
-	// array and have flags for overlaps and such.
-//	public static ArrayList<Slot> initializeTuesday() {
-//		int size = 8;	// 13 because 21-8= 13 (end time - start time)
-//		ArrayList<Slot> Slot = new ArrayList<Slot>();	//array of smpty Slot
-//		int startHour = 8;	//8 because earliest class time is 8 am
-//		for (int i = 0; i < size; i++) {
-//			String timeString;
-//			if (i % 2 == 0) {
-//				//System.out.println("true");
-//				timeString = startHour + ":00";
-//			}
-//			else {
-//				//System.out.println("false");
-//				timeString = startHour + ":30";
-//				startHour++;
-//			}
-//			Slot.set(i, new Slot("TU", timeString));	//add information to slot
-//			startHour++;
-//			
-//		}
-//		return Slot;
-//	}
 	//Gets index of slot based on hour.  NOTE: Use this function when using an array/list of Slot
 	// based on days (ex. 3 arrays, one for MO, one for TU, one for FR, with array of Slot initialized
 	// based on time of day.
