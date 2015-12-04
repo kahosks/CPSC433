@@ -123,23 +123,17 @@ public class Scheduler {
 					 * of the array it is done, if it also has an eval greater than
 					 * the best it is the new best
 					 */
-					if ((PROBLEM_LENGTH <= pr[0]) && (bestSolution[1] > pr[1])){
-						bestSolution = pr;
-						OutputSchedule out2 = new OutputSchedule(indexArray, bestSolution);
-						foundBest = true;
-						break;
+					 System.out.println("pr is " + pr[0]);
+					if (( pr[0] >= PROBLEM_LENGTH) &&   (bestSolution[1] > pr[1])){
+						bestSolution = pr;	
 					}
 					else if ((PROBLEM_LENGTH > pr[0])){			
 						pq.add(pr);
-						k++;
-						System.out.println(k);
 					}
 						
 				}
 				
 			}
-			if (foundBest)
-				break;
 			
 		}
 		OutputSchedule out = new OutputSchedule(indexArray, bestSolution);
@@ -259,16 +253,16 @@ public class Scheduler {
 		*/
 		public int compare(int[] p1, int[] p2) {
 			if (p1[0] > p2[0]) {
-				return 1;
+				return -1;
 			}
 			else if (p1[0] < p2[0]) {
-				return -1;
-			}
-			else if ((p1[0] == p2[0]) && ((p1[1] > p2[1]))) {
 				return 1;
 			}
-			else if ((p1[0] == p2[0]) && ((p1[1] < p2[1]))) {
+			else if ((p1[0] == p2[0]) && ((p1[1] > p2[1]))) {
 				return -1;
+			}
+			else if ((p1[0] == p2[0]) && ((p1[1] < p2[1]))) {
+				return 1;
 			}
 			else {
 				return 0;
