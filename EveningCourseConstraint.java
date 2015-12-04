@@ -8,7 +8,7 @@ public class EveningCourseConstraint extends Constraint{
 	
 	@Override
 	public boolean testHard(int[] node) {
-		if(node[index]%2400 >= 1800){return true;}//If the class starts after 6pm (1800)
+		if(node[index]%2400 >= 1800 || node[index] == 0){return true;}//If the class starts after 6pm (1800) (or is unscheduled){return true;}//If the class starts after 6pm (1800)
 		return false;
 	}
 
