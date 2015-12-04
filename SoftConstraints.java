@@ -69,7 +69,7 @@ public class SoftConstraints
 				courseMin = slotArray[y].getCoursemin();
 				labMin = slotArray[y].getLabmin();
 				tim = slotArray[y].getDayTimeInt(); //Actual time
-				System.out.println("courseMin " + courseMin + " labMin " + labMin);
+				
 				for (int x = 2; x < time[0]; x++)
 				{
 					if (tim == time[x])

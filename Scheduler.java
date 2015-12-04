@@ -123,11 +123,11 @@ public class Scheduler {
 		int[][] newProblems;
 		
 		boolean foundBest = false;
-		OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
+		//OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
 		while (!pq.isEmpty() && !foundBest) {
 			newProblems = searchModel.div(pq.poll());
 			if(newProblems != null) {
-				System.out.println(pq.size());
+				//System.out.println(pq.size());
 				for(int[] pr: newProblems) {
 					/* if the current problem has a depth greater than the length
 					 * of the array it is done, if it also has an eval greater than
@@ -135,11 +135,15 @@ public class Scheduler {
 					 */
 					// System.out.println("pr is " + pr[0]);
 					if (( pr[0] >= PROBLEM_LENGTH) &&   (bestSolution[1] > pr[1])){
-						bestSolution = pr.clone();	
-						System.out.println(Arrays.toString(pr));
-						out314.setCourseTimes(bestSolution);
+						bestSolution = pr.clone();
+						
+						OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
+						out314.output();
+						System.out.println("\n");	
+						//System.out.println(Arrays.toString(pr));
+						//out314.setCourseTimes(bestSolution);
 						//out314 = new OutputSchedule(indexArray, bestSolution);
-						out314.writeToFile();
+						//out314.writeToFile();
 					}
 					else if ((PROBLEM_LENGTH > pr[0])){			
 						pq.add(pr);

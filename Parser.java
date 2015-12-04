@@ -44,6 +44,9 @@ public class Parser {
 	private int[] initialProblem;
 	private String[] indexArray;
 	private Constraint[] hardConstraints;
+	private int[] fiveHundredIndexes;
+	private int[] courseIndexes;
+	private int[] labIndexes;
 	/**
 	 * Constructor with String argument.
 	 * @param filename	String of name of file to read from.
@@ -119,7 +122,7 @@ public class Parser {
 		//For each of the non-compatible course pairs
 		for(int i = 0; i<notCompatible.size();i++){
 			String firstName=notCompatible.get(i).getFirstPair().toString().trim();		//SWITCH TO getFirstPair()
-			String secondName=notCompatible.get(i).getFirstPair().trim();	//SWITCH TO getSecondPair()
+			String secondName=notCompatible.get(i).getSecondPair().toString().trim();	//SWITCH TO getSecondPair()
 			int indexA = 0;
 			int indexB = 0;
 
