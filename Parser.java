@@ -118,8 +118,8 @@ public class Parser {
 		ArrayList<Constraint> hcArrayList = new ArrayList<Constraint>();
 		//For each of the non-compatible course pairs
 		for(int i = 0; i<notCompatible.size();i++){
-			String firstName=notCompatible.get(i).a.toString().trim();		//SWITCH TO getFirstPair()
-			String secondName=notCompatible.get(i).b.toString().trim();	//SWITCH TO getSecondPair()
+			String firstName=notCompatible.get(i).getFirstPair().toString().trim();		//SWITCH TO getFirstPair()
+			String secondName=notCompatible.get(i).getFirstPair().trim();	//SWITCH TO getSecondPair()
 			int indexA = 0;
 			int indexB = 0;
 
