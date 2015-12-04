@@ -27,9 +27,9 @@ public class CommandParser {
 	 */
 	public CommandParser(String[] args) throws SchedulerException {
 	//if no arguments, just default weight of 1
-		if (args.length ==2 || args.length ==14) {
+		if (args.length ==2 || args.length ==13) {
 			filename = findFilename(args, find(args,"-f",1));
-			if (args.length == 14) {
+			if (args.length == 13) {
 				minfilled = getWeight(args, find(args,"-m",1));
 				pen_minfilled = getWeight(args, find(args,"-m",2));
 				pref = getWeight(args, find(args,"-pr",1));
