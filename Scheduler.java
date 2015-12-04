@@ -1,10 +1,14 @@
+package Scheduler;
 /**
  * Class Scheduler where everything will occur.
  * @author CPSC 433 Toshibe
  */
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+
+import HardConstraints.Constraint;
  
 
 public class Scheduler {
@@ -60,8 +64,6 @@ public class Scheduler {
 		heapIntializer(parser.getInitialProblem());
 		makeSchedule();
 		
-//		printCommands(cp);
-//		printData();
 	}
 	/**
 	 * Method that gets the parsed values from the parser and 
@@ -110,40 +112,38 @@ public class Scheduler {
 		if (pq.size() == 0) {
 			throw new SchedulerException("No starting problem."); //Can't make the scheduler with nothing in the queue
 		}
-		int k = 0;
 		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
 		out1.output();
-		ArrayList<Slot> AllSlots = new ArrayList<Slot>();
-		
-		//Put all the slots intogether to pass to the soft constraints
-		Slot[] allSlots = prepSlotsForSoftContraints();
-		SoftConstraints softConstr = new SoftConstraints(indexArray, allSlots,
-		 (Preference[]) preferences.toArray(), (PairedCourseClass[]) pairs.toArray()); 
-		SearchModel searchModel = new SearchModel(indexArray, cp,
-		 prepSlotArrayForSearchModel(), constr, softConstr);
+		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(), constr);
 		int[][] newProblems;
-		//System.out.println("Div");
+		
 		boolean foundBest = false;
 		while (!pq.isEmpty() && !foundBest) {
 			newProblems = searchModel.div(pq.poll());
 			if(newProblems != null) {
+				System.out.println(pq.size());
 				for(int[] pr: newProblems) {
 					/* if the current problem has a depth greater than the length
 					 * of the array it is done, if it also has an eval greater than
 					 * the best it is the new best
 					 */
-					 System.out.println("pr is " + pr[0]);
+					// System.out.println("pr is " + pr[0]);
 					if (( pr[0] >= PROBLEM_LENGTH) &&   (bestSolution[1] > pr[1])){
 						bestSolution = pr;	
+						System.out.println(Arrays.toString(pr));
 					}
 					else if ((PROBLEM_LENGTH > pr[0])){			
 						pq.add(pr);
 					}
+						
 				}
+				
 			}
+			
 		}
 		OutputSchedule out = new OutputSchedule(indexArray, bestSolution);
 		out.output();
+		
 	}
 	
 	private Object[] prepSlotArrayForSearchModel() {
@@ -177,34 +177,7 @@ public class Scheduler {
 		return oArray;
 	}
 	
-	private Slot[] prepSlotsForSoftContraints(){
-		
-		Slot[] ret = new Slot[M.length + TCourses.length +
-		 MLabs.length + TLabs.length + FLabs.length];
-		int i = 0;
-		
-		for (int j = i; j < M.length; j++) {
-			ret[j] = M[j];
-		}
-		
-		for (int j = i; j < TCourses.length; j++) {
-			ret[j] = TCourses[j];
-		}
-		
-		for (int j = i; j < MLabs.length; j++) {
-			ret[j] = MLabs[j];
-		}
-		
-		for (int j = i; j < TLabs.length; j++) {
-			ret[j] = TLabs[j];
-		}
-		
-		for (int j = i; j < FLabs.length;j++) {
-			ret[j] = FLabs[j];
-		}
-		return ret;
-	}
-	
+
 	public static void main(String[] args) throws SchedulerException{
 		Scheduler sch = new Scheduler();
 		sch.start(args);
