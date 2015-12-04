@@ -117,7 +117,7 @@ public class Parser {
 		
 
 
-	private void makeConstraints(){
+		private void makeConstraints(){
 		ArrayList<Constraint> hcArrayList = new ArrayList<Constraint>();
 		//For each of the non-compatible course pairs
 		for(int i = 0; i<notCompatible.size();i++){
@@ -204,12 +204,12 @@ public class Parser {
 			hcArrayList.add(new LabMaxConstraint(F.get(i)));
 		}
 		
-		//Now make tutorial course overlap
-		//Now make CPSC813/913
+
 		//Now tu @11 no lectures
 		for(int i=0; i<courseIndexes.length; i++){
 			hcArrayList.add(new CourseTimeConstraint(courseIndexes[i], 3500)); //No courses at 11 on Tu/Th
 		}
+		
 		//Evening courses
 		for(int i=0;i<labsAndCourses.size();i++){
 			Class posEvening = labsAndCourses.get(i);
@@ -241,17 +241,70 @@ public class Parser {
 		
 		FiveHundredConstraint.setFiveHundIndexes(fiveHundredIndexes);
 		hcArrayList.add(new FiveHundredConstraint());
-//TODO WORKING HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::		
-/*		//Make sure that labs and courses don't overlap
+		
+		//Make sure that labs and courses don't overlap
 		for(int i = 0; i < labIndexes.length; i++){
-			String labName = indexArray[labIndexes[i]];
-			String[] labNameComponents = labName.split(regex)
-			if(labName.contains("LEC")){
-				for(int j = 0; j<courseIndexes.length; j++){
-					String nameTest = indexArray[courseIndexes[j]];
+			String[] labNameComponents = indexArray[labIndexes[i]].split(" ");
+			//If the tutorial is assigned to a single 
+			if(labNameComponents.length>4){
+				//For every course
+				for(int j = 0; j<courseIndexes.length;j++){
+					//Get the name of the course at that index
+					String[] courseNameComponents = indexArray[courseIndexes[j]].split(" ");
+					if(labNameComponents[3].equalsIgnoreCase(courseNameComponents[3])&&labNameComponents[1].equalsIgnoreCase(courseNameComponents[1])&&labNameComponents[0].equalsIgnoreCase(courseNameComponents[0])){
+						hcArrayList.add(new OverlapConstraint(courseIndexes[j],labIndexes[i]));
+					}
+					
 				}
 			}
-		}*/
+			//Otherwise it is assigned to every section of the course
+			else{
+				for(int j = 0; j<courseIndexes.length;j++){
+					//Get the name of the course at that index
+					String[] courseNameComponents = indexArray[courseIndexes[j]].split(" ");
+					if(labNameComponents[1].equalsIgnoreCase(courseNameComponents[1])&&labNameComponents[0].equalsIgnoreCase(courseNameComponents[0])){
+						hcArrayList.add(new OverlapConstraint(courseIndexes[j],labIndexes[i]));
+					}
+					
+				}
+			}
+		}
+		//Make 813/913 overlap constraints
+		for(int i = 2; i<indexArray.length;i++){
+			if(indexArray[i].contains("CPSC 813")){
+				ArrayList<Integer> conflicts = new ArrayList<Integer>();
+				for(int j = 2; j<indexArray.length;j++){
+					if(indexArray[j].contains("313")){
+						conflicts.add(j);
+					}
+				}
+				
+				int[] conflictsArray = new int[conflicts.size()];
+				for(int k = 0; k<conflictsArray.length;k++){
+					conflictsArray[k]=conflicts.get(k);
+				}
+				//I is the 813/913 index
+				hcArrayList.add(new SpecialCoursesConstraint(i, conflictsArray));
+
+				
+			}
+			if(indexArray[i].contains("CPSC 913")){
+				ArrayList<Integer> conflicts = new ArrayList<Integer>();
+				for(int j = 2; j<indexArray.length;j++){
+					if(indexArray[j].contains("413")){
+						conflicts.add(j);
+					}
+				}
+				
+				int[] conflictsArray = new int[conflicts.size()];
+				for(int k = 0; k<conflictsArray.length;k++){
+					conflictsArray[k]=conflicts.get(k);
+				}
+				//I is the 813/913 index
+				hcArrayList.add(new SpecialCoursesConstraint(i, conflictsArray));
+
+			}
+		}
 		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
 		
 	}
