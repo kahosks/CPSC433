@@ -210,32 +210,32 @@ public class Scheduler {
 		return oArray;
 	}
 	
-		private Slot[] prepSlotsForSoftContraints(){
-		
+	private Slot[] prepSlotsForSoftContraints(){
+	
 		Slot[] ret = new Slot[M.length + TCourses.length +
 		 MLabs.length + TLabs.length + FLabs.length];
 		int i = 0;
 		
-		for (int j = i; j < M.length; j++) {
+		for (int j = 0; j < M.length; j++) {
 			ret[j] = M[j];
 		}
 		
-		for (int j = i; j < TCourses.length; j++) {
-			ret[j] = TCourses[j];
+		for (int j = 0; j < TCourses.length; j++) {
+			ret[j + M.length] = TCourses[j];
 		}
 		
-		for (int j = i; j < MLabs.length; j++) {
-			ret[j] = MLabs[j];
+		for (int j = 0; j < MLabs.length; j++) {
+			ret[j+ M.length + TCourses.length] = MLabs[j];
 		}
 		
-		for (int j = i; j < TLabs.length; j++) {
-			ret[j] = TLabs[j];
+		for (int j = 0; j < TLabs.length; j++) {
+			ret[j+ M.length + TCourses.length + MLabs.length] = TLabs[j];
 		}
 		
-		for (int j = i; j < FLabs.length;j++) {
-			ret[j] = FLabs[j];
+		for (int j = 0; j < FLabs.length;j++) {
+			ret[j + M.length + TCourses.length + MLabs.length + MLabs.length + TLabs.length] = FLabs[j];
 		}
-		return ret;
+	return ret;
 	}
 	
 
@@ -245,12 +245,12 @@ public class Scheduler {
 	}
 	
 	public class ScheduleComparator implements Comparator<int[]> {
-		/*	Returns 1 if p1's depth value is greater than p2's.  
-		 * 	Returns -1 if p1's depth value is less than p2's.
+		/*	Returns -1 if p1's depth value is greater than p2's.  
+		 * 	Returns 1 if p1's depth value is less than p2's.
 		 * 	
 		 * 	If p1 and p2 have equal Depth values then it will compare their eval values
-		 * 	Returns 1 if p1's eval is greater than p2's
-		 * 	Returns -1 if p1's eval is less than p2's
+		 * 	Returns -1 if p1's eval is greater than p2's
+		 * 	Returns 1 if p1's eval is less than p2's
 		 * 	Returns 0 if p1 and p2 have the same eval
 		*/
 		public int compare(int[] p1, int[] p2) {
