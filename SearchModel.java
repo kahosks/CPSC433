@@ -1,4 +1,8 @@
+package Scheduler;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import HardConstraints.Constraint;
 
 public class SearchModel {
 	//Need to add notAssigned and index array to accommodate the new prob structure
@@ -7,58 +11,41 @@ public class SearchModel {
 	String[] indexArray;
 	
 	ArrayList<Class> classesToSchedule;
-	//private int pen_coursemin =0;
-	//private int pen_secdiff=0;
-	//private int pen_notpaired=0;
-	//private int pen_pref=0;
-	private int weight_coursemin = 1;
-	private int weight_secdiff = 1;
-	private int weight_notpaired = 1;
-	private int weight_pref = 1;
+	private int pen_coursemin =0;
+	private int pen_secdiff=0;
+	private int pen_notpaired=0;
+	private int pen_pref=0;
 	
-	private int numMondaySlots;
+	//Does any of this matter? we know the 
+/*	private int numMondaySlots;
 	private int numMondayLabSlots;
 	private int numTuesdaySlots;
 	private int numTuesdayLabSlots;
-	private int numFridaySlots;
+	private int numFridaySlots;*/
 	private Slot[] courses;
 	private Slot[] labs;
 	private Constraint[] constr;
 	
-	private ArrayList<PairedCourseClass> pairs;
-	CommandParser commandParser;
-	SoftConstraints softConstraints;
+	private CommandParser commandParser;
 	
-	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<PairedCourseClass> pairs) {
-		this.pairs = pairs;
-		this.classesToSchedule = classesToSchedule;
 
-	}
-	SearchModel(ArrayList<Class> labsAndCourses) {
-		//this.labsAndClasses = labsAndCourses;
-	}
+
 	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot ) {
-	
 		indexArray = aIndexArray;
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
-		getWeights(commPar);
-		
 	}
-	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, 
-	Constraint[] aConstr, SoftConstraints aSoftConstr ) {
+	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, Constraint[] aConstr ) {
 		
 		indexArray = aIndexArray;
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
 		constr = aConstr;
-		softConstraints = aSoftConstr;
-		getWeights(commPar);
 		
 	}
-	SearchModel(String[] aIndexArray, int[] slotSizes) {
+/*	SearchModel(String[] aIndexArray, int[] slotSizes) {
 		
 		indexArray = aIndexArray;
 		numMondaySlots = slotSizes[0];
@@ -66,101 +53,7 @@ public class SearchModel {
 		numTuesdayLabSlots = slotSizes[2];
 		numFridaySlots = slotSizes[3];
 	}
-	/*Prob[] div(Prob p, int fBound) {
-		//loop structure
-		
-		//Figure out what classes are already in prob
-		ArrayList<Prob> divList;
-		labsAndClasses.removeAll(p.getclassesScheduled());
-		
-		Slot[][] slots = prob.getDays();
-		
-		//Sorry about the weird naming...
-		for (Slot[] s_1:slots){
-			 for (Slot s_actual:s_1) {
-				 copyProb = new Prob(p);
-				 
-				 //copyProb.add(); Fix this up once Prob has been finalized, use 
-				 //s_actual
-				 
-				 
-				 
-				 divList.add(copyProb);
-			 }
-		}
-		
-		
-		
-		
-		return divList.toArray();
-	}
-	
-	private int eval(CommandParser commPar, Prob p) {
-		int eval = 0;
-		
-		for (Slot[] s_1:slots) {
-			for (Slot s_actual:s_1) {
-				
-			}
-		}
-		//Check coursmin(s)
-		//Check labsmin(s)
-		
-		//Check proffessor preferences
-		
-		// 
-		
-		return 0;	
-	}
-	
-	*/
-
-	public Prob[] checkValidAndDiv(Prob p) {
-		HardConstraints hc =  new CourseMax();
-		if (hc.checkAllHardConstraints(p)) {
-			//p.setEvalValue(eval(p));
-			//eval -> check that it is better or equal to the bound value
-			//div
-			//return div(p);
-			return null;
-		}
-		else {
-			return null;
-		}
-	}
-	/*Old version of div
-	//Check for syntax errors
-	public Prob[] div(Prob p) {
-		//loop structure
-		Prob copyProb;
-		//Figure out what classes are already in prob
-		ArrayList<Prob> divList = new ArrayList<Prob>();
-		classesToSchedule.removeAll(p.getClassesScheduled());
-		
-		Slot[][] slots = p.getDays();
-		
-		//Sorry about the weird naming...
-		for (Slot[] sl:slots){
-			 for (Slot s_actual:sl) {
-				 copyProb = new Prob(p);
-				 
-				 //copyProb.add(); //Fix this up once Prob has been finalized, use 
-				 //s_actual
-				 divList.add(copyProb);
-			 }
-		}	
-		return (Prob[]) divList.toArray();
-	}
-	*/
-	
-	//New version of Div that uses the new structure of an array instead of a class
-	
-	/*
-	
-		@param prob[] an array that encapsulates the information inside a single problem instance
-	
-	*/
-	
+*/
 	public int[][] div(int[] prob) {
 		int numSlots;					//Used to determine how many prob.length arrays to return
 		int indexToScheduleClassLab;	//used to find the index in which we want to add a class or a lab
@@ -198,6 +91,7 @@ public class SearchModel {
 		int[][] probArray = new int[numSlots][prob.length];
 		//indexArray[indexToScheduleClassLab] = classOrLabToSchedule.getIdentifier();
 		int j = 0;
+		prob[0]+=1;
 		for (int i = 0; i < numSlots; i++) {
 			
 			probArray[i] = prob.clone();	//Set the current index to be the old version of prob that has been sent in
@@ -210,7 +104,6 @@ public class SearchModel {
 			
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
-			probArray[j][0] +=1;
 			if(passConstr(probArray[i], constr)) {
 				probArray[j] = probArray[i].clone();
 				probArray[j][1] = eval(probArray[i]);
@@ -227,44 +120,24 @@ public class SearchModel {
 		return newprobArray;
 	}
 	
-	
-	//Wont be just an example of how to run through the constraint set (should probably be in DIV)
-	public boolean passConstr(int[] prob, Constraint[] hc){
+	/**
+	 * Tests an instance of a problem on a set of hard constraints
+	 * @param prob: the problem being tested
+	 * @param hc: the set of hard constraints being tested
+	 * @return boolean true if all constraints passed, false otherwise
+	 */
+	private boolean passConstr(int[] prob, Constraint[] hc){
 		boolean noFails = true;
-		for(int i = 0; noFails && (i<(hc.length-1)); i++){
+		for(int i = 0; noFails && (i<hc.length); i++){
 			noFails= hc[i].testHard(prob);
+/*			if(!noFails){
+				System.out.println("Threw away prob"+hc[i]);
+			}*/
 			
 		}
 		return noFails;
 	}
 		
-	//Not exactly sure how to handle what integer we use for a slot
-	private int computeSlot(int i, boolean isClass) {
-	
-		if (isClass) {
-			return i+ 1;
-		} else {
-			return i + 1;
-		}
-	
-	//actually should return a valid value here
-	//return 0;
-	
-	}
-	/**
-	 * Gets the weights and penalty values from CommandParser.
-	 */ 
-	private void getWeights(CommandParser cp) {
-	//	pen_coursemin = cp.getPenMinfilled();
-		weight_coursemin= cp.getMinfilled() * cp.getPenMinFilled();
-		weight_pref = cp.getPref();
-	//	pen_notpaired = cp.getPenPair();
-		weight_notpaired = cp.getPair() * cp.getPenPair();
-	//	pen_secdiff = cp.getPenSecdiff();
-		weight_secdiff = cp.getSecdiff() * cp.getPenSecdiff();
-		
-	}
-	
 	private int eval(int[] p) {
 		//int mod_Minfilled = commandParser.getMinfilled();
 		//int mod_Pref = commandParser.getPref();
@@ -274,60 +147,14 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		 int minFilled = softConstraints.getMinFilled(p) * weight_coursemin;
-		 int pref = softConstraints.getPref(p) * weight_pref;
-		 int pair = softConstraints.getPair(p) * weight_notpaired;
-		 int secDiff = softConstraints.getSecDiff(p) * weight_secdiff;
+		// int minFilled = mod_Minfilled * aClass.getMinFilledConstr(p);
+		// int pref = mod_Pref * aClass.getPrefConstr(p);
+		// int pair = mod_Par * aClass.getPairConstr(p);
+		// int secDiff = mod_SecDiff * aClass.getSecDiffConstr(p);
 		
 		//int eval = minFilled + pref + pair + secDiff;
-		return minFilled + pref + pair + secDiff;
-	}
-	//For testing
-	public static void main(String[] args) {
-		int[] prob = { 2 ,0, 0,0}; //Monday has 3 slots,  TuesdayLab has 2 slots
-		String[] classes = {"", "","CPSC 433 LEC 01", "SENG 311 LEC 01 TUT 01"};
-		int numTestMondaySlots = 3;
-		int numTestTuesdaySlots = 0;
-		int numTestTuesdayLabSlots = 2;
-		int numTestFridaySlots = 0;
-		
-		int [] testSlotSizes = {numTestMondaySlots, numTestTuesdaySlots, numTestTuesdayLabSlots, numTestFridaySlots};
-		SearchModel search = new SearchModel(classes, testSlotSizes);
-		//int [][] probInstances0 = search.div(prob);
-		int [][] probInstances = search.div(prob);
-		//~ int [][] probInstances = search.div(probInstances0[0]);
-		for (int i = 0; i < probInstances.length; i++) {
-			int[] testProb = probInstances[i];
-			for (int j = 2; j <testProb.length; j++) {
-				if ( testProb[j] == 0) {
-					System.out.println("No class at slot" + testProb[j]);
-				} else {
-					System.out.println("Depth is " + testProb[0]);
-					System.out.println(classes[j] + "Is at slot" + testProb[j]);
-				}
-			}
-		}
-		
-		
+		return 0;
 	}
 }
 	
-	//OLD version of eval
-	/*
-	//Should work, but might be syntax errore
-	private int eval(Prob p) {
-		int eval = 0;
-		int penalty =0;
-		for (Slot[] sl:p.getDays()) {
-			Eval[] evalArr = {new PenCourseMin(sl, pen_coursemin), new PenLabmin(sl, pen_coursemin),
-					new PenNotpaired(sl, pen_notpaired, pairs), new PenSecdiff(sl, pen_secdiff),
-					 new PenPref(sl, pen_pref)};
-			penalty = new PenPref().evaluateAll(evalArr);
-		}
-		return penalty;
 
-		//Check coursmin(s)
-		//Check labsmin(s)
-		
-	}
-}*/
