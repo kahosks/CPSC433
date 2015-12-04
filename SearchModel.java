@@ -11,10 +11,10 @@ public class SearchModel {
 	String[] indexArray;
 	
 	ArrayList<Class> classesToSchedule;
-	private int pen_coursemin =0;
-	private int pen_secdiff=0;
-	private int pen_notpaired=0;
-	private int pen_pref=0;
+	private int weight_coursemin = 1;
+	private int weight_secdiff = 1;
+	private int weight_notpaired = 1;
+	private int weight_pref = 1;
 	
 	//Does any of this matter? we know the 
 /*	private int numMondaySlots;
@@ -35,6 +35,7 @@ public class SearchModel {
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
+		getWeights(commPar);
 	}
 	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, Constraint[] aConstr ) {
 		
@@ -43,6 +44,7 @@ public class SearchModel {
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
 		constr = aConstr;
+		getWeights(commPar);
 		
 	}
 /*	SearchModel(String[] aIndexArray, int[] slotSizes) {
@@ -54,6 +56,17 @@ public class SearchModel {
 		numFridaySlots = slotSizes[3];
 	}
 */
+	/**
+	 * Multiplies weights by penalties and sets those values.
+	 */ 
+	private void getWeights(CommandParser cp) {
+		weight_coursemin= cp.getMinfilled() * cp.getPenMinfilled();
+		weight_pref = cp.getPref();
+		weight_notpaired = cp.getPair() * cp.getPenPair();
+		weight_secdiff = cp.getSecdiff() * cp.getPenSecdiff();
+		
+	}
+	
 	public int[][] div(int[] prob) {
 		int numSlots;					//Used to determine how many prob.length arrays to return
 		int indexToScheduleClassLab;	//used to find the index in which we want to add a class or a lab
@@ -147,13 +160,13 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		// int minFilled = mod_Minfilled * aClass.getMinFilledConstr(p);
-		// int pref = mod_Pref * aClass.getPrefConstr(p);
-		// int pair = mod_Par * aClass.getPairConstr(p);
-		// int secDiff = mod_SecDiff * aClass.getSecDiffConstr(p);
+		 int minFilled = softConstraints.getMinFilled(p) * weight_coursemin;
+		 int pref = softConstraints.getPref(p) * (weight_pref);
+		 int pair = softConstraints.getPair(p) * weight_notpaired;
+		 int secDiff = softConstraints.getSecDiff(p) * weight_secdiff;
 		
 		//int eval = minFilled + pref + pair + secDiff;
-		return 0;
+		return minFilled + pref + pair + secDiff;
 	}
 }
 	
