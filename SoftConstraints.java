@@ -5,7 +5,7 @@ public abstract class SoftConstraints
 	Slot[] slotArray; //Not sure if defined correctly; assumes array of Slots class
 	Preference[] prefArray; //Not sure if defined correctly; assumes array of Preference class
 	PairedCourseClass[] pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
-	String[] index;
+	String[] index; //the index array
 	
 	/*
 	* Constructor -Condensed-
