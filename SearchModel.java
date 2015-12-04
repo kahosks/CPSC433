@@ -7,9 +7,9 @@ public class SearchModel {
 	String[] indexArray;
 	
 	ArrayList<Class> classesToSchedule;
-	private int pen_coursemin =0;
-	private int pen_secdiff=0;
-	private int pen_notpaired=0;
+	//private int pen_coursemin =0;
+	//private int pen_secdiff=0;
+	//private int pen_notpaired=0;
 	//private int pen_pref=0;
 	private int weight_coursemin = 1;
 	private int weight_secdiff = 1;
@@ -255,13 +255,13 @@ public class SearchModel {
 	 * Gets the weights and penalty values from CommandParser.
 	 */ 
 	private void getWeights(CommandParser cp) {
-		pen_coursemin = cp.getPenMinfilled();
-		weight_coursemin= cp.getMinfilled();
+	//	pen_coursemin = cp.getPenMinfilled();
+		weight_coursemin= cp.getMinfilled() * cp.getPenMinFilled();
 		weight_pref = cp.getPref();
-		pen_notpaired = cp.getPenPair();
-		weight_notpaired = cp.getPair();
-		pen_secdiff = cp.getPenSecdiff();
-		weight_secdiff = cp.getSecdiff();
+	//	pen_notpaired = cp.getPenPair();
+		weight_notpaired = cp.getPair() * cp.getPenPair();
+	//	pen_secdiff = cp.getPenSecdiff();
+		weight_secdiff = cp.getSecdiff() * cp.getPenSecdiff();
 		
 	}
 	
@@ -274,10 +274,10 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		 int minFilled = softConstraints.getMinFilled(p) * (pen_coursemin * weight_coursemin);
-		 int pref = softConstraints.getPref(p) * (weight_pref);
-		 int pair = softConstraints.getPair(p) * (pen_notpaired * weight_notpaired);
-		 int secDiff = softConstraints.getSecDiff(p) * (pen_secdiff * weight_secdiff);
+		 int minFilled = softConstraints.getMinFilled(p) * weight_coursemin;
+		 int pref = softConstraints.getPref(p) * weight_pref;
+		 int pair = softConstraints.getPair(p) * weight_notpaired;
+		 int secDiff = softConstraints.getSecDiff(p) * weight_secdiff;
 		
 		//int eval = minFilled + pref + pair + secDiff;
 		return minFilled + pref + pair + secDiff;
