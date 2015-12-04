@@ -83,7 +83,8 @@ public class Scheduler {
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
 		indexArray = parser.getIndexArray();
-		constr = parser.getHardConstraints();
+		initializeConstraints(parser);
+
 	}
 	/*
 	 * Setup the heap (Priority Queue)
@@ -99,8 +100,9 @@ public class Scheduler {
 	/*
 	 * Setup the Soft and Hard constraints so that they can be passed to the search model
 	 */
-	private void intializeConstraints() {
-		// TODO
+	private void initializeConstraints(Parser parser) {
+		// TODO initialize soft constraints
+		constr = parser.getHardConstraints(parser);
 	}
 	
 	private void makeSchedule() throws SchedulerException{
