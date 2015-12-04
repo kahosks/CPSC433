@@ -192,7 +192,7 @@ public class SoftConstraints
 						{
 							if (course.equals(index[y].substring(0,7)))
 							{
-								if(secNum != Integer.parseInt(index[x].substring(13,14)))
+								if(secNum == Integer.parseInt(index[x].substring(13,14)))
 								{
 									if(time[x] == time[y])
 									{
