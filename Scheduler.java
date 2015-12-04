@@ -14,11 +14,11 @@ public class Scheduler {
 	// Parser Variables
 	private String name;
 	private ArrayList<Class> labsAndCourses;
-	private ArrayList<Parser.PairedCourseClass> notCompatible;
-	private ArrayList<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
-	private ArrayList<Parser.Preference> preferences;
-	private ArrayList<Parser.ParserClass> unwanted;
-	private ArrayList<Parser.ParserClass> partassign;
+	private ArrayList<PairedCourseClass> notCompatible;
+	private ArrayList<PairedCourseClass> pairs;	//hold pairs; see around line 340
+	private ArrayList<Preference> preferences;
+	private ArrayList<ParserClass> unwanted;
+	private ArrayList<ParserClass> partassign;
 	public static int totalCourses = 0;
 	private String[] indexArray;
 	private Constraint[] constr;
@@ -56,7 +56,7 @@ public class Scheduler {
 		Parser parser = new Parser(cp.getFilename());
 		parser.parse();
 		initiateParsedValues(parser);
-		intializeConstraints();
+		//intializeConstraints();
 		heapIntializer(parser.getInitialProblem());
 		makeSchedule();
 		
@@ -83,7 +83,8 @@ public class Scheduler {
 		FLabs = parser.getFLabs();
 		totalCourses = labsAndCourses.size();
 		indexArray = parser.getIndexArray();
-		constr = parser.getHardConstraints();
+		initializeConstraints(parser);
+
 	}
 	/*
 	 * Setup the heap (Priority Queue)
@@ -99,8 +100,9 @@ public class Scheduler {
 	/*
 	 * Setup the Soft and Hard constraints so that they can be passed to the search model
 	 */
-	private void intializeConstraints() {
-		// TODO
+	private void initializeConstraints(Parser parser) {
+		// TODO initialize soft constraints
+		constr = parser.getHardConstraints(parser);
 	}
 	
 	private void makeSchedule() throws SchedulerException{

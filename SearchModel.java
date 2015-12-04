@@ -21,10 +21,10 @@ public class SearchModel {
 	private Slot[] labs;
 	private Constraint[] constr;
 	
-	private ArrayList<Parser.PairedCourseClass> pairs;
+	private ArrayList<PairedCourseClass> pairs;
 	CommandParser commandParser;
 	
-	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<Parser.PairedCourseClass> pairs) {
+	public SearchModel(ArrayList<Class> classesToSchedule, ArrayList<PairedCourseClass> pairs) {
 		this.pairs = pairs;
 		this.classesToSchedule = classesToSchedule;
 
@@ -201,10 +201,10 @@ public class SearchModel {
 			
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
+			probArray[j][0] +=1;
 			if(passConstr(probArray[i], constr)) {
 				probArray[j] = probArray[i].clone();
 				probArray[j][1] = eval(probArray[i]);
-				probArray[j][0] +=1;
 				j++;
 			} else {
 				probArray[i][indexToScheduleClassLab] = 0;
