@@ -139,15 +139,11 @@ public class Scheduler {
 					else if ((PROBLEM_LENGTH > pr[0])){			
 						pq.add(pr);
 					}
-						
 				}
-				
 			}
-			
 		}
 		OutputSchedule out = new OutputSchedule(indexArray, bestSolution);
 		out.output();
-		
 	}
 	
 	private Object[] prepSlotArrayForSearchModel() {
@@ -209,72 +205,6 @@ public class Scheduler {
 		return ret;
 	}
 	
-	
-		//prints the data.  Can delete, it's just for testing purposes and is
-		//super ugly.
-/*	public void printCommands(CommandParser cp) {
-		System.out.println("File: " + cp.getFilename());
-		System.out.println("minfilled: " + cp.getMinfilled());
-		System.out.println("Pair: " + cp.getPair());
-		System.out.println("Pref: " + cp.getPref());
-		System.out.println("Secdiff: " + cp.getSecdiff());
-	}
-	public void printData() {
-		
-		System.out.println("Name:");
-		System.out.println(name);
-		System.out.println("Labs and courses");
-		for (Object c:labsAndCourses.toArray()) {
-			Class d = (Class) c;
-			System.out.println(d);
-		}
-		//TODO: Problem with pairs: does not print out full data for labs/tutorials.
-		System.out.println("NC");
-		for (Object c:notCompatible.toArray()) {
-			Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-			System.out.println(d);
-		}
-		//TODO: Problem with pairs: does not print out full data for labs/tutorials
-		System.out.println("pairs");
-		for (Object c:pairs.toArray()) {
-			Parser.PairedCourseClass d = (Parser.PairedCourseClass) c;
-			System.out.println(d);
-		}
-		System.out.println("pref");
-		for (Object c:preferences.toArray()) {
-			Parser.Preference d = (Parser.Preference) c;
-			System.out.println(d);
-		}
-		System.out.println("unwanted");
-		for (Object c:unwanted.toArray()) {
-			Parser.ParserClass d = (Parser.ParserClass) c;
-			System.out.println(d);
-		}
-		System.out.println("partassign");
-		for (Object c:partassign.toArray()) {
-			Parser.ParserClass d = (Parser.ParserClass) c;
-			System.out.println(d);
-		}
-		System.out.println("Monday coursemin - coursemax - labmin - labmax:");
-		for (int i=0; i<M.length;i++) {
-			System.out.println(M[i].getTime() +" - " + M[i].getCoursemin()
-					+" - " + M[i].getCoursemax()  +  " - " + M[i].getLabmin()+ " - " + M[i].getLabmax());
-		}
-		System.out.println("Tuesday Courses coursemin - coursemax:");
-		for (int i=0; i<TCourses.length;i++) {
-			System.out.println(TCourses[i].getTime() +" - " + TCourses[i].getCoursemin() 
-					+ " - "+ TCourses[i].getCoursemax());
-		}
-		System.out.println("Tuesday Labs labmin - labmax:");
-		for (int i=0; i<TLabs.length;i++) {
-			System.out.println(TLabs[i].getTime()  +" - " + TLabs[i].getLabmin() + " - " + TLabs[i].getLabmax());
-		}
-		System.out.println("Friday coursemin:");
-		for (int i=0; i<FLabs.length;i++) {
-			System.out.println(FLabs[i].getTime() +" - " + FLabs[i].getCoursemin()
-					+ " - " +FLabs[i].getCoursemax()  + " - " + FLabs[i].getLabmin()  + " - " + FLabs[i].getLabmax());
-		}
-	}*/
 	public static void main(String[] args) throws SchedulerException{
 		Scheduler sch = new Scheduler();
 		sch.start(args);
