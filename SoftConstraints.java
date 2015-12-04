@@ -52,9 +52,9 @@ public class SoftConstraints
 	* Get minimum course/lab penalty
 	* For now, input is the prob array
 	*/
-		public int getMinFilled(int[] time)
+		public int[] getMinFilled(int[] time)
 	{
-		int penalty = 0;
+		int[] penalty = {0, 0};
 		int cNum = 0;
 		int lNum = 0;
 		int courseMin = 0;
@@ -91,13 +91,13 @@ public class SoftConstraints
 
 					if (cNum < courseMin)
 					{
-						penalty += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
+						penalty[0] += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
 						cNum = 0;
 					}
 					if (lNum < labMin)
 					{
 						
-						penalty += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
+						penalty[1] += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
 						lNum = 0;
 					}
 					commit = false;

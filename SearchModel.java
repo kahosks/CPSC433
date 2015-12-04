@@ -16,6 +16,7 @@ public class SearchModel {
 	private int weight_secdiff = 1;
 	private int weight_notpaired = 1;
 	private int weight_pref = 1;
+	private int pen_min = 1;
 	
 	//Does any of this matter? we know the 
 /*	private int numMondaySlots;
@@ -69,12 +70,12 @@ public class SearchModel {
 	 * Multiplies weights by penalties and sets those values.
 	 */ 
 	private void getWeights(CommandParser cp) {
-		weight_labmin = cp.getMinlab() * cp.getPenMinlab();
-		weight_coursemin= cp.getMincourse() * cp.getPenMincourse();
+		weight_labmin = cp.getPenMinlab();
+		weight_coursemin= cp.getPenMincourse();
 		weight_pref = cp.getPref();
 		weight_notpaired = cp.getPair() * cp.getPenPair();
 		weight_secdiff = cp.getSecdiff() * cp.getPenSecdiff();
-		
+		pen_min = cp.getMincourse();
 	}
 	
 	public int[][] div(int[] prob) {
@@ -171,13 +172,13 @@ public class SearchModel {
 		//have been integerated
 		
 		
-		 int minFilled = softConstraints.getMinFilled(p);
-		 int pref = softConstraints.getPref(p);
-		 int pair = softConstraints.getPair(p);
-		 int secDiff = softConstraints.getSecDiff(p);
+		int[] minFilled = softConstraints.getMinFilled(p);
+		int pref = softConstraints.getPref(p);
+		int pair = softConstraints.getPair(p);
+		int secDiff = softConstraints.getSecDiff(p);
 		
-		
-		int eval = minFilled + pref + pair + secDiff;
+		System.out.println( weight_coursemin + "   " + pen_min + "    " + weight_pref + "    " + weight_notpaired + "    " + weight_secdiff +  "     ");
+		int eval = (((minFilled[0] * weight_coursemin)+(minFilled[1]))*pen_min) + pref * weight_pref + pair * weight_notpaired + secDiff * weight_secdiff;
 		return eval;
 		//return minFilled + pref + pair + secDiff;
 	}

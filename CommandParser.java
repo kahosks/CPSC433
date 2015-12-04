@@ -9,15 +9,15 @@ public class CommandParser {
 	private String filename;
 	/* Set initial default values. */
 	private int mincourse = 1;
-	private int pen_mincourse = 0;
+	private int pen_mincourse = 1;
 	private int minlab =1;
-	private int pen_minlab = 0;
+	private int pen_minlab = 1;
 	private int pref =1;
 	private int pair =1;
-	private int pen_pair = 0;
+	private int pen_pair = 1;
 	private int secdiff=1;
-	private int pen_secdiff = 0;
-	private final int ARG_LENGTH = 16;
+	private int pen_secdiff = 1;
+	private final int ARG_LENGTH = 15;
 	
 	/**
 	 * Constructor that takes a string of arguments and gets the filename,
@@ -35,8 +35,8 @@ public class CommandParser {
 			if (args.length == ARG_LENGTH) {
 				mincourse = getWeight(args, find(args,"-mc",1));
 				pen_mincourse = getWeight(args, find(args,"-mc",2));
-				minlab= getWeight(args, find(args,"-ml",1));
-				pen_minlab = getWeight(args, find(args,"-ml",2));
+				//minlab= getWeight(args, find(args,"-ml",1));
+				pen_minlab = getWeight(args, find(args,"-ml",1));
 				pref = getWeight(args, find(args,"-pr",1));
 				pair = getWeight(args, find(args,"-pa",1));
 				pen_pair = getWeight(args, find(args,"-pa",2));
@@ -106,13 +106,13 @@ public class CommandParser {
 	public String getFilename() {
 		return filename;
 	}
-	/**
-	 * Gets the minfilled value from CommandParser.
-	 * @return	Integer minfilled from parsed arguments
-	 */ 
-	public int getMinlab() {
-		return minlab;
-	}
+//	/**
+//	 * Gets the minfilled value from CommandParser.
+//	 * @return	Integer minfilled from parsed arguments
+//	 */ 
+//	public int getMinlab() {
+//		return minlab;
+//	}
 	/**
 	 * Gets the pen_minfilled value from CommandParser.
 	 * @return	Integer pen_minfilled from parsed arguments
