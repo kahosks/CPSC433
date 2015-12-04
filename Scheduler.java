@@ -88,6 +88,36 @@ public class Scheduler {
 		initializeConstraints(parser);
 
 	}
+	
+	private Slot[] prepSlotsForSoftContraints(){
+		
+		Slot[] ret = new Slot[M.length + TCourses.length +
+		 MLabs.length + TLabs.length + FLabs.length];
+		int i = 0;
+		
+		for (int j = i; j < M.length; j++) {
+			ret[j] = M[j];
+		}
+		
+		for (int j = i; j < TCourses.length; j++) {
+			ret[j] = TCourses[j];
+		}
+		
+		for (int j = i; j < MLabs.length; j++) {
+			ret[j] = MLabs[j];
+		}
+		
+		for (int j = i; j < TLabs.length; j++) {
+			ret[j] = TLabs[j];
+		}
+		
+		for (int j = i; j < FLabs.length;j++) {
+			ret[j] = FLabs[j];
+		}
+		return ret;
+	}
+	
+	
 	/*
 	 * Setup the heap (Priority Queue)
 	 */
