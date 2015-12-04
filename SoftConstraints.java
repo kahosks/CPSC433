@@ -2,18 +2,16 @@ import java.util.Arrays;
 
 public abstract class SoftConstraints
 {
-	//The below are all needed inputs, though how do we get them?
-	Slot[] slotArray; //Array type? assumes array of Slots oject
-	Preferences[] prefArray; //Array type? assumes list of (string, int time, int preference value)
-	Pairs[] pairArray;//Array type? assumes list of (string, string)
-	String[] course;
+	Slot[] slotArray; //Not sure if defined correctly; assumes array of Slots class
+	Preference[] prefArray; //Not sure if defined correctly; assumes array of Preference class
+	PairedCourseClass[] pairArray;//Not sure if defined correctly; assumes array of PairedCourseClass class
 	String[] index;
 	
 	/*
 	* Constructor -Condensed-
 	* May need to be changed depending how this will be instantiated
 	*/
-	public SoftConstraints(String[] index, Slot[] slotArray, Preferences[] prefArray, Pairs[] pairArray)
+	public SoftConstraints(String[] index, Slot[] slotArray, Preference[] prefArray, PairCourseClass[] pairArray)
 	{
 		this.index = Arrays.copyOf(index, index.length);
 		this.slotArray = Arrays.copyOf(slotArray, slotArray.length);
@@ -108,8 +106,7 @@ public abstract class SoftConstraints
 	/*
 	* Get professor preference penalty
 	* For now, input is the prob array,
-	* list of pref(course/lab, time, pref value), assumes (string, int time, int preference value)?
-	* Will most likely need to be changed depending on the format proffessor preferences is given
+	* list of pref(course/lab, time, pref value), assumes list of Preference class?
 	*/
 	public int getPref(int[] time)
 	{
@@ -119,11 +116,11 @@ public abstract class SoftConstraints
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
-				if(index[x].equals(prefArray[z][0]))
+				if(index[x].equals(prefArray[z].getIdentifier())
 				{
-					if(time[x] != prefArray[z][1])
+					if(time[x] != prefArray[z].getTimeInt())
 					{
-						penalty += prefArray[z][2];// TODO make +=prefArray[z][2], the preference value should be placed there
+						penalty += prefArray[z].getPrefValue();
 					}
 				}
 			}
@@ -134,8 +131,7 @@ public abstract class SoftConstraints
 	/*
 	*Get not paired penalty
 	* For now, input is the prob array,
-	* list of pair(a,b), assumes (string, string)
-	* Depending on format input, this would need to change
+	* list of pair(a,b), assumes list of PairedCourseClass class?
 	*/
 	public int getPair(int[] time)
 	{
@@ -146,12 +142,12 @@ public abstract class SoftConstraints
 		{
 			for (int x = 2; x < time[0]; x++)
 			{
-				if(index[x].substring(0,7).equals(pairArray[z][0].substring(0,7)))
+				if(index[x].substring(0,7).equals(pairArray[z].a.getName()+" "+pairArray[z].a.getID()))
 				{
 					int aIndex = x;
 					afound = true;
 				}
-				if(index[x].substring(0,7).equals(pairArray[z][1].substring(0,7)))
+				if(index[x].substring(0,7).equals(pairArray[z].b.getName()+" "+pairArray[z].b.getID()))
 				{
 					int bIndex = x;
 					bfound = true;
@@ -160,7 +156,7 @@ public abstract class SoftConstraints
 				{
 					for (int y = x; y < time[0]; y++)
 					{
-						if(index[y].substring(0,7).equals(pairArray[z][0].substring(0,7)))
+						if(index[y].substring(0,7).equals(pairArray[z].a.getName()+" "+pairArray[z].a.getID()))
 						{
 							if(time[y] != time[bIndex])
 							{
@@ -168,7 +164,7 @@ public abstract class SoftConstraints
 								afound = false;
 							}	
 						}
-						if(index[x].substring(0,7).equals(pairArray[z][1].substring(0,7)))
+						if(index[x].substring(0,7).equals(pairArray[z].b.getName()+" "+pairArray[z].b.getID()))
 						{
 							if(time[y] != time[aIndex])
 							{
