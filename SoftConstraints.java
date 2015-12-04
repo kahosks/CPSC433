@@ -144,12 +144,12 @@ public class SoftConstraints
 		
 		for (int z = 0; z < pairArray.size(); z++)
 		{
+			int aTime = 0;
+			int bTime = 0;
 			boolean afound = false, bfound = false;
 			for (int x = 2; x < time[0]; x++)
 			{
-				int aTime = 0;
-				int bTime = 0;
-				if(index[x].equals(pairArray.get(z).getFirstPair().getIdentifier()))
+				if(index[x].equals(pairArray.get(z).getFirstPair().getIdentifier()) && !afound)
 				{
 					aTime = time[x];
 					afound = true;
@@ -180,30 +180,21 @@ public class SoftConstraints
 		int count = 0;
 		String course;
 		String[] checked = new String[time[0]];
-		for (int x = 0; x < time[0]; x++)
+		for (int x = 2; x < time[0]; x++)
 		{
-			if(x != 0 && x!= 1)
+			checked[count] = index[x].substring(0,8);
+			course = checked[count];
+			count++;
+			secNum = Integer.parseInt(index[x].substring(13,15));
+			for(int y = x+1; y < time[0]; y++)
 			{
-				if(index[x].length() > 14)
+				if (course.equals(index[y].substring(0,8)))
 				{
-					if(!Arrays.asList(checked).contains(index[x].substring(0,7)))
+					if(secNum == Integer.parseInt(index[x].substring(13,15)))
 					{
-						checked[count] = index[x].substring(0,7);
-						count++;
-						course = index[x].substring(0,7);
-						secNum = Integer.parseInt(index[x].substring(13,14));
-						for(int y = x+1; y < time[0]; y++)
+						if(time[x] == time[y])
 						{
-							if (course.equals(index[y].substring(0,7)))
-							{
-								if(secNum == Integer.parseInt(index[x].substring(13,14)))
-								{
-									if(time[x] == time[y])
-									{
-										penalty ++;
-									}
-								}
-							}
+							penalty ++;
 						}
 					}
 				}
