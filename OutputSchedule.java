@@ -62,9 +62,55 @@ public class OutputSchedule {
 		}
 	}
 	
+	//Setter for the prob index
+	public void setCourseTimes(int[] prob) {
+		courseTimes = prob;
+	}
+	
 	public void writeToFile() {
 		
-	
+		String filename = "BestSol" + writtenFiles + ".txt";
+		System.out.println("Creating BestSol" + writtenFiles + ".txt");
+		writtenFiles +=1;
+		
+		File file = new File(filename);
+		PrintWriter pw = null;
+		
+		try{
+		pw = new PrintWriter(file);
+		
+		
+		//Prints out the eval value for solution.
+		pw.printf(String.format("Eval-value: %d\n", eval));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//Create array list to temporarily store classes to print out.
+		ArrayList<String[]> classes = new ArrayList<String[]>();
+		//Skip over depth and eval and add course name and corresponding time and day to array.  Store info
+		//as String array.
+		for (int i =2; i< courseNames.length;i++) {
+			String[] addClass = {courseNames[i], convertDay(courseTimes[i]), convertHour(courseTimes[i])};
+			//add class to array list.
+			classes.add(addClass);
+		}
+		//Create a collection and comparator to sort the elements in the array list.
+		Collections.sort(classes, new Comparator<String[]>() {
+			public int compare(String[] s1, String[] s2) {
+				return (s1[NAME].compareTo(s2[NAME]));
+			}
+		});
+		//print out classes in alphabetical order.
+		for (String[] s:classes) {
+			try {
+			pw.printf(String.format("%-30s : %-2s, %5s\n", s[NAME], s[DAY], s[TIME]));	
+		} catch (Exception e) {
+			e.printStackTrace();
+			}
+		}
+		
+		pw.close();
+		
 			
 	}
 	

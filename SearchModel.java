@@ -174,7 +174,9 @@ public class SearchModel {
 		 int pair = softConstraints.getPair(p);
 		 int secDiff = softConstraints.getSecDiff(p);
 		
+		System.out.println("Minfilled " + minFilled + " pref " + pref + " pair " + pair + " secDiff " + secDiff);
 		int eval = minFilled + pref + pair + secDiff;
+		System.out.println("Eval " + eval);
 		return eval;
 		//return minFilled + pref + pair + secDiff;
 	}

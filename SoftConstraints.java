@@ -63,11 +63,13 @@ public class SoftConstraints
 		boolean commit = false;
 		for (int y = 0; y < slotArray.length; y++)
 		{
+			cNum = 0;
+			lNum = 0;
 			if (slotArray[y] != null) {
-
 				courseMin = slotArray[y].getCoursemin();
 				labMin = slotArray[y].getLabmin();
-				tim = slotArray[y].getTimeInt();
+				tim = slotArray[y].getDayTimeInt(); //Actual time
+				System.out.println("courseMin " + courseMin + " labMin " + labMin);
 				for (int x = 2; x < time[0]; x++)
 				{
 					if (tim == time[x])
@@ -86,6 +88,7 @@ public class SoftConstraints
 				}
 				if (commit == true)
 				{
+
 					if (cNum < courseMin)
 					{
 						penalty += (courseMin - cNum); //maybe penalty +=1.  I believe the penlty would be the difference between the slot's courseMin, and the number of courses actually in?
@@ -93,12 +96,13 @@ public class SoftConstraints
 					}
 					if (lNum < labMin)
 					{
+						
 						penalty += (labMin - lNum);  // maybe penalty += 1.    Same as above, but with labMin and number of Labs?
 						lNum = 0;
 					}
 					commit = false;
 				}
-			}
+			} 
 		}
 		return penalty;
 	

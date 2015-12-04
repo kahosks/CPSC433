@@ -490,7 +490,8 @@ public class Parser {
 	 */
 	private void addLabToDay(String day, String time, int labmax, int labmin) throws SchedulerException {
 		Slot slot = new Slot(day, time);
-		slot.addCourseInfo(labmin, labmax);
+		slot.addCourseInfo(labmin, labmax);	//TODO FIX THIS LINE
+		slot.addLabInfo(labmin, labmax);
 		switch(day) {
 		case "MO":
 			MLabs.add(slot);
