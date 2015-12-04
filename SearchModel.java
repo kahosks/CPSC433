@@ -1,8 +1,8 @@
-package Scheduler;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import HardConstraints.Constraint;
+//import HardConstraints.Constraint;
 
 public class SearchModel {
 	//Need to add notAssigned and index array to accommodate the new prob structure
@@ -27,7 +27,7 @@ public class SearchModel {
 	private Constraint[] constr;
 	
 	private CommandParser commandParser;
-	
+	private SoftConstraints softConstraints;
 
 
 	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot ) {
@@ -45,6 +45,14 @@ public class SearchModel {
 		labs = (Slot[]) aSlot[1];
 		constr = aConstr;
 		getWeights(commPar);
+		
+	}
+	
+	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, 
+	Constraint[] aConstr, SoftConstraints aSoftConstr) {
+		this(aIndexArray, commPar, aSlot, aConstr);
+		softConstraints = aSoftConstr;
+		
 		
 	}
 /*	SearchModel(String[] aIndexArray, int[] slotSizes) {
@@ -160,13 +168,15 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
+		/*
 		 int minFilled = softConstraints.getMinFilled(p) * weight_coursemin;
 		 int pref = softConstraints.getPref(p) * (weight_pref);
 		 int pair = softConstraints.getPair(p) * weight_notpaired;
 		 int secDiff = softConstraints.getSecDiff(p) * weight_secdiff;
-		
+		*/
 		//int eval = minFilled + pref + pair + secDiff;
-		return minFilled + pref + pair + secDiff;
+		return 0;
+		//return minFilled + pref + pair + secDiff;
 	}
 }
 	

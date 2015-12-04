@@ -1,4 +1,4 @@
-package Scheduler;
+
 /* Class Parser that takes input from a file, parses it, and 
  * puts into ArrayLists.  Super duper long and not necessarily the most
  * efficient thing, by all means please change it/modify it!
@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import HardConstraints.Constraint;
-import HardConstraints.CourseCourseConstraint;
-import HardConstraints.CourseMaxConstraint;
-import HardConstraints.CourseTimeConstraint;
-import HardConstraints.LabMaxConstraint;
-import junit.framework.Test;
+//import HardConstraints.Constraint;
+//import HardConstraints.CourseCourseConstraint;
+//import HardConstraints.CourseMaxConstraint;
+//import HardConstraints.CourseTimeConstraint;
+//import HardConstraints.LabMaxConstraint;
+//import junit.framework.Test;
 
 
 public class Parser {

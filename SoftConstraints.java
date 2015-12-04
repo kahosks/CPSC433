@@ -12,12 +12,15 @@ public class SoftConstraints
 	* May need to be changed depending how this will be instantiated
 	*/
 	public SoftConstraints(String[] index, Slot[] slotArray,
-	 Preference[] prefArray, PairedCourseClass[] pairArray)
+	 Object prefArray, Object pairArray)
 	{
 		this.index = Arrays.copyOf(index, index.length);
+		/*
 		this.slotArray = Arrays.copyOf(slotArray, slotArray.length);
 		this.prefArray = Arrays.copyOf(prefArray, prefArray.length);
 		this.pairArray = Arrays.copyOf(pairArray, pairArray.length);
+		*/
+		
 	}
 	
 	/*

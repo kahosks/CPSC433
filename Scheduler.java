@@ -1,4 +1,4 @@
-package Scheduler;
+
 /**
  * Class Scheduler where everything will occur.
  * @author CPSC 433 Toshibe
@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import HardConstraints.Constraint;
- 
 
 public class Scheduler {
 	// Scheduler Variables
@@ -114,7 +112,12 @@ public class Scheduler {
 		}
 		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
 		out1.output();
-		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(), constr);
+		
+		Slot[] allSlots = prepSlotsForSoftContraints();
+		SoftConstraints softConstr = new SoftConstraints(indexArray, allSlots, preferences.toArray(), pairs.toArray());
+		
+		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(),
+		 constr, softConstr);
 		int[][] newProblems;
 		
 		boolean foundBest = false;
@@ -175,6 +178,34 @@ public class Scheduler {
 		oArray[1] = temp.clone();
 		
 		return oArray;
+	}
+	
+		private Slot[] prepSlotsForSoftContraints(){
+		
+		Slot[] ret = new Slot[M.length + TCourses.length +
+		 MLabs.length + TLabs.length + FLabs.length];
+		int i = 0;
+		
+		for (int j = i; j < M.length; j++) {
+			ret[j] = M[j];
+		}
+		
+		for (int j = i; j < TCourses.length; j++) {
+			ret[j] = TCourses[j];
+		}
+		
+		for (int j = i; j < MLabs.length; j++) {
+			ret[j] = MLabs[j];
+		}
+		
+		for (int j = i; j < TLabs.length; j++) {
+			ret[j] = TLabs[j];
+		}
+		
+		for (int j = i; j < FLabs.length;j++) {
+			ret[j] = FLabs[j];
+		}
+		return ret;
 	}
 	
 
