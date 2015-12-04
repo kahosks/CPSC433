@@ -1,3 +1,4 @@
+package Scheduler;
 /* Class Parser that takes input from a file, parses it, and 
  * puts into ArrayLists.  Super duper long and not necessarily the most
  * efficient thing, by all means please change it/modify it!
@@ -12,6 +13,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import HardConstraints.Constraint;
+import HardConstraints.CourseCourseConstraint;
+import HardConstraints.CourseMaxConstraint;
+import HardConstraints.CourseTimeConstraint;
+import HardConstraints.LabMaxConstraint;
+import junit.framework.Test;
 
 
 public class Parser {
@@ -103,6 +112,7 @@ public class Parser {
 		}
 	}
 		
+
 	private void makeConstraints(){
 		ArrayList<Constraint> hcArrayList = new ArrayList<Constraint>();
 		//For each of the non-compatible course pairs
@@ -121,7 +131,6 @@ public class Parser {
 					indexB=j;
 				}
 			}
-			
 			if(indexA>0 && indexB>0){
 				hcArrayList.add(new CourseCourseConstraint(indexA, indexB));
 			}
@@ -130,12 +139,90 @@ public class Parser {
 			}
 		}
 
+		//Now do all of the unwanted constraints
+		for(int i = 0; i<unwanted.size();i++){
+			ParserClass unwantedEx = unwanted.get(i);
+			int dayOffset;
+			if(unwantedEx.day.equalsIgnoreCase("MO")){
+				dayOffset = 0;
+			}
+			else if(unwantedEx.day.equalsIgnoreCase("TU")){
+				dayOffset = 2400;
+			}
+			else{
+				dayOffset = 4800;
+			}
+			dayOffset +=unwantedEx.getTimeInt();
+			for(int j=2; j< indexArray.length; j++){
+				if(indexArray[j].equalsIgnoreCase(unwantedEx.getIdentifier().trim())){
+					hcArrayList.add(new CourseTimeConstraint(j,dayOffset));
+				}
+			}
+			
+		}
+		//Now do the Course max and lab max constraints
+		//Need all of the lecture/lab indexes 
+		ArrayList<Integer> courseIndexes = new ArrayList<Integer>();
+		ArrayList<Integer> labIndexes = new ArrayList<Integer>();
+		
+		for(int i = 2; i < indexArray.length; i++){
+			if(indexArray[i].contains("LAB")||indexArray[i].contains("TUT")){
+				labIndexes.add(i);
+			}
+			else{
+				courseIndexes.add(i);
+			}
+		}
+		int[] courseIndexesArray = new int[courseIndexes.size()];
+		for(int i = 0; i<courseIndexes.size();i++){
+			courseIndexesArray[i]=courseIndexes.get(i);
+		}
+		int[] labIndexesArray = new int[labIndexes.size()];
+		for(int i = 0; i<labIndexes.size();i++){
+			labIndexesArray[i]=labIndexes.get(i);
+		}
+		CourseMaxConstraint.setCourseIndexes(courseIndexesArray);
+		LabMaxConstraint.setLabIndexes(labIndexesArray);
+		
+		for(int i = 0; i<M.size(); i++){
+			hcArrayList.add(new CourseMaxConstraint(M.get(i)));
+		}
+		for(int i = 0; i<TCourses.size(); i++){
+			hcArrayList.add(new CourseMaxConstraint(TCourses.get(i)));
+		}
+		for(int i = 0; i<MLabs.size(); i++){
+			hcArrayList.add(new LabMaxConstraint(MLabs.get(i)));
+		}
+		//Slot testM = MLabs.get(0);
+		//Constraint testMc = new LabMaxConstraint(MLabs.get(0));
+		for(int i = 0; i<TLabs.size(); i++){
+			hcArrayList.add(new LabMaxConstraint(TLabs.get(i)));
+		}
+		//Slot testT = TLabs.get(0);
+		//Constraint testTc = new LabMaxConstraint(TLabs.get(0));
+		for(int i = 0; i<F.size(); i++){
+			hcArrayList.add(new LabMaxConstraint(F.get(i)));
+		}
+		//Slot testF = F.get(0);
+		//Constraint testFc = new LabMaxConstraint(F.get(0));
 		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
+		
 	}
 	public Constraint[] getHardConstraints(){
+		
+		System.out.println(Arrays.toString(hardConstraints));
+		System.out.println(Arrays.toString(indexArray));
+		System.out.println(Arrays.toString(initialProblem));
 		return hardConstraints;
 	}
-
+	
+	
+	/**
+	 * Gets the name under the "Name:" header.
+	 * @param s	String read from file.
+	 * @throws SchedulerException	Thrown if there is an IOException
+	 */
+	
 	/**
 	 * Creates the initialProblem and indexArray
 	 */
@@ -301,7 +388,8 @@ public class Parser {
 		}
 	
 	}	
-
+	
+	
 	/**
 	 * Gets partassign values from file and stores in partassign ArrayList.
 	 * @param s	Line read from file.
@@ -418,6 +506,7 @@ public class Parser {
 			throw new SchedulerException("Error: lab info not added to day.");
 		}
 	}
+
 	//Gets index of slot based on hour.  NOTE: Use this function when using an array/list of Slot
 	// based on days (ex. 3 arrays, one for MO, one for TU, one for FR, with array of Slot initialized
 	// based on time of day.
