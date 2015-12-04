@@ -113,12 +113,13 @@ public class Parser {
 	}
 		
 
+
 	private void makeConstraints(){
 		ArrayList<Constraint> hcArrayList = new ArrayList<Constraint>();
 		//For each of the non-compatible course pairs
 		for(int i = 0; i<notCompatible.size();i++){
-			String firstName=notCompatible.get(i).getFirstPair().toString().trim();
-			String secondName=notCompatible.get(i).getSecondPair().toString().trim();
+			String firstName=notCompatible.get(i).a.toString().trim();		//SWITCH TO getFirstPair()
+			String secondName=notCompatible.get(i).b.toString().trim();	//SWITCH TO getSecondPair()
 			int indexA = 0;
 			int indexB = 0;
 
@@ -162,27 +163,27 @@ public class Parser {
 		}
 		//Now do the Course max and lab max constraints
 		//Need all of the lecture/lab indexes 
-		ArrayList<Integer> courseIndexes = new ArrayList<Integer>();
-		ArrayList<Integer> labIndexes = new ArrayList<Integer>();
+		ArrayList<Integer> courseIndexesList = new ArrayList<Integer>();
+		ArrayList<Integer> labIndexesList = new ArrayList<Integer>();
 		
 		for(int i = 2; i < indexArray.length; i++){
 			if(indexArray[i].contains("LAB")||indexArray[i].contains("TUT")){
-				labIndexes.add(i);
+				labIndexesList.add(i);
 			}
 			else{
-				courseIndexes.add(i);
+				courseIndexesList.add(i);
 			}
 		}
-		int[] courseIndexesArray = new int[courseIndexes.size()];
-		for(int i = 0; i<courseIndexes.size();i++){
-			courseIndexesArray[i]=courseIndexes.get(i);
+		courseIndexes = new int[courseIndexesList.size()];
+		for(int i = 0; i<courseIndexesList.size();i++){
+			courseIndexes[i]=courseIndexesList.get(i);
 		}
-		int[] labIndexesArray = new int[labIndexes.size()];
-		for(int i = 0; i<labIndexes.size();i++){
-			labIndexesArray[i]=labIndexes.get(i);
+		labIndexes = new int[labIndexesList.size()];
+		for(int i = 0; i<labIndexesList.size();i++){
+			labIndexes[i]=labIndexesList.get(i);
 		}
-		CourseMaxConstraint.setCourseIndexes(courseIndexesArray);
-		LabMaxConstraint.setLabIndexes(labIndexesArray);
+		CourseMaxConstraint.setCourseIndexes(courseIndexes);
+		LabMaxConstraint.setLabIndexes(labIndexes);
 		
 		for(int i = 0; i<M.size(); i++){
 			hcArrayList.add(new CourseMaxConstraint(M.get(i)));
@@ -193,18 +194,61 @@ public class Parser {
 		for(int i = 0; i<MLabs.size(); i++){
 			hcArrayList.add(new LabMaxConstraint(MLabs.get(i)));
 		}
-		//Slot testM = MLabs.get(0);
-		//Constraint testMc = new LabMaxConstraint(MLabs.get(0));
 		for(int i = 0; i<TLabs.size(); i++){
 			hcArrayList.add(new LabMaxConstraint(TLabs.get(i)));
 		}
-		//Slot testT = TLabs.get(0);
-		//Constraint testTc = new LabMaxConstraint(TLabs.get(0));
 		for(int i = 0; i<F.size(); i++){
 			hcArrayList.add(new LabMaxConstraint(F.get(i)));
 		}
-		//Slot testF = F.get(0);
-		//Constraint testFc = new LabMaxConstraint(F.get(0));
+		
+		//Now make tutorial course overlap
+		//Now make CPSC813/913
+		//Now tu @11 no lectures
+		for(int i=0; i<courseIndexes.length; i++){
+			hcArrayList.add(new CourseTimeConstraint(courseIndexes[i], 3500)); //No courses at 11 on Tu/Th
+		}
+		//Evening courses
+		for(int i=0;i<labsAndCourses.size();i++){
+			Class posEvening = labsAndCourses.get(i);
+			if(posEvening.getLectureNum().trim().charAt(0)=='9'){
+				for(int j = 0; j<indexArray.length;j++){
+					if(indexArray[j].equalsIgnoreCase(posEvening.toString().trim())){
+						hcArrayList.add(new EveningCourseConstraint(j));
+					}
+				}
+			}
+		}
+			
+		
+		//Now make 500 courses constraints
+		ArrayList<Integer> fiveHundredCoursesList = new ArrayList<Integer>();
+		
+		for(int i=2;i<indexArray.length;i++){
+			String courseId = indexArray[i];
+			String[] components = courseId.split(" ");
+			if((components[1].charAt(0) == '5' && !courseId.contains("TUT"))&& !courseId.contains("LAB")){
+				
+				fiveHundredCoursesList.add(i);
+			}
+		}
+		fiveHundredIndexes = new int[fiveHundredCoursesList.size()];
+		for(int i = 0; i<fiveHundredIndexes.length;i++){
+			fiveHundredIndexes[i]=fiveHundredCoursesList.get(i);
+		}
+		
+		FiveHundredConstraint.setFiveHundIndexes(fiveHundredIndexes);
+		hcArrayList.add(new FiveHundredConstraint());
+//TODO WORKING HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::		
+/*		//Make sure that labs and courses don't overlap
+		for(int i = 0; i < labIndexes.length; i++){
+			String labName = indexArray[labIndexes[i]];
+			String[] labNameComponents = labName.split(regex)
+			if(labName.contains("LEC")){
+				for(int j = 0; j<courseIndexes.length; j++){
+					String nameTest = indexArray[courseIndexes[j]];
+				}
+			}
+		}*/
 		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
 		
 	}
@@ -215,6 +259,7 @@ public class Parser {
 		System.out.println(Arrays.toString(initialProblem));
 		return hardConstraints;
 	}
+	
 	
 	
 	/**

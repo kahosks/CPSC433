@@ -11,6 +11,7 @@ public class SearchModel {
 	String[] indexArray;
 	
 	ArrayList<Class> classesToSchedule;
+	private int weight_labmin = 1;
 	private int weight_coursemin = 1;
 	private int weight_secdiff = 1;
 	private int weight_notpaired = 1;
@@ -68,7 +69,8 @@ public class SearchModel {
 	 * Multiplies weights by penalties and sets those values.
 	 */ 
 	private void getWeights(CommandParser cp) {
-		weight_coursemin= cp.getMinfilled() * cp.getPenMinfilled();
+		weight_labmin = cp.getMinlab() * cp.getPenMinlab();
+		weight_coursemin= cp.getMincourse() * cp.getPenMincourse();
 		weight_pref = cp.getPref();
 		weight_notpaired = cp.getPair() * cp.getPenPair();
 		weight_secdiff = cp.getSecdiff() * cp.getPenSecdiff();

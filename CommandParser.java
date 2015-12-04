@@ -8,18 +8,21 @@ public class CommandParser {
 	
 	private String filename;
 	/* Set initial default values. */
-	private int minfilled =1;
-	private int pen_minfilled = 0;
+	private int mincourse = 1;
+	private int pen_mincourse = 0;
+	private int minlab =1;
+	private int pen_minlab = 0;
 	private int pref =1;
 	private int pair =1;
 	private int pen_pair = 0;
 	private int secdiff=1;
 	private int pen_secdiff = 0;
+	private final int ARG_LENGTH = 16;
 	
 	/**
 	 * Constructor that takes a string of arguments and gets the filename,
 	 * and eval values.
-	 * use -f _____, -m ____ ____, -pr ____, -pa ____ ____, -s ____ ____, (-f <filename> -m <minfilled> <minfilled_penalty> 
+	 * use -f _____, - mc _____ _____, -ml ____ ____, -pr ____, -pa ____ ____, -s ____ ____, (-f <filename> -m <minfilled> <minfilled_penalty> 
 	 * -pr <preferences> -pa <pair> <pair_penalty> -s <secdiff> <secdiff_penalty>)
 	 * where first blank is weight, and the second blank is penalty.
 	 * where the blanks should be an integer value.  If not, return an error.  Can be in any order.
@@ -27,11 +30,13 @@ public class CommandParser {
 	 */
 	public CommandParser(String[] args) throws SchedulerException {
 	//if no arguments, just default weight of 1
-		if (args.length ==2 || args.length ==13) {
+		if (args.length ==2 || args.length ==ARG_LENGTH) {
 			filename = findFilename(args, find(args,"-f",1));
-			if (args.length == 13) {
-				minfilled = getWeight(args, find(args,"-m",1));
-				pen_minfilled = getWeight(args, find(args,"-m",2));
+			if (args.length == ARG_LENGTH) {
+				mincourse = getWeight(args, find(args,"-mc",1));
+				pen_mincourse = getWeight(args, find(args,"-mc",2));
+				minlab= getWeight(args, find(args,"-ml",1));
+				pen_minlab = getWeight(args, find(args,"-ml",2));
 				pref = getWeight(args, find(args,"-pr",1));
 				pair = getWeight(args, find(args,"-pa",1));
 				pen_pair = getWeight(args, find(args,"-pa",2));
@@ -105,15 +110,22 @@ public class CommandParser {
 	 * Gets the minfilled value from CommandParser.
 	 * @return	Integer minfilled from parsed arguments
 	 */ 
-	public int getMinfilled() {
-		return minfilled;
+	public int getMinlab() {
+		return minlab;
 	}
 	/**
 	 * Gets the pen_minfilled value from CommandParser.
 	 * @return	Integer pen_minfilled from parsed arguments
 	 */
-	public int getPenMinfilled() {
-		return pen_minfilled;
+	public int getPenMinlab() {
+		return pen_minlab;
+	}
+	public int getMincourse() {
+		return mincourse;
+	}
+	
+	public int getPenMincourse() {
+		return pen_mincourse;
 	}
 	/**
 	 * Gets the preferences value from CommandParser.
