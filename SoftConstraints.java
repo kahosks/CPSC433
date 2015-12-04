@@ -12,7 +12,7 @@ public class SoftConstraints
 	* May need to be changed depending how this will be instantiated
 	*/
 	public SoftConstraints(String[] index, Slot[] slotArray,
-	 Object prefArray, Object pairArray)
+	 ArrayList<Preference> prefArray, ArrayList<PairedCourseClass> pairArray)
 	{
 		this.index = index;
 		
