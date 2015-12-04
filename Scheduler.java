@@ -24,6 +24,7 @@ public class Scheduler {
 	public static int totalCourses = 0;
 	private String[] indexArray;
 	private Constraint[] constr;
+	private SoftConstraints sconstr;
 	
 	private Slot[] M;
 	private Slot[] MLabs;
@@ -132,6 +133,7 @@ public class Scheduler {
 	 */
 	private void initializeConstraints(Parser parser) {
 		// TODO initialize soft constraints
+		sconstr = new SoftConstraints(indexArray,prepSlotsForSoftContraints(), preferences, pairs);
 		constr = parser.getHardConstraints();
 	}
 	
@@ -143,11 +145,6 @@ public class Scheduler {
 		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
 		out1.output();
 		
-		Slot[] allSlots = prepSlotsForSoftContraints();
-		SoftConstraints softConstr = new SoftConstraints(indexArray, allSlots, preferences.toArray(), pairs.toArray());
-		
-		SearchModel searchModel = new SearchModel(indexArray, cp, prepSlotArrayForSearchModel(),
-		 constr, softConstr);
 		int[][] newProblems;
 		
 		boolean foundBest = false;
