@@ -26,7 +26,7 @@ public class LabMaxConstraint extends Constraint {
 	
 	public LabMaxConstraint(Slot a){
 		this.slot = a.getDayTimeInt(); //Time plus day offset
-		this.slotMax = a.getCoursemax();
+		this.slotMax = a.getLabmax();
 	}
 	
 	public String toString(){
