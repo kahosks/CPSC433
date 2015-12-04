@@ -10,7 +10,11 @@ public class SearchModel {
 	private int pen_coursemin =0;
 	private int pen_secdiff=0;
 	private int pen_notpaired=0;
-	private int pen_pref=0;
+	//private int pen_pref=0;
+	private int weight_coursemin = 1;
+	private int weight_secdiff = 1;
+	private int weight_notpaired = 1;
+	private int weight_pref = 1;
 	
 	private int numMondaySlots;
 	private int numMondayLabSlots;
@@ -39,6 +43,7 @@ public class SearchModel {
 		commandParser = commPar;
 		courses = (Slot[]) aSlot[0];
 		labs = (Slot[]) aSlot[1];
+		getWeights(commPar);
 		
 	}
 	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot, 
@@ -50,6 +55,7 @@ public class SearchModel {
 		labs = (Slot[]) aSlot[1];
 		constr = aConstr;
 		softConstraints = aSoftConstr;
+		getWeights(commPar);
 		
 	}
 	SearchModel(String[] aIndexArray, int[] slotSizes) {
@@ -245,7 +251,19 @@ public class SearchModel {
 	//return 0;
 	
 	}
-	
+	/**
+	 * Gets the weights and penalty values from CommandParser.
+	 */ 
+	private void getWeights(CommandParser cp) {
+		pen_coursemin = cp.getPenMinfilled();
+		weight_coursemin= cp.getMinfilled();
+		weight_pref = cp.getPref();
+		pen_notpaired = cp.getPenPair();
+		weight_notpaired = cp.getPair();
+		pen_secdiff = cp.getPenSecdiff();
+		weight_secdiff = cp.getSecdiff();
+		
+	}
 	
 	private int eval(int[] p) {
 		//int mod_Minfilled = commandParser.getMinfilled();
@@ -256,13 +274,13 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		 int minFilled = softConstraints.getMinFilled(p);
-		 int pref = softConstraints.getPref(p);
-		 int pair = softConstraints.getPair(p);
-		 int secDiff = softConstraints.getSecDiff(p);
+		 int minFilled = softConstraints.getMinFilled(p) * (pen_coursemin * weight_coursemin);
+		 int pref = softConstraints.getPref(p) * (weight_pref);
+		 int pair = softConstraints.getPair(p) * (pen_notpaired * weight_notpaired);
+		 int secDiff = softConstraints.getSecDiff(p) * (pen_secdiff * weight_secdiff);
 		
 		//int eval = minFilled + pref + pair + secDiff;
-		return 0;
+		return minFilled + pref + pair + secDiff;
 	}
 	//For testing
 	public static void main(String[] args) {
