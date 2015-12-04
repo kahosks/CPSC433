@@ -56,7 +56,7 @@ public class Scheduler {
 		Parser parser = new Parser(cp.getFilename());
 		parser.parse();
 		initiateParsedValues(parser);
-		intializeConstraints();
+		//intializeConstraints();
 		heapIntializer(parser.getInitialProblem());
 		makeSchedule();
 		
