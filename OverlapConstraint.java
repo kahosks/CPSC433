@@ -21,7 +21,7 @@ public class OverlapConstraint extends Constraint{
 		
 			//Takes care of F
 			int fridayConvert = node[indexLab]-4800;
-			if(node[indexCourse]+100 == fridayConvert){return false;}		//Labs starting on the hour after the course on fridays
+			if(node[indexCourse]+100 == fridayConvert || node[indexCourse]== fridayConvert){return false;}		//Labs starting on the hour after the course on fridays
 		}
 		return true;
 	}
