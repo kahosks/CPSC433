@@ -3,14 +3,14 @@ import java.util.Arrays;
 public abstract class SoftConstraints
 {
 	//The below are all needed inputs, though how do we get them?
-	Slot[] slotArray; //Array type?
-	Preferences[] prefArray; //Array type?
-	Pairs[] pairArray;//Array type
+	Slot[] slotArray; //Array type? assumes array of Slots oject
+	Preferences[] prefArray; //Array type? assumes list of (string, int time, int preference value)
+	Pairs[] pairArray;//Array type? assumes list of (string, string)
 	String[] course;
 	String[] index;
 	
-	/*Constructor
-	*-Condensed-
+	/*
+	* Constructor -Condensed-
 	* May need to be changed depending how this will be instantiated
 	*/
 	public SoftConstraints(String[] index, Slot[] slotArray, Preferences[] prefArray, Pairs[] pairArray)
@@ -21,7 +21,8 @@ public abstract class SoftConstraints
 		this.pairArray = Arrays.copyOf(pairArray, pairArray.length);
 	}
 	
-	/*Seperate constructors, may not need anymore
+	/*
+	*Seperate constructors, may not need anymore
 	*Recieves the slot array
 	*I have no idea how I'm to recieve this, someone check this out
 	*public SoftConstraints(Slot[] array)
@@ -44,7 +45,8 @@ public abstract class SoftConstraints
 	*}
 	*/
 	
-	/*Get minimum course/lab penalty
+	/*
+	* Get minimum course/lab penalty
 	* For now, input is the prob array
 	*/
 	public int getMinFilled(int[] time)
@@ -103,9 +105,10 @@ public abstract class SoftConstraints
 		return penalty;
 	}
 	
-	/*Get professor preference penalty
+	/*
+	* Get professor preference penalty
 	* For now, input is the prob array,
-	* list of pref(course/lab, time), assumes (string, time)?
+	* list of pref(course/lab, time, pref value), assumes (string, int time, int preference value)?
 	* Will most likely need to be changed depending on the format proffessor preferences is given
 	*/
 	public int getPref(int[] time)
@@ -128,7 +131,8 @@ public abstract class SoftConstraints
 		return penalty;
 	}
 	
-	/*Get not paired penalty
+	/*
+	*Get not paired penalty
 	* For now, input is the prob array,
 	* list of pair(a,b), assumes (string, string)
 	* Depending on format input, this would need to change
@@ -180,7 +184,8 @@ public abstract class SoftConstraints
 		return penalty;
 	}
 	
-	/*Gets section same penalty
+	/*
+	*Gets section same penalty
 	* For now, input is simply the problem array
 	*/
 	public int getSecDiff(int[] time)
