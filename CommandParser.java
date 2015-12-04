@@ -11,7 +11,6 @@ public class CommandParser {
 	private int minfilled =1;
 	private int pen_minfilled = 0;
 	private int pref =1;
-	//private int pen_pref = 0;
 	private int pair =1;
 	private int pen_pair = 0;
 	private int secdiff=1;
@@ -34,7 +33,6 @@ public class CommandParser {
 				minfilled = getWeight(args, find(args,"-m",1));
 				pen_minfilled = getWeight(args, find(args,"-m",2));
 				pref = getWeight(args, find(args,"-pr",1));
-				//pen_pref = getWeight(args, find(args,"-pr",2));
 				pair = getWeight(args, find(args,"-pa",1));
 				pen_pair = getWeight(args, find(args,"-pa",2));
 				secdiff = getWeight(args, find(args,"-s",1));
@@ -124,13 +122,6 @@ public class CommandParser {
 	public int getPref() {
 		return pref;
 	}
-//	/**
-//	 * Gets the penalty preferences value from CommandParser.
-//	 * @return	Integer penalty preferences from parsed arguments
-//	 */ 
-//	public int getPenPref() {
-//		return pen_pref;
-//	}
 	/**
 	 * Gets the pair value from CommandParser.
 	 * @return	Integer pair from parsed arguments
