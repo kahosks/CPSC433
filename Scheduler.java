@@ -25,6 +25,7 @@ public class Scheduler {
 	private String[] indexArray;
 	private Constraint[] constr;
 	private SoftConstraints sconstr;
+	private SearchModel searchModel;
 	
 	private Slot[] M;
 	private Slot[] MLabs;
@@ -88,35 +89,6 @@ public class Scheduler {
 
 	}
 	
-	private Slot[] prepSlotsForSoftContraints(){
-		
-		Slot[] ret = new Slot[M.length + TCourses.length +
-		 MLabs.length + TLabs.length + FLabs.length];
-		int i = 0;
-		
-		for (int j = i; j < M.length; j++) {
-			ret[j] = M[j];
-		}
-		
-		for (int j = i; j < TCourses.length; j++) {
-			ret[j] = TCourses[j];
-		}
-		
-		for (int j = i; j < MLabs.length; j++) {
-			ret[j] = MLabs[j];
-		}
-		
-		for (int j = i; j < TLabs.length; j++) {
-			ret[j] = TLabs[j];
-		}
-		
-		for (int j = i; j < FLabs.length;j++) {
-			ret[j] = FLabs[j];
-		}
-		return ret;
-	}
-	
-	
 	/*
 	 * Setup the heap (Priority Queue)
 	 */
@@ -144,6 +116,9 @@ public class Scheduler {
 		}
 		OutputSchedule out1 = new OutputSchedule(indexArray, pq.peek());
 		out1.output();
+		
+		searchModel = new SearchModel(indexArray, cp,
+		 prepSlotArrayForSearchModel(), constr, sconstr);
 		
 		int[][] newProblems;
 		
