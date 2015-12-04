@@ -5,8 +5,9 @@
  *
  */
 public class PairedCourseClass {
-	Class a;
-	Class b;
+	private Class a;
+	private Class b;
+	
 	/**
 	 * Constructor.
 	 * @param a		First class of pair
@@ -14,9 +15,10 @@ public class PairedCourseClass {
 	 */
 	public PairedCourseClass(Class a, Class b) {
 		this.a = a;
-		this.b = b;			
+		this.b = b;
 	}
 	
+
 	/**
 	 * Gets a class c's pair.  Returns null if no class paired.
 	 * @param c		Class whose pair you want.
@@ -34,6 +36,12 @@ public class PairedCourseClass {
 		}
 	}
 	
+	public Class getFirstPair() {
+		return a;
+	}
+	public Class getSecondPair() {
+		return b;
+	}
 	/**
 	 * String representation of the class.
 	 * @return	String representation of the clas.
