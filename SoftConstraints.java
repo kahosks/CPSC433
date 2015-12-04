@@ -52,7 +52,7 @@ public class SoftConstraints
 	* Get minimum course/lab penalty
 	* For now, input is the prob array
 	*/
-	public int getMinFilled(int[] time)
+		public int getMinFilled(int[] time)
 	{
 		int penalty = 0;
 		int cNum = 0;
@@ -72,23 +72,15 @@ public class SoftConstraints
 				{
 					if (tim == time[x])
 					{
-						if(index[x].contains("LEC"))
-						{
-							cNum++;
-							commit = true;
-						}
+
 						if(index[x].contains("TUT")|| index[x].contains("LAB"))
 						{
 							lNum++;
 							commit = true;
 						}
-						if (index[x].length() > 14)
-						{
-							if(index[x].contains("TUT") || index[x].contains("LAB"))
-							{
-								lNum++;
-								commit = true;
-							}
+						else {				
+							cNum++;
+							commit = true;
 						}
 					}
 				}
