@@ -14,11 +14,11 @@ public class Scheduler {
 	// Parser Variables
 	private String name;
 	private ArrayList<Class> labsAndCourses;
-	private ArrayList<Parser.PairedCourseClass> notCompatible;
-	private ArrayList<Parser.PairedCourseClass> pairs;	//hold pairs; see around line 340
-	private ArrayList<Parser.Preference> preferences;
-	private ArrayList<Parser.ParserClass> unwanted;
-	private ArrayList<Parser.ParserClass> partassign;
+	private ArrayList<PairedCourseClass> notCompatible;
+	private ArrayList<PairedCourseClass> pairs;	//hold pairs; see around line 340
+	private ArrayList<Preference> preferences;
+	private ArrayList<ParserClass> unwanted;
+	private ArrayList<ParserClass> partassign;
 	public static int totalCourses = 0;
 	private String[] indexArray;
 	private Constraint[] constr;
