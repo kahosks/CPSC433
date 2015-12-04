@@ -168,14 +168,14 @@ public class SearchModel {
 		//below will only be commented so that it be uncommented once the soft constraints 
 		//have been integerated
 		
-		/*
-		 int minFilled = softConstraints.getMinFilled(p) * weight_coursemin;
-		 int pref = softConstraints.getPref(p) * (weight_pref);
-		 int pair = softConstraints.getPair(p) * weight_notpaired;
-		 int secDiff = softConstraints.getSecDiff(p) * weight_secdiff;
-		*/
-		//int eval = minFilled + pref + pair + secDiff;
-		return 0;
+		
+		 int minFilled = softConstraints.getMinFilled(p);
+		 int pref = softConstraints.getPref(p);
+		 int pair = softConstraints.getPair(p);
+		 int secDiff = softConstraints.getSecDiff(p);
+		
+		int eval = minFilled + pref + pair + secDiff;
+		return eval;
 		//return minFilled + pref + pair + secDiff;
 	}
 }

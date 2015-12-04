@@ -15,7 +15,7 @@ public class Preference extends ParserClass{
 	 * @param prefValue		Preference value of class as a string.
 	 */
 	public Preference(String day, String time, String identifier, String prefValue) {
-		super(day, time, identifier);
+		super(identifier, day, time);
 		this.prefValue = Integer.parseInt(prefValue.trim());	//parse string to an integer
 	}
 

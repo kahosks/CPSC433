@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.io.*;
 /**
  * Class that can be used as a formatter to output the solution.
  * NOTE: Lots need to be implemented, like alphabetical ordering.. 
@@ -20,6 +20,8 @@ public class OutputSchedule {
 	private final int EVAL_VAL = 1;
 	private final int DAY = 1;
 	private final int TIME = 2;
+	
+	private int writtenFiles = 0;
 	
 	/**
 	 * Constructor that takes String array and index array.
@@ -59,6 +61,14 @@ public class OutputSchedule {
 			System.out.printf("%-30s : %-2s, %5s\n", s[NAME], s[DAY], s[TIME]);	
 		}
 	}
+	
+	public void writeToFile() {
+		
+	
+			
+	}
+	
+	
 
 	/**
 	 * Converts a time in array to a day string.

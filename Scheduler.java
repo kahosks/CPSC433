@@ -205,7 +205,7 @@ public class Scheduler {
 		}
 		
 		for (int j = 0; j < FLabs.length;j++) {
-			ret[j + M.length + TCourses.length + MLabs.length + MLabs.length + TLabs.length] = FLabs[j];
+			ret[j + M.length + TCourses.length + MLabs.length  + TLabs.length] = FLabs[j];
 		}
 	return ret;
 	}
