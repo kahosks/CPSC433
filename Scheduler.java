@@ -4,7 +4,7 @@
  * @author CPSC 433 Toshibe
  */
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -14,13 +14,13 @@ public class Scheduler {
 	private CommandParser cp;
 	
 	// Parser Variables
-	private String name;
+	//private String name;
 	private ArrayList<Class> labsAndCourses;
-	private ArrayList<PairedCourseClass> notCompatible;
+	/*private ArrayList<PairedCourseClass> notCompatible;*/
 	private ArrayList<PairedCourseClass> pairs;	//hold pairs; see around line 340
 	private ArrayList<Preference> preferences;
-	private ArrayList<ParserClass> unwanted;
-	private ArrayList<ParserClass> partassign;
+	/*private ArrayList<ParserClass> unwanted;
+	private ArrayList<ParserClass> partassign;*/
 	public static int totalCourses = 0;
 	private String[] indexArray;
 	private Constraint[] constr;
@@ -42,7 +42,7 @@ public class Scheduler {
 	
 	/**
 	 * Empty constructor.
-	 * TODO: Perhaps pass args through constructor, and make start()
+	 * : Perhaps pass args through constructor, and make start()
 	 *  have no arguments.
 	 */
 	public Scheduler() {
@@ -50,7 +50,7 @@ public class Scheduler {
 	}
 	/**
 	 * Method that, when called, will run through the whole code.
-	 * TODO: Lots of things to be added.
+	 * : Lots of things to be added.
 	 * 
 	 * @param args	Arguments to be parsed.
 	 * @throws SchedulerException	Throws if error occurs in code.
@@ -63,6 +63,14 @@ public class Scheduler {
 		//intializeConstraints();
 		heapIntializer(parser.getInitialProblem());
 		makeSchedule();
+		if(bestSolution[1] == BAD_PROBLEM_SCORE){
+			System.out.println("There was no valid solution found");
+		}
+		else{
+			System.out.println("The best solution is:");
+			OutputSchedule out = new OutputSchedule(indexArray, bestSolution);
+			out.output();
+		}
 		
 	}
 	/**
@@ -71,13 +79,13 @@ public class Scheduler {
 	 * @param parser	Parser that parses the input file.
 	 */
 	private void initiateParsedValues(Parser parser) {
-		name = parser.getName();
+//		name = parser.getName();
 		labsAndCourses = parser.getLabsAndCourses();
-		notCompatible = parser.getNC();
+//		notCompatible = parser.getNC();
 		pairs = parser.getPairs();
 		preferences = parser.getPreferences();
-		unwanted = parser.getUnwanted();
-		partassign = parser.getPartassign();
+//		unwanted = parser.getUnwanted();
+//		partassign = parser.getPartassign();
 		M = (Slot[])parser.getMO();
 		MLabs = parser.getMLabs();
 		TCourses = parser.getTCourses();
@@ -104,7 +112,7 @@ public class Scheduler {
 	 * Setup the Soft and Hard constraints so that they can be passed to the search model
 	 */
 	private void initializeConstraints(Parser parser) {
-		// TODO initialize soft constraints
+		//  initialize soft constraints
 		sconstr = new SoftConstraints(indexArray,prepSlotsForSoftContraints(), preferences, pairs);
 		constr = parser.getHardConstraints();
 	}
@@ -122,35 +130,42 @@ public class Scheduler {
 		
 		int[][] newProblems;
 		
-		boolean foundBest = false;
+		//boolean foundBest = false;
 		//OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
-		while (!pq.isEmpty() && !foundBest) {
-			newProblems = searchModel.div(pq.poll());
-			if(newProblems != null) {
-				//System.out.println(pq.size());
-				for(int[] pr: newProblems) {
-					/* if the current problem has a depth greater than the length
-					 * of the array it is done, if it also has an eval greater than
-					 * the best it is the new best
-					 */
-					// System.out.println("pr is " + pr[0]);
-					if (( pr[0] >= PROBLEM_LENGTH) &&   (bestSolution[1] > pr[1])){
-						bestSolution = pr.clone();
-						
-						OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
-						out314.output();
-						System.out.println("\n");	
-						//System.out.println(Arrays.toString(pr));
-						//out314.setCourseTimes(bestSolution);
-						//out314 = new OutputSchedule(indexArray, bestSolution);
-						//out314.writeToFile();
+		while (!pq.isEmpty()) {
+			if(pq.peek()[1] > bestSolution[1]) {
+				pq.remove();
+				System.out.println("Threw away from eval");
+			}
+			else {
+				newProblems = searchModel.div(pq.poll());
+				if(newProblems != null) {
+					//System.out.println(pq.size());
+					for(int[] pr: newProblems) {
+						/* if the current problem has a depth greater than the length
+						 * of the array it is done, if it also has an eval greater than
+						 * the best it is the new best
+						 */
+						// System.out.println("pr is " + pr[0]);
+						if (( pr[0] >= PROBLEM_LENGTH) &&   (bestSolution[1] > pr[1])){
+							bestSolution = pr.clone();
+							
+							OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
+							out314.output();
+							System.out.println("\n");	
+							//System.out.println(Arrays.toString(pr));
+							//out314.setCourseTimes(bestSolution);
+							//out314 = new OutputSchedule(indexArray, bestSolution);
+							//out314.writeToFile();
+						}
+						else if ((PROBLEM_LENGTH > pr[0]) && (pr[1] < bestSolution[1])){			
+							pq.add(pr);
+							//System.out.println(pq.size());
+						}
+							
 					}
-					else if ((PROBLEM_LENGTH > pr[0])){			
-						pq.add(pr);
-					}
-						
+					
 				}
-				
 			}
 			
 		}
@@ -164,7 +179,7 @@ public class Scheduler {
 		
 		
 		// ############### use this if the slots given in the input file are the only valid slots ###############
-		/*Slot[] temp = new Slot[M.length + TCourses.length];
+		Slot[] temp = new Slot[M.length + TCourses.length];
 		int i;
 		
 		for (i = 0; i < M.length; i++) {
@@ -188,13 +203,13 @@ public class Scheduler {
 			temp[i] = FLabs[j];
 		}
 		
-		oArray[1] = temp.clone();*/
+		oArray[1] = temp.clone();
 		// ############### ############### ############### ############### ############### ###############
 		
 		
 		
 		// ############### use this if all the slots are valid slots ###############
-		Slot[] courseSlots = new Slot[21];
+		/*Slot[] courseSlots = new Slot[21];
 		Slot[] labSlots = new Slot[32];
 		
 		
@@ -248,7 +263,7 @@ public class Scheduler {
 		labSlots[31] = new Slot("FR", "18:00");
 		
 		oArray[0] = courseSlots.clone();
-		oArray[1] = labSlots.clone();
+		oArray[1] = labSlots.clone();*/
 		
 		// ############### ############### ############### ############### ############### ###############
 		
@@ -259,7 +274,7 @@ public class Scheduler {
 	
 		Slot[] ret = new Slot[M.length + TCourses.length +
 		 MLabs.length + TLabs.length + FLabs.length];
-		int i = 0;
+//		int i = 0;
 		
 		for (int j = 0; j < M.length; j++) {
 			ret[j] = M[j];
