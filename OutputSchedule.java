@@ -70,15 +70,21 @@ public class OutputSchedule {
 	public void writeToFile() {
 		
 		String filename = "BestSol" + writtenFiles + ".txt";
-		System.out.println("Creating BestSol" + writtenFiles + ".txt");
 		writtenFiles +=1;
 		
 		File file = new File(filename);
+		while(file.exists()) {
+			writtenFiles++;
+			filename = "BestSol" + writtenFiles + ".txt";
+			file = new File(filename);
+			
+		}
 		PrintWriter pw = null;
 		
 		try{
 		pw = new PrintWriter(file);
-		
+		//DEBUG STATEMENT
+		System.out.println("Creating BestSol" + writtenFiles + ".txt");
 		
 		//Prints out the eval value for solution.
 		pw.printf(String.format("Eval-value: %d\n", eval));

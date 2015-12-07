@@ -177,7 +177,7 @@ public class SearchModel {
 		int pair = softConstraints.getPair(p);
 		int secDiff = softConstraints.getSecDiff(p);
 		
-		System.out.println( weight_coursemin + "   " + pen_min + "    " + weight_pref + "    " + weight_notpaired + "    " + weight_secdiff +  "     ");
+		//System.out.println( weight_coursemin + "   " + pen_min + "    " + weight_pref + "    " + weight_notpaired + "    " + weight_secdiff +  "     ");
 		int eval = (((minFilled[0] * weight_coursemin)+(minFilled[1]))*pen_min) + pref * weight_pref + pair * weight_notpaired + secDiff * weight_secdiff;
 		return eval;
 		//return minFilled + pref + pair + secDiff;

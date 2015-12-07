@@ -152,6 +152,7 @@ public class Scheduler {
 							
 							OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
 							out314.output();
+							out314.writeToFile();
 							System.out.println("\n");	
 							//System.out.println(Arrays.toString(pr));
 							//out314.setCourseTimes(bestSolution);
