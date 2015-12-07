@@ -107,14 +107,17 @@ public class Parser {
 			}
 
 			br.close();
+			boolean cpsc813 = false, cpsc913 = false;
 			for(int i = 0; i< labsAndCourses.size();i++){
-				if(labsAndCourses.get(i).getIdentifier().contains("CPSC 313")){
+				if(labsAndCourses.get(i).getIdentifier().contains("CPSC 313") && !cpsc813){
+					cpsc813 = true;
 					labsAndCourses.add(new Lab("CPSC 813 TUT 01"));
 					partassign.add(new ParserClass("CPSC 813 TUT 01", "TU", "18:00"));
 				}
-				else if(labsAndCourses.get(i).getIdentifier().contains("CPSC 413")){
+				else if(labsAndCourses.get(i).getIdentifier().contains("CPSC 413") && !cpsc913){
+					cpsc913 = true;
 					labsAndCourses.add(new Lab("CPSC 913 TUT 01"));
-					partassign.add(new ParserClass("CPSC 913 TUT 01", "Tu", "18:00"));
+					partassign.add(new ParserClass("CPSC 913 TUT 01", "TU", "18:00"));
 				}
 			}
 			createInitialProbAndIndex();
@@ -319,10 +322,6 @@ public class Parser {
 		
 	}
 	public Constraint[] getHardConstraints(){
-		
-		System.out.println(Arrays.toString(hardConstraints));
-		System.out.println(Arrays.toString(indexArray));
-		System.out.println(Arrays.toString(initialProblem));
 		return hardConstraints;
 	}
 	
