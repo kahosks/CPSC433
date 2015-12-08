@@ -1,186 +1,186 @@
-Eval-value: 3977
-CPSC 203 LEC 01                : TU, 12:30
-CPSC 203 LEC 01 TUT 01         : TU, 15:00
-CPSC 203 LEC 01 TUT 02         : FR, 12:00
-CPSC 203 LEC 01 TUT 03         : TU, 10:00
-CPSC 203 LEC 01 TUT 04         : FR, 10:00
-CPSC 203 LEC 01 TUT 05         : MO, 12:00
-CPSC 203 LEC 01 TUT 06         : TU,  9:00
-CPSC 203 LEC 02                : TU, 12:30
-CPSC 203 LEC 02 TUT 07         : TU, 14:00
-CPSC 203 LEC 02 TUT 08         : MO, 11:00
-CPSC 203 LEC 02 TUT 09         : FR, 16:00
+Eval-value: 3782
+CPSC 203 LEC 01                : MO,  8:00
+CPSC 203 LEC 01 TUT 01         : MO,  9:00
+CPSC 203 LEC 01 TUT 02         : MO, 12:00
+CPSC 203 LEC 01 TUT 03         : TU, 12:00
+CPSC 203 LEC 01 TUT 04         : TU,  9:00
+CPSC 203 LEC 01 TUT 05         : FR, 12:00
+CPSC 203 LEC 01 TUT 06         : MO, 11:00
+CPSC 203 LEC 02                : TU, 15:30
+CPSC 203 LEC 02 TUT 07         : MO, 12:00
+CPSC 203 LEC 02 TUT 08         : MO, 10:00
+CPSC 203 LEC 02 TUT 09         : MO,  9:00
 CPSC 203 LEC 02 TUT 10         : MO, 14:00
-CPSC 203 LEC 02 TUT 11         : MO, 12:00
-CPSC 203 LEC 02 TUT 12         : FR, 14:00
+CPSC 203 LEC 02 TUT 11         : TU,  9:00
+CPSC 203 LEC 02 TUT 12         : MO, 13:00
 CPSC 203 LEC 03                : TU, 15:30
-CPSC 203 LEC 03 TUT 13         : MO, 11:00
-CPSC 203 LEC 03 TUT 14         : TU, 13:00
-CPSC 203 LEC 03 TUT 15         : TU, 14:00
-CPSC 203 LEC 03 TUT 16         : TU, 12:00
-CPSC 203 LEC 03 TUT 17         : TU, 17:00
-CPSC 203 LEC 03 TUT 18         : MO, 10:00
-CPSC 203 LEC 04                : TU, 15:30
-CPSC 203 LEC 04 TUT 19         : MO, 12:00
-CPSC 203 LEC 04 TUT 20         : TU, 12:00
-CPSC 203 LEC 04 TUT 21         : TU,  9:00
-CPSC 203 LEC 04 TUT 22         : TU, 10:00
-CPSC 203 LEC 04 TUT 23         : MO,  9:00
-CPSC 203 LEC 04 TUT 24         : TU, 14:00
-CPSC 203 LEC 95                : MO, 20:00
+CPSC 203 LEC 03 TUT 13         : FR, 16:00
+CPSC 203 LEC 03 TUT 14         : MO, 12:00
+CPSC 203 LEC 03 TUT 15         : MO, 14:00
+CPSC 203 LEC 03 TUT 16         : TU, 10:00
+CPSC 203 LEC 03 TUT 17         : MO, 16:00
+CPSC 203 LEC 03 TUT 18         : MO, 11:00
+CPSC 203 LEC 04                : MO,  9:00
+CPSC 203 LEC 04 TUT 19         : FR, 12:00
+CPSC 203 LEC 04 TUT 20         : MO, 11:00
+CPSC 203 LEC 04 TUT 21         : MO, 15:00
+CPSC 203 LEC 04 TUT 22         : MO, 17:00
+CPSC 203 LEC 04 TUT 23         : TU, 15:00
+CPSC 203 LEC 04 TUT 24         : TU,  9:00
+CPSC 203 LEC 95                : MO, 19:00
 CPSC 203 LEC 95 TUT 90         : MO, 18:00
 CPSC 203 LEC 95 TUT 95         : TU, 19:00
 CPSC 203 LEC 95 TUT 96         : TU, 20:00
-CPSC 203 LEC 95 TUT 97         : FR, 18:00
-CPSC 203 LEC 95 TUT 98         : MO, 19:00
+CPSC 203 LEC 95 TUT 97         : MO, 20:00
+CPSC 203 LEC 95 TUT 98         : FR, 18:00
 CPSC 203 LEC 95 TUT 99         : MO, 18:00
 CPSC 215 LEC 01                : MO,  8:00
-CPSC 215 LEC 01 TUT 01         : FR, 12:00
-CPSC 215 LEC 01 TUT 02         : TU, 10:00
-CPSC 215 LEC 01 TUT 03         : TU, 13:00
-CPSC 215 LEC 01 TUT 04         : TU, 14:00
-CPSC 231 LEC 01                : MO, 16:00
-CPSC 231 LEC 01 TUT 01         : MO, 15:00
-CPSC 231 LEC 01 TUT 02         : TU, 14:00
-CPSC 231 LEC 01 TUT 03         : MO, 17:00
-CPSC 231 LEC 01 TUT 04         : MO, 12:00
-CPSC 231 LEC 01 TUT 05         : MO,  9:00
-CPSC 231 LEC 01 TUT 06         : MO, 10:00
-CPSC 233 LEC 01                : TU,  9:30
-CPSC 233 LEC 02                : MO, 17:00
-CPSC 233 TUT 01                : MO, 11:00
-CPSC 233 TUT 02                : MO, 15:00
-CPSC 233 TUT 03                : FR, 10:00
-CPSC 233 TUT 04                : FR, 14:00
-CPSC 233 TUT 05                : TU, 12:00
-CPSC 233 TUT 06                : FR, 12:00
-CPSC 233 TUT 07                : MO, 12:00
-CPSC 265 LEC 01                : TU, 14:00
-CPSC 265 LEC 01 TUT 01         : TU, 13:00
-CPSC 265 LEC 01 TUT 02         : FR, 12:00
-CPSC 265 LEC 01 TUT 03         : TU, 11:00
-CPSC 265 LEC 01 TUT 04         : MO, 14:00
-CPSC 265 LEC 02                : TU,  9:30
-CPSC 265 LEC 02 TUT 05         : MO, 16:00
-CPSC 265 LEC 02 TUT 06         : FR, 16:00
-CPSC 265 LEC 02 TUT 07         : MO, 14:00
-CPSC 265 LEC 02 TUT 08         : TU, 11:00
-CPSC 313 LEC 01                : TU, 14:00
-CPSC 313 LEC 01 TUT 01         : TU, 10:00
-CPSC 313 LEC 01 TUT 02         : MO, 14:00
-CPSC 313 LEC 01 TUT 03         : MO,  9:00
-CPSC 321 LEC 01                : MO, 17:00
-CPSC 331 LEC 01                : TU,  9:30
-CPSC 331 LEC 01 TUT 01         : FR, 12:00
-CPSC 331 LEC 01 TUT 02         : TU, 14:00
-CPSC 331 LEC 01 TUT 03         : MO, 16:00
-CPSC 331 LEC 01 TUT 04         : TU, 11:00
-CPSC 333 LEC 01                : MO,  8:00
-CPSC 333 LEC 01 TUT 01         : TU, 10:00
-CPSC 335 LEC 01                : MO, 13:00
-CPSC 335 LEC 01 TUT 01         : MO, 15:00
-CPSC 335 LEC 01 TUT 02         : MO, 10:00
-CPSC 349 LEC 01                : TU, 12:30
-CPSC 349 LEC 01 TUT 01         : MO, 10:00
-CPSC 349 LEC 01 TUT 02         : TU,  9:00
-CPSC 349 LEC 01 TUT 03         : MO,  9:00
-CPSC 355 LEC 01                : MO,  9:00
-CPSC 355 LEC 01 TUT 01         : MO, 16:00
-CPSC 411 LEC 01                : MO, 15:00
-CPSC 411 LEC 01 TUT 01         : MO, 17:00
-CPSC 411 LEC 01 TUT 02         : MO, 16:00
-CPSC 411 LEC 01 TUT 03         : FR, 14:00
-CPSC 411 LEC 01 TUT 04         : TU, 11:00
-CPSC 413 LEC 01                : TU, 12:30
-CPSC 413 LEC 01 TUT 01         : TU, 15:00
-CPSC 413 LEC 01 TUT 02         : TU,  9:00
-CPSC 413 LEC 01 TUT 03         : MO, 15:00
+CPSC 215 LEC 01 TUT 01         : TU,  9:00
+CPSC 215 LEC 01 TUT 02         : MO, 15:00
+CPSC 215 LEC 01 TUT 03         : FR, 16:00
+CPSC 215 LEC 01 TUT 04         : FR, 10:00
+CPSC 231 LEC 01                : TU,  9:30
+CPSC 231 LEC 01 TUT 01         : MO, 13:00
+CPSC 231 LEC 01 TUT 02         : MO, 15:00
+CPSC 231 LEC 01 TUT 03         : FR, 10:00
+CPSC 231 LEC 01 TUT 04         : TU, 16:00
+CPSC 231 LEC 01 TUT 05         : MO, 16:00
+CPSC 231 LEC 01 TUT 06         : TU,  8:00
+CPSC 233 LEC 01                : TU, 12:30
+CPSC 233 LEC 02                : TU, 12:30
+CPSC 233 TUT 01                : MO,  8:00
+CPSC 233 TUT 02                : MO, 10:00
+CPSC 233 TUT 03                : FR, 16:00
+CPSC 233 TUT 04                : MO,  9:00
+CPSC 233 TUT 05                : TU, 14:00
+CPSC 233 TUT 06                : MO, 16:00
+CPSC 233 TUT 07                : MO, 17:00
+CPSC 265 LEC 01                : TU,  9:30
+CPSC 265 LEC 01 TUT 01         : FR, 12:00
+CPSC 265 LEC 01 TUT 02         : FR, 14:00
+CPSC 265 LEC 01 TUT 03         : MO, 11:00
+CPSC 265 LEC 01 TUT 04         : TU, 13:00
+CPSC 265 LEC 02                : MO,  9:00
+CPSC 265 LEC 02 TUT 05         : TU, 14:00
+CPSC 265 LEC 02 TUT 06         : TU, 10:00
+CPSC 265 LEC 02 TUT 07         : FR, 16:00
+CPSC 265 LEC 02 TUT 08         : MO, 14:00
+CPSC 313 LEC 01                : MO, 12:00
+CPSC 313 LEC 01 TUT 01         : FR, 10:00
+CPSC 313 LEC 01 TUT 02         : MO,  9:00
+CPSC 313 LEC 01 TUT 03         : TU, 10:00
+CPSC 321 LEC 01                : TU, 15:30
+CPSC 331 LEC 01                : TU, 12:30
+CPSC 331 LEC 01 TUT 01         : MO, 13:00
+CPSC 331 LEC 01 TUT 02         : MO, 10:00
+CPSC 331 LEC 01 TUT 03         : TU, 10:00
+CPSC 331 LEC 01 TUT 04         : MO, 16:00
+CPSC 333 LEC 01                : MO, 17:00
+CPSC 333 LEC 01 TUT 01         : TU, 11:00
+CPSC 335 LEC 01                : TU, 14:00
+CPSC 335 LEC 01 TUT 01         : MO, 14:00
+CPSC 335 LEC 01 TUT 02         : MO, 14:00
+CPSC 349 LEC 01                : TU,  8:00
+CPSC 349 LEC 01 TUT 01         : MO,  9:00
+CPSC 349 LEC 01 TUT 02         : TU, 13:00
+CPSC 349 LEC 01 TUT 03         : MO, 12:00
+CPSC 355 LEC 01                : TU,  9:30
+CPSC 355 LEC 01 TUT 01         : TU, 15:00
+CPSC 411 LEC 01                : TU, 15:30
+CPSC 411 LEC 01 TUT 01         : MO, 11:00
+CPSC 411 LEC 01 TUT 02         : FR, 14:00
+CPSC 411 LEC 01 TUT 03         : MO, 12:00
+CPSC 411 LEC 01 TUT 04         : TU, 12:00
+CPSC 413 LEC 01                : MO, 10:00
+CPSC 413 LEC 01 TUT 01         : MO, 17:00
+CPSC 413 LEC 01 TUT 02         : MO, 15:00
+CPSC 413 LEC 01 TUT 03         : FR, 16:00
 CPSC 421 LEC 01                : MO,  9:00
-CPSC 421 TUT 01                : TU, 15:00
-CPSC 433 LEC 01                : MO, 11:00
-CPSC 433 TUT 01                : MO, 15:00
-CPSC 433 TUT 02                : MO, 13:00
-CPSC 441 LEC 01                : MO, 16:00
-CPSC 441 LEC 01 TUT 01         : TU,  8:00
-CPSC 441 LEC 01 TUT 02         : TU, 11:00
-CPSC 441 LEC 01 TUT 03         : TU, 12:00
-CPSC 441 LEC 02                : MO, 12:00
-CPSC 441 LEC 02 TUT 04         : MO,  9:00
-CPSC 441 LEC 02 TUT 05         : TU, 15:00
-CPSC 441 LEC 02 TUT 06         : MO, 10:00
-CPSC 453 LEC 01                : TU, 15:30
-CPSC 453 TUT 01                : FR, 10:00
-CPSC 453 TUT 02                : FR, 16:00
-CPSC 453 TUT 03                : MO, 11:00
-CPSC 453 TUT 04                : MO, 10:00
-CPSC 455 LEC 01                : MO, 10:00
-CPSC 455 TUT 01                : FR, 12:00
-CPSC 455 TUT 02                : FR, 16:00
-CPSC 457 LEC 01                : TU,  9:30
-CPSC 457 LEC 01 TUT 01         : TU,  8:00
-CPSC 457 LEC 01 TUT 02         : FR, 10:00
-CPSC 457 LEC 02                : MO, 14:00
-CPSC 457 LEC 02 TUT 03         : MO, 11:00
-CPSC 457 LEC 02 TUT 04         : MO, 16:00
-CPSC 471 LEC 01                : TU,  8:00
-CPSC 471 TUT 01                : TU, 12:00
-CPSC 471 TUT 02                : FR, 16:00
-CPSC 471 TUT 03                : MO,  9:00
-CPSC 471 TUT 04                : MO, 11:00
-CPSC 481 LEC 01                : TU, 14:00
-CPSC 481 LEC 01 TUT 01         : TU, 13:00
-CPSC 481 LEC 01 TUT 02         : FR, 14:00
-CPSC 481 LEC 01 TUT 03         : TU, 16:00
-CPSC 481 LEC 01 TUT 04         : MO, 12:00
-CPSC 510 LEC 01                : MO, 18:00
-CPSC 510 TUT 01                : TU, 10:00
-CPSC 511 LEC 01                : TU, 17:00
-CPSC 511 TUT 01                : TU,  9:00
-CPSC 517 LEC 01                : MO, 13:00
-CPSC 517 TUT 01                : FR, 18:00
-CPSC 519 LEC 01                : MO, 12:00
-CPSC 519 TUT 01                : MO,  8:00
-CPSC 523 LEC 01                : MO, 11:00
-CPSC 523 TUT 01                : FR, 14:00
-CPSC 525 LEC 01                : MO, 10:00
+CPSC 421 TUT 01                : MO, 16:00
+CPSC 433 LEC 01                : MO, 14:00
+CPSC 433 TUT 01                : MO, 13:00
+CPSC 433 TUT 02                : MO, 10:00
+CPSC 441 LEC 01                : TU, 12:30
+CPSC 441 LEC 01 TUT 01         : FR, 14:00
+CPSC 441 LEC 01 TUT 02         : MO, 13:00
+CPSC 441 LEC 01 TUT 03         : TU, 11:00
+CPSC 441 LEC 02                : TU,  9:30
+CPSC 441 LEC 02 TUT 04         : FR, 14:00
+CPSC 441 LEC 02 TUT 05         : TU, 11:00
+CPSC 441 LEC 02 TUT 06         : MO, 12:00
+CPSC 453 LEC 01                : MO, 15:00
+CPSC 453 TUT 01                : TU, 11:00
+CPSC 453 TUT 02                : TU, 14:00
+CPSC 453 TUT 03                : FR, 10:00
+CPSC 453 TUT 04                : MO, 17:00
+CPSC 455 LEC 01                : MO, 12:00
+CPSC 455 TUT 01                : TU, 12:00
+CPSC 455 TUT 02                : TU, 14:00
+CPSC 457 LEC 01                : MO, 17:00
+CPSC 457 LEC 01 TUT 01         : MO, 10:00
+CPSC 457 LEC 01 TUT 02         : FR, 12:00
+CPSC 457 LEC 02                : MO, 13:00
+CPSC 457 LEC 02 TUT 03         : TU,  8:00
+CPSC 457 LEC 02 TUT 04         : MO, 17:00
+CPSC 471 LEC 01                : MO, 16:00
+CPSC 471 TUT 01                : FR, 14:00
+CPSC 471 TUT 02                : MO, 17:00
+CPSC 471 TUT 03                : MO, 15:00
+CPSC 471 TUT 04                : TU, 12:00
+CPSC 481 LEC 01                : MO, 11:00
+CPSC 481 LEC 01 TUT 01         : MO, 15:00
+CPSC 481 LEC 01 TUT 02         : MO,  9:00
+CPSC 481 LEC 01 TUT 03         : MO, 16:00
+CPSC 481 LEC 01 TUT 04         : MO, 10:00
+CPSC 510 LEC 01                : MO, 16:00
+CPSC 510 TUT 01                : TU, 13:00
+CPSC 511 LEC 01                : TU, 18:30
+CPSC 511 TUT 01                : TU, 16:00
+CPSC 517 LEC 01                : MO, 18:00
+CPSC 517 TUT 01                : MO, 19:00
+CPSC 519 LEC 01                : TU,  8:00
+CPSC 519 TUT 01                : FR,  8:00
+CPSC 523 LEC 01                : MO, 12:00
+CPSC 523 TUT 01                : MO, 20:00
+CPSC 525 LEC 01                : MO, 11:00
 CPSC 525 TUT 01                : MO, 14:00
-CPSC 557 LEC 01                : MO, 14:00
-CPSC 557 TUT 01                : TU, 11:00
-CPSC 559 LEC 01                : MO, 17:00
-CPSC 559 TUT 01                : TU, 19:00
-CPSC 559 TUT 02                : MO, 16:00
-CPSC 565 LEC 01                : TU, 18:30
-CPSC 565 TUT 01                : FR, 10:00
-CPSC 565 TUT 02                : MO,  8:00
+CPSC 557 LEC 01                : MO, 20:00
+CPSC 557 TUT 01                : TU, 14:00
+CPSC 559 LEC 01                : MO, 15:00
+CPSC 559 TUT 01                : MO,  8:00
+CPSC 559 TUT 02                : TU, 11:00
+CPSC 565 LEC 01                : MO, 10:00
+CPSC 565 TUT 01                : TU,  9:00
+CPSC 565 TUT 02                : FR,  8:00
 CPSC 581 LEC 01                : MO,  9:00
-CPSC 581 TUT 01                : FR, 16:00
-CPSC 581 TUT 02                : MO, 20:00
-CPSC 587 LEC 01                : TU, 12:30
-CPSC 587 TUT 01                : MO, 19:00
-CPSC 587 TUT 02                : TU, 16:00
-CPSC 589 LEC 01                : TU, 15:30
-CPSC 589 TUT 01                : TU, 13:00
-CPSC 589 TUT 02                : MO, 15:00
-CPSC 591 LEC 01                : TU,  9:30
-CPSC 591 TUT 01                : TU, 12:00
-CPSC 591 TUT 02                : FR,  8:00
-CPSC 594 LEC 01                : TU, 14:00
-CPSC 594 TUT 01                : MO, 20:00
+CPSC 581 TUT 01                : TU, 10:00
+CPSC 581 TUT 02                : FR, 16:00
+CPSC 587 LEC 01                : TU, 17:00
+CPSC 587 TUT 01                : FR, 12:00
+CPSC 587 TUT 02                : MO, 13:00
+CPSC 589 LEC 01                : TU, 12:30
+CPSC 589 TUT 01                : TU, 15:00
+CPSC 589 TUT 02                : FR, 10:00
+CPSC 591 LEC 01                : MO, 14:00
+CPSC 591 TUT 01                : TU, 20:00
+CPSC 591 TUT 02                : FR, 18:00
+CPSC 594 LEC 01                : MO, 17:00
+CPSC 594 TUT 01                : TU, 19:00
 CPSC 813 TUT 01                : TU, 18:00
 CPSC 913 TUT 01                : TU, 18:00
-SENG 311 LEC 01                : TU, 15:30
-SENG 311 TUT 01                : FR, 10:00
-SENG 311 TUT 02                : TU, 13:00
-SENG 311 TUT 03                : TU,  9:00
-SENG 411 LEC 01                : MO, 17:00
-SENG 411 LEC 02                : MO, 17:00
-SENG 411 TUT 01                : MO, 14:00
-SENG 411 TUT 02                : TU, 16:00
-SENG 411 TUT 03                : TU, 15:00
-SENG 411 TUT 04                : FR, 14:00
-SENG 411 TUT 05                : TU, 17:00
-SENG 511 LEC 01                : MO, 19:00
-SENG 511 TUT 01                : TU, 15:00
-SENG 511 TUT 02                : TU, 20:00
-SENG 513 LEC 01                : TU,  8:00
-SENG 513 TUT 01                : FR,  8:00
+SENG 311 LEC 01                : MO,  9:00
+SENG 311 TUT 01                : TU, 14:00
+SENG 311 TUT 02                : TU, 10:00
+SENG 311 TUT 03                : FR, 14:00
+SENG 411 LEC 01                : TU, 14:00
+SENG 411 LEC 02                : TU, 14:00
+SENG 411 TUT 01                : FR, 12:00
+SENG 411 TUT 02                : TU,  9:00
+SENG 411 TUT 03                : MO, 11:00
+SENG 411 TUT 04                : TU, 11:00
+SENG 411 TUT 05                : TU, 12:00
+SENG 511 LEC 01                : TU, 15:30
+SENG 511 TUT 01                : TU, 12:00
+SENG 511 TUT 02                : FR, 10:00
+SENG 513 LEC 01                : TU,  9:30
+SENG 513 TUT 01                : MO, 19:00
