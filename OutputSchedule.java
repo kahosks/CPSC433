@@ -120,7 +120,26 @@ public class OutputSchedule {
 			
 	}
 	
-	
+		/** 
+	 * Deletes all solution files that are not the best solution.  Returns true
+	 * if all files were deleted successfully.
+	 * @return	Boolean true/false: true if files deleted successfully, false
+	 * otherwise.
+	 */
+	public boolean deleteWorstSolutions() {
+		//Deletes all but the best solution (which will be the last file).
+		boolean deleted;
+		for (int i=0; i<writtenFiles;i++) {
+			//If deletion did not work, return false.
+			if (!(deleted = (new File("BestSol" + i + ".txt")).delete())) {
+				return false;
+			}
+		}
+		//All deletions successful.
+		//Potential future thing:  Rename file to "BestSol.txt" instead of 
+		//BestSol(number).txt
+		return true;
+	}
 
 	/**
 	 * Converts a time in array to a day string.
@@ -181,6 +200,38 @@ public class OutputSchedule {
 			String[] stringArray1 = {"", "", "CPSC 433 LEC 01", "SENG 301 LEC 020", "CPSC 433 LEC 01 TUT 01", "CPSC 332 LEC 02", "CPSC 413 LEC 01"};
 			OutputSchedule os = new OutputSchedule(stringArray1, indexArray1);
 			os.output();
+			
+						// Following test won't work anymore because of parameters for deleteWorstSolutions, but 
+			// Method has been tested and does work.  Just add the parameter int writtenFiles to deleteWorstSolutions
+			//and can use to test.
+/*			File file1 = new File("BestSol0.txt");
+			File file2 = new File("BestSol1.txt");
+			File file3 = new File("BestSol2.txt");
+			PrintWriter pw;
+			try {
+				pw = new PrintWriter(file2);
+				pw.println("bob");
+				pw.flush();
+				pw.close();
+				pw = new PrintWriter(file1);
+				pw.println("Joe");
+				pw.flush();
+				pw.close();
+				pw = new PrintWriter(file3);
+				pw.println("bob");
+				pw.flush();
+				pw.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (os.deleteWorstSolutions(2)) {
+				System.out.println("Deleted successfully.");
+			}
+			else {
+				System.out.println("Fail");
+			}*/
 		
 	}
 }
