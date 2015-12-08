@@ -135,9 +135,15 @@ public class Scheduler {
 		while (!pq.isEmpty()) {
 			if(pq.peek()[1] > bestSolution[1]) {
 				pq.remove();
-				System.out.println("Threw away from eval");
+				//System.out.println("Threw away from eval");
 			}
 			else {
+				i++;
+				if (i > 1000)
+				{
+					System.out.println(pq.size() + "        " + pq.peek()[0] + "        " + indexArray[pq.peek()[0]] + "        " + pq.peek()[1] + "        " + bestSolution[1]);
+					i = 0;
+				}
 				newProblems = searchModel.div(pq.poll());
 				if(newProblems != null) {
 					//System.out.println(pq.size());
@@ -160,12 +166,6 @@ public class Scheduler {
 						}
 						else if ((PROBLEM_LENGTH > pr[0]) && (pr[1] < bestSolution[1])){			
 							pq.add(pr);
-							i++;
-							if (i > 10000)
-							{
-								System.out.println(pq.size() + "        " + pr[0] + "        " + pr[1] + "        " + bestSolution[1]);
-								i = 0;
-							}
 						}
 							
 					}
