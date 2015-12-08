@@ -121,7 +121,7 @@ public class Parser {
 					partassign.add(new ParserClass("CPSC 913 TUT 01", "TU", "18:00"));
 				}
 			}
-			Collections.shuffle(labsAndCourses);
+			//Collections.shuffle(labsAndCourses);
 			
 			createInitialProbAndIndex();
 			makeConstraints();
@@ -405,8 +405,28 @@ public class Parser {
 			}
 		}
 		
-		// add those not assigned classes after the assigned ones, init time to 0
+		ArrayList<Class> notAssignedME = new ArrayList<Class>();
 		for(Class labCourse: notAssigned) {
+			if(labCourse.getLectureNum().charAt(0) == '9') {
+				initialProblem[i] = 0;						// no time is assigned to these labs/courses yet
+				indexArray[i] = labCourse.getIdentifier();
+				i++;
+			} else
+				notAssignedME.add(labCourse);
+		}
+		
+		ArrayList<Class> notAssignedMEMF = new ArrayList<Class>();
+		for(Class labCourse: notAssignedME) {
+			if(labCourse.getID().charAt(0) == '5') {
+				initialProblem[i] = 0;						// no time is assigned to these labs/courses yet
+				indexArray[i] = labCourse.getIdentifier();
+				i++;
+			} else
+				notAssignedMEMF.add(labCourse);
+		}
+		
+		// add those not assigned classes after the assigned ones, init time to 0
+		for(Class labCourse: notAssignedMEMF) {
 			initialProblem[i] = 0;						// no time is assigned to these labs/courses yet
 			indexArray[i] = labCourse.getIdentifier();
 			i++;
