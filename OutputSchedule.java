@@ -21,7 +21,7 @@ public class OutputSchedule {
 	private final int DAY = 1;
 	private final int TIME = 2;
 	
-	private int writtenFiles = 0;
+	//private int writtenFiles = 0;
 	
 	/**
 	 * Constructor that takes String array and index array.
@@ -67,10 +67,14 @@ public class OutputSchedule {
 		courseTimes = prob;
 	}
 	
-	public void writeToFile() {
+	/**
+	 * Outputs current best solution to a file (increment writtenFiles
+	 * in Scheduler, not this class).
+	 */ 
+	public void writeToFile(int writtenFiles) {
 		
 		String filename = "BestSol" + writtenFiles + ".txt";
-		writtenFiles +=1;
+		//writtenFiles +=1;
 		
 		File file = new File(filename);
 		while(file.exists()) {
@@ -126,7 +130,7 @@ public class OutputSchedule {
 	 * @return	Boolean true/false: true if files deleted successfully, false
 	 * otherwise.
 	 */
-	public boolean deleteWorstSolutions() {
+	public boolean deleteWorstSolutions(int writtenFiles) {
 		//Deletes all but the best solution (which will be the last file).
 		boolean deleted;
 		for (int i=0; i<writtenFiles;i++) {
