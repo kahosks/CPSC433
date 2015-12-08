@@ -129,7 +129,7 @@ public class Scheduler {
 		 prepSlotArrayForSearchModel(), constr, sconstr);
 		
 		int[][] newProblems;
-		
+		int i = 0;
 		//boolean foundBest = false;
 		//OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
 		while (!pq.isEmpty()) {
@@ -152,7 +152,6 @@ public class Scheduler {
 							
 							OutputSchedule out314 = new OutputSchedule(indexArray, bestSolution);
 							out314.output();
-							out314.writeToFile();
 							System.out.println("\n");	
 							//System.out.println(Arrays.toString(pr));
 							//out314.setCourseTimes(bestSolution);
@@ -161,7 +160,12 @@ public class Scheduler {
 						}
 						else if ((PROBLEM_LENGTH > pr[0]) && (pr[1] < bestSolution[1])){			
 							pq.add(pr);
-							//System.out.println(pq.size());
+							i++;
+							if (i > 10000)
+							{
+								System.out.println(pq.size() + "        " + pr[0] + "        " + pr[1] + "        " + bestSolution[1]);
+								i = 0;
+							}
 						}
 							
 					}
@@ -334,3 +338,4 @@ public class Scheduler {
 	}
 	
 }
+
