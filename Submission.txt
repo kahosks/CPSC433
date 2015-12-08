@@ -1,0 +1,28 @@
+CPSC 433 
+Assignment Final Submission
+
+To Run Program:
+
+•	Compile Java program in desired directory
+
+For all weights to be 1 and penalties to have default values 0 and 1 respectively, type in command line:
+•	java Scheduler –f <filename> 
+
+For weights to be given non-default values, type in command line:
+
+•	java Scheduler –f <filename> -mc <min course weight> <min course/lab penalty> -ml <min lab weight> -pr <preferences> -pa <pair> <pair_penalty> -s <secdiff> <secdiff_penalty>
+
+
+Errors Solved after Demo:
+
+1) parallel_pen: 
+
+Class: SoftConstraints.java
+Method: getPair(int[] time)
+Problem: The ints aTime and bTime were instantiated inside the inner for loop, causing the values to be     written over every loop, giving the wrong Eval-value.  Both aTime and bTime were moved outside that for loop, which solved the problem.
+
+2) pen_secdiff:
+
+Class: SoftConstraints.java
+Method: getSecDiff(int[] time)
+Problem: Fixed the values in the substring call on lines 185, 188, 191, and 193. Changed x=0 to x=2 on line 183 to skip over the depth and Eval values in the array.  Cleaned up the logic in the method and removed redundancy in if-statement checks.
