@@ -31,6 +31,8 @@ public class SearchModel {
 	private CommandParser commandParser;
 	private SoftConstraints softConstraints;
 
+	private int divModCount = 0;
+
 
 	SearchModel(String[] aIndexArray, CommandParser commPar, Object[] aSlot ) {
 		indexArray = aIndexArray;
@@ -91,15 +93,16 @@ public class SearchModel {
 		
 		
 		indexToScheduleClassLab = prob[0];
-		boolean isClass;		
-			
+		
+		Slot[] slotsToAssign;	
+		
 		if (identifier.contains("TUT") || identifier.contains("LAB")) {
 				//I don't have the actual numbers here these are just estimates if anyone has
 				//the actual numbers please update the code
 			//int numMondaySlots = 11;
 			//int numTuesdaySlots = 5;
 			numSlots = labs.length;
-			isClass = false;
+			slotsToAssign = labs;
 						
 		} else {
 			
@@ -109,7 +112,7 @@ public class SearchModel {
 			//int numFridaySlots = 4;
 
 			numSlots = courses.length;
-			isClass = true;			
+			slotsToAssign = courses;		
 			
 		}
 		int[][] probArray = new int[numSlots][prob.length];
@@ -119,13 +122,8 @@ public class SearchModel {
 		for (int i = 0; i < numSlots; i++) {
 			
 			probArray[i] = prob.clone();	//Set the current index to be the old version of prob that has been sent in
-			if (isClass) {
-				probArray[i][indexToScheduleClassLab] = courses[i].getDayTimeInt();
-			} else {
-				probArray[i][indexToScheduleClassLab] = labs[i].getDayTimeInt();
-			} 
+			probArray[i][indexToScheduleClassLab] = slotsToAssign[(i+divModCount)%numSlots].getDayTimeInt();
 		 
-			
 			//May want to do a call to hard constraints here so that if it fails hardconstraints we can 
 			//handle that somehow
 			if(passConstr(probArray[i], constr)) {
@@ -141,6 +139,12 @@ public class SearchModel {
 			newprobArray[i] = probArray[i];
 			
 		}
+		if(divModCount > labs.length) {
+			divModCount = 0;
+		} else {
+			divModCount++;
+		}
+		
 		return newprobArray;
 	}
 	
