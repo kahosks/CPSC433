@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 //import HardConstraints.Constraint;
 //import HardConstraints.CourseCourseConstraint;
@@ -120,8 +121,11 @@ public class Parser {
 					partassign.add(new ParserClass("CPSC 913 TUT 01", "TU", "18:00"));
 				}
 			}
+			Collections.shuffle(labsAndCourses);
+			
 			createInitialProbAndIndex();
 			makeConstraints();
+			System.out.println(Arrays.toString(indexArray));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SchedulerException("Error with parsing file." + e.getMessage()); 
@@ -284,11 +288,37 @@ public class Parser {
 		}
 		//Make 813/913 overlap constraints
 		for(int i = 2; i<indexArray.length;i++){
+			String lookFor = "";
 			if(indexArray[i].contains("CPSC 813")){
+				lookFor = "313";
+			} else if (indexArray[i].contains("CPSC 913")) {
+				lookFor = "413";
+			}
+			
+			if(!(lookFor.equals(""))) {
 				ArrayList<Integer> conflicts = new ArrayList<Integer>();
 				for(int j = 2; j<indexArray.length;j++){
-					if(indexArray[j].contains("313")){
+					if(indexArray[j].contains(lookFor)){
 						conflicts.add(j);
+					}
+				}
+				
+				for(PairedCourseClass notCompat: notCompatible) {
+					if (notCompat.getFirstPair().toString().trim().contains(lookFor)) {
+						String ID = notCompat.getSecondPair().getIdentifier();
+						for (int j = 2; j<indexArray.length;j++) {
+							if(indexArray[j].contains(ID)){
+								conflicts.add(j);
+							}
+						}
+					}
+					else if (notCompat.getSecondPair().toString().trim().contains(lookFor)) {
+						String ID = notCompat.getFirstPair().getIdentifier();
+						for (int j = 2; j<indexArray.length;j++) {
+							if(indexArray[j].contains(ID)){
+								conflicts.add(j);
+							}
+						}
 					}
 				}
 				
@@ -301,22 +331,22 @@ public class Parser {
 
 				
 			}
-			if(indexArray[i].contains("CPSC 913")){
-				ArrayList<Integer> conflicts = new ArrayList<Integer>();
-				for(int j = 2; j<indexArray.length;j++){
-					if(indexArray[j].contains("413")){
-						conflicts.add(j);
-					}
-				}
-				
-				int[] conflictsArray = new int[conflicts.size()];
-				for(int k = 0; k<conflictsArray.length;k++){
-					conflictsArray[k]=conflicts.get(k);
-				}
-				//I is the 813/913 index
-				hcArrayList.add(new SpecialCoursesConstraint(i, conflictsArray));
+			//if(indexArray[i].contains("CPSC 913")){
+			//	ArrayList<Integer> conflicts = new ArrayList<Integer>();
+			//	for(int j = 2; j<indexArray.length;j++){
+			//		if(indexArray[j].contains("413")){
+			//			conflicts.add(j);
+			//		}
+			//	}
+			//	
+			//	int[] conflictsArray = new int[conflicts.size()];
+			//	for(int k = 0; k<conflictsArray.length;k++){
+			//		conflictsArray[k]=conflicts.get(k);
+			//	}
+			//	I is the 813/913 index
+			//	hcArrayList.add(new SpecialCoursesConstraint(i, conflictsArray));
 
-			}
+			//}
 		}
 		hardConstraints = hcArrayList.toArray(new Constraint[hcArrayList.size()]);
 		
@@ -734,3 +764,4 @@ public class Parser {
 		return indexArray;
 	}
 }
+
